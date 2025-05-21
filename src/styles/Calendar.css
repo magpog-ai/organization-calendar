@@ -49,19 +49,19 @@
 }
 
 .younglife-color {
-  background-color: #4CAF50; /* Green */
+  background-color: #7adb4d; /* Green */
 }
 
 .wyldlife-color {
-  background-color: #2196F3; /* Blue */
+  background-color: #6cb5f0; /* Blue */
 }
 
 .yluni-color {
-  background-color: #FF9800; /* Orange */
+  background-color: #f0af4d; /* Orange */
 }
 
 .joint-color {
-  background-color: #00BCD4; /* Turquoise */
+  background-color: #5ce0c4; /* Turquoise */
 }
 
 /* Modal */
@@ -162,19 +162,19 @@
 }
 
 .group-badge[data-group='YoungLife'] {
-  background-color: #4CAF50; /* Green */
+  background-color: #7adb4d; /* Green */
 }
 
 .group-badge[data-group='WyldLife'] {
-  background-color: #2196F3; /* Blue */
+  background-color: #6cb5f0; /* Blue */
 }
 
 .group-badge[data-group='YLUni'] {
-  background-color: #FF9800; /* Orange */
+  background-color: #f0af4d; /* Orange */
 }
 
 .group-badge[data-group='Joint'] {
-  background-color: #00BCD4; /* Turquoise */
+  background-color: #5ce0c4; /* Turquoise */
 }
 
 .modal-body {

@@ -21,7 +21,7 @@ const NavBar: React.FC = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-logo">
-          Kalendarz Organizacji
+          Kalendarz YoungLife Poznań
         </div>
         <div className="navbar-actions">
           {authLoading ? (

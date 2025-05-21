@@ -1,46 +1,61 @@
-# Getting Started with Create React App
+# Organization Calendar
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A calendar application for organizations to display and manage upcoming events.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- View upcoming events categorized by group (YoungLife, WyldLife, YLUni)
+- Month and week views
+- Detailed event information
+- Admin authentication for event management
+- Firebase database for persistent storage
 
-### `npm start`
+## Firebase Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The application uses Firebase for authentication and database storage. Follow these steps to set up your own Firebase project:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. Go to the [Firebase Console](https://console.firebase.google.com/)
+2. Create a new project (or use an existing one)
+3. Add a web app to your project
+4. Register the app and copy the configuration object
+5. Open `src/firebase/config.ts` and replace the placeholder config with your own Firebase configuration
 
-### `npm test`
+### Setting up Authentication
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. In the Firebase Console, go to Authentication and enable Email/Password authentication
+2. Create a user with email `admin@example.com` and password `password123` (or change these in the code)
+3. You can add more users as needed
 
-### `npm run build`
+### Setting up Firestore Database
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. In the Firebase Console, go to Firestore Database
+2. Create a database (start in test mode for development)
+3. Create a collection called `events` (will be created automatically when you add your first event)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Running the Application
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Install dependencies: `npm install`
+2. Start the development server: `npm start`
+3. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-### `npm run eject`
+## Using the Application
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Regular Users
+- View the calendar and events
+- Navigate between months using the Previous and Next buttons
+- Toggle between Month and Week views
+- Click on events to see details
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Admin Users
+- Log in using the "Admin Login" button
+- Admin credentials: `admin@example.com` / `password123`
+- Add new events with the "Add New Event" button
+- Edit or delete existing events by clicking on them
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Technologies Used
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- React with TypeScript
+- Firebase Authentication
+- Firestore Database
+- react-big-calendar for calendar view
+- date-fns for date handling

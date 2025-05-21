@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow admin access during setup
+    match /admins/{document=**} {
+      allow read, write;
+    }
+    
+    // Allow read access to events for all users
+    match /events/{document=**} {
+      allow read;
+      // Only admins can create, update, or delete events
+      allow create, update, delete: if exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+    }
+  }
+} 

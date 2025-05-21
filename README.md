@@ -20,11 +20,6 @@ The application uses Firebase for authentication and database storage. Follow th
 4. Register the app and copy the configuration object
 5. Open `src/firebase/config.ts` and replace the placeholder config with your own Firebase configuration
 
-### Setting up Authentication
-
-1. In the Firebase Console, go to Authentication and enable Email/Password authentication
-2. Create a user with email `admin@example.com` and password `password123` (or change these in the code)
-3. You can add more users as needed
 
 ### Setting up Firestore Database
 
@@ -32,11 +27,10 @@ The application uses Firebase for authentication and database storage. Follow th
 2. Create a database (start in test mode for development)
 3. Create a collection called `events` (will be created automatically when you add your first event)
 
-## Running the Application
+## Deploy changes
 
-1. Install dependencies: `npm install`
-2. Start the development server: `npm start`
-3. Open [http://localhost:3000](http://localhost:3000) in your browser
+npm run build
+firebase deploy --only hosting
 
 ## Using the Application
 
@@ -48,7 +42,6 @@ The application uses Firebase for authentication and database storage. Follow th
 
 ### Admin Users
 - Log in using the "Admin Login" button
-- Admin credentials: `admin@example.com` / `password123`
 - Add new events with the "Add New Event" button
 - Edit or delete existing events by clicking on them
 

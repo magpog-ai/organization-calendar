@@ -5,12 +5,12 @@ import 'firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBVsIIqO96Xpyj8ujumpO1Slf3oUaNY5TM",
+  apiKey: "APIKEY",
   authDomain: "ylcalendar-aa87e.firebaseapp.com",
   projectId: "ylcalendar-aa87e",
   storageBucket: "ylcalendar-aa87e.appspot.com",
-  messagingSenderId: "436921391255",
-  appId: "1:436921391255:web:abc123def456ghi789jkl"
+  messagingSenderId: "ID",
+  appId: "appID"
 };
 
 // Initialize Firebase

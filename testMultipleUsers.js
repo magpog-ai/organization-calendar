@@ -3,12 +3,12 @@ const firebase = require('firebase/app');
 require('firebase/auth');
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBVsIIqO96Xpyj8ujumpO1Slf3oUaNY5TM",
+  apiKey: "APIKEY",
   authDomain: "ylcalendar-aa87e.firebaseapp.com",
   projectId: "ylcalendar-aa87e",
   storageBucket: "ylcalendar-aa87e.appspot.com",
-  messagingSenderId: "436921391255",
-  appId: "1:436921391255:web:abc123def456ghi789jkl"
+  messagingSenderId: "ID",
+  appId: "appID"
 };
 
 // Initialize Firebase
@@ -26,8 +26,7 @@ const adminEmails = [
 // This is where you can add the email addresses and passwords of users to test
 // Format: [email, password, expected role (admin/user)]
 const usersToTest = [
-  ["admin@example.com", "password123", "admin"],
-  ["mpogodska@younglife.org", "YOUR_PASSWORD_HERE", "admin"], // Replace with actual password
+  ["admin@example.com", "password123", "admin"] // Replace with actual password
 ];
 
 // Test each user

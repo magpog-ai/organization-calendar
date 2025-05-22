@@ -17,7 +17,7 @@
 .login-form h2 {
   margin-top: 0;
   margin-bottom: 20px;
-  color: #333;
+  color: var(--yl-navy);
   text-align: center;
 }
 
@@ -29,7 +29,7 @@
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
-  color: #555;
+  color: var(--yl-navy);
 }
 
 .form-group input {
@@ -43,7 +43,7 @@
 .login-button {
   width: 100%;
   padding: 12px;
-  background-color: #4285f4;
+  background-color: var(--yl-green);
   color: white;
   border: none;
   border-radius: 4px;
@@ -53,7 +53,7 @@
 }
 
 .login-button:hover {
-  background-color: #3367d6;
+  background-color: #8ab438;
 }
 
 .error-message {
@@ -68,5 +68,6 @@
 .login-hint {
   text-align: center;
   margin-top: 20px;
-  color: #777;
+  color: var(--yl-navy);
+  opacity: 0.7;
 } 

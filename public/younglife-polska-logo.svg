@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300">
+  <!-- YoungLife "YL" logo -->
+  <g transform="translate(100, 50)">
+    <path d="M100,0 L150,0 L150,100 L250,100 L250,150 L150,150 L150,250 L100,250 L100,150 L0,150 L0,100 L100,100 Z" fill="#9BC643"/>
+  </g>
+  
+  <!-- "younglife" text -->
+  <g transform="translate(80, 220)">
+    <text font-family="Arial, sans-serif" font-weight="bold" font-size="60" fill="#2E4057">
+      young<tspan fill="#9BC643">life</tspan>
+    </text>
+  </g>
+  
+  <!-- "Polska" text -->
+  <g transform="translate(240, 270)">
+    <text font-family="Arial, sans-serif" font-size="40" fill="#2E4057">
+      Polska
+    </text>
+  </g>
+</svg> 

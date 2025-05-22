@@ -13,7 +13,7 @@
 }
 
 .add-event-button {
-  background-color: #4285f4;
+  background-color: var(--yl-green);
   color: white;
   border: none;
   border-radius: 4px;
@@ -24,7 +24,7 @@
 }
 
 .add-event-button:hover {
-  background-color: #3367d6;
+  background-color: #8ab438;
 }
 
 /* Legend */
@@ -49,19 +49,19 @@
 }
 
 .younglife-color {
-  background-color: #7adb4d; /* Green */
+  background-color: var(--yl-green); /* YoungLife green */
 }
 
 .wyldlife-color {
-  background-color: #6cb5f0; /* Blue */
+  background-color: var(--wyldlife-blue); /* WyldLife blue */
 }
 
 .yluni-color {
-  background-color: #f0af4d; /* Orange */
+  background-color: var(--yluni-orange); /* YLUni orange */
 }
 
 .joint-color {
-  background-color: #5ce0c4; /* Turquoise */
+  background-color: var(--yl-light-navy); /* Navy */
 }
 
 /* Modal */
@@ -97,7 +97,7 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: #777;
+  color: var(--yl-navy);
   z-index: 5;
 }
 
@@ -119,8 +119,8 @@
 }
 
 .edit-button {
-  background-color: #ffc107;
-  color: #333;
+  background-color: var(--yl-green);
+  color: white;
   border: none;
 }
 
@@ -131,7 +131,7 @@
 }
 
 .edit-button:hover {
-  background-color: #e0a800;
+  background-color: #8ab438;
 }
 
 .delete-button:hover {
@@ -144,6 +144,9 @@
   display: flex;
   align-items: center;
   position: relative;
+  background-color: var(--yl-navy);
+  color: white;
+  border-radius: 8px 8px 0 0;
 }
 
 .modal-header h2 {
@@ -162,19 +165,19 @@
 }
 
 .group-badge[data-group='YoungLife'] {
-  background-color: #7adb4d; /* Green */
+  background-color: var(--yl-green); /* Green */
 }
 
 .group-badge[data-group='WyldLife'] {
-  background-color: #6cb5f0; /* Blue */
+  background-color: var(--wyldlife-blue); /* Blue */
 }
 
 .group-badge[data-group='YLUni'] {
-  background-color: #f0af4d; /* Orange */
+  background-color: var(--yluni-orange); /* Orange */
 }
 
 .group-badge[data-group='Joint'] {
-  background-color: #5ce0c4; /* Turquoise */
+  background-color: var(--yl-light-navy); /* Navy */
 }
 
 .modal-body {
@@ -193,6 +196,7 @@
   margin-top: 0;
   margin-bottom: 10px;
   font-size: 1.2rem;
+  color: var(--yl-navy);
 }
 
 .event-description p {

@@ -7,7 +7,7 @@
 .event-form-container h2 {
   margin-top: 0;
   margin-bottom: 20px;
-  color: #333;
+  color: var(--yl-navy);
   text-align: center;
 }
 
@@ -34,7 +34,7 @@
 
 .form-group label {
   font-weight: 500;
-  color: #555;
+  color: var(--yl-navy);
 }
 
 .form-group input,
@@ -104,18 +104,18 @@
 
 .cancel-button {
   background-color: #f5f5f5;
-  color: #333;
+  color: var(--yl-navy);
   border: 1px solid #ddd;
 }
 
 .submit-button {
-  background-color: #4285f4;
+  background-color: var(--yl-green);
   color: white;
   border: none;
 }
 
 .submit-button:disabled {
-  background-color: #b0c7f4;
+  background-color: rgba(155, 198, 67, 0.5);
   cursor: not-allowed;
 }
 
@@ -124,7 +124,7 @@
 }
 
 .submit-button:hover:not(:disabled) {
-  background-color: #3367d6;
+  background-color: #8ab438;
 }
 
 @media (max-width: 600px) {

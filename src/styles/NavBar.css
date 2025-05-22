@@ -1,6 +1,6 @@
 .navbar {
-  background-color: #78bb5d;
-  color: rgba(255, 255, 255, 0.014);
+  background-color: var(--yl-navy);
+  color: white;
   padding: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -17,7 +17,14 @@
 .navbar-logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo img {
+  height: 40px;
+  margin-right: 10px;
 }
 
 .navbar-actions {
@@ -31,10 +38,11 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  color: white;
 }
 
 .admin-badge {
-  background-color: #ff4081;
+  background-color: var(--yl-green);
   color: white;
   font-size: 12px;
   padding: 3px 8px;
@@ -54,8 +62,8 @@
 }
 
 .login-nav-button:hover, .logout-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: white;
+  background-color: var(--yl-green);
+  border-color: var(--yl-green);
 }
 
 .logout-button {
@@ -78,7 +86,7 @@
 
 .modal-content {
   position: relative;
-  background-color: #f5f5f5;
+  background-color: var(--yl-light-gray);
   border-radius: 8px;
   max-width: 90%;
   z-index: 1001;
@@ -92,7 +100,7 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: #777;
+  color: var(--yl-navy);
   z-index: 1002;
 }
 

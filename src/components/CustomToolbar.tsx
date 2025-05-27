@@ -23,7 +23,9 @@ const CustomToolbar: React.FC<any> = (props) => {
       case Views.WEEK:
         const weekStart = new Date(date);
         const day = weekStart.getDay();
-        weekStart.setDate(weekStart.getDate() - day);
+        // Adjust for Monday as first day (0=Sunday, 1=Monday, etc.)
+        const daysToSubtract = day === 0 ? 6 : day - 1;
+        weekStart.setDate(weekStart.getDate() - daysToSubtract);
         const weekEnd = new Date(weekStart);
         weekEnd.setDate(weekStart.getDate() + 6);
         

@@ -21,8 +21,7 @@ const NavBar: React.FC = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-logo">
-          <img src="/younglife-polska-logo.svg" alt="YoungLife Polska" />
-          Kalendarz YoungLife Poznań
+          <span className="navbar-title">Kalendarz YoungLife Poznań</span>
         </div>
         <div className="navbar-actions">
           {authLoading ? (
@@ -50,7 +49,7 @@ const NavBar: React.FC = () => {
         <div className="modal-backdrop" onClick={() => setShowLoginModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button 
-              className="close-modal-button" 
+              className="close-modal-button-login" 
               onClick={() => setShowLoginModal(false)}
             >
               ×

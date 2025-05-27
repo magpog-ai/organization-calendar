@@ -19,16 +19,17 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
     event?.start ? formatDateForInput(event.start) : formatDateForInput(new Date())
   );
   const [startTime, setStartTime] = useState(
-    event?.start ? formatTimeForInput(event.start) : '18:00'
+    event?.start ? formatTimeForInput(event.start) : '17:23'
   );
   const [endDate, setEndDate] = useState(
     event?.end ? formatDateForInput(event.end) : formatDateForInput(new Date())
   );
   const [endTime, setEndTime] = useState(
-    event?.end ? formatTimeForInput(event.end) : '20:00'
+    event?.end ? formatTimeForInput(event.end) : '19:30'
   );
   const [description, setDescription] = useState(event?.description || '');
   const [location, setLocation] = useState(event?.location || '');
+  const [url, setUrl] = useState(event?.url || '');
 
   // Update group when joint event status changes
   useEffect(() => {
@@ -87,7 +88,8 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
       start: startDateTime,
       end: endDateTime,
       description,
-      location
+      location,
+      url: url.trim() || undefined
     };
     
     onSubmit(newEvent);
@@ -119,6 +121,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
             <option value="YoungLife">YoungLife (liceum)</option>
             <option value="WyldLife">WyldLife (klasy 6-8)</option>
             <option value="YLUni">YLUni (studenci)</option>
+            <option value="Inne">Inne</option>
             <option value="Joint">Wydarzenie wspólne (wiele grup)</option>
           </select>
         </div>
@@ -153,6 +156,15 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
                   onChange={() => handleGroupCheckboxChange('YLUni')}
                 />
                 <label htmlFor="joint-yluni">YLUni (studenci)</label>
+              </div>
+              <div className="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="joint-inne"
+                  checked={selectedGroups.includes('Inne')}
+                  onChange={() => handleGroupCheckboxChange('Inne')}
+                />
+                <label htmlFor="joint-inne">Inne</label>
               </div>
             </div>
             {selectedGroups.length === 0 && (
@@ -217,6 +229,17 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             required
+          />
+        </div>
+        
+        <div className="form-group">
+          <label htmlFor="url">Link do wydarzenia (opcjonalny)</label>
+          <input
+            id="url"
+            type="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="https://facebook.com/events/..."
           />
         </div>
         

@@ -13,10 +13,12 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>{event.title}</h2>
           <span className="group-badge" data-group={event.group}>
-            {event.group}
+            {event.group === 'Joint' && event.groups 
+              ? event.groups.join(', ')
+              : event.group}
           </span>
+          <h2>{event.title}</h2>
           <button className="close-button" onClick={onClose}>×</button>
         </div>
         <div className="modal-body">

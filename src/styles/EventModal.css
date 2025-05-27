@@ -1,20 +1,16 @@
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
+.modal-overlay   {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
   width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .modal-content {
   background-color: white;
   border-radius: 8px;
-  width: 90%;
+  width: 80%;
   max-width: 500px;
   max-height: 80vh;
   overflow-y: auto;
@@ -26,13 +22,13 @@
   border-bottom: 1px solid #eee;
   display: flex;
   align-items: center;
-  position: relative;
 }
 
 .modal-header h2 {
   margin: 0;
   font-size: 1.5rem;
   flex-grow: 1;
+  margin-left: 12px;
 }
 
 .group-badge {
@@ -40,24 +36,27 @@
   border-radius: 16px;
   font-size: 0.8rem;
   font-weight: bold;
-  margin-left: 12px;
   color: white;
 }
 
 .group-badge[data-group='YoungLife'] {
-  background-color: #7adb4d; /* Green */
+  background-color: var(--yl-green); /* Green */
 }
 
 .group-badge[data-group='WyldLife'] {
-  background-color: #6cb5f0; /* Blue */
+  background-color: var(--wyldlife-blue); /* Blue */
 }
 
 .group-badge[data-group='YLUni'] {
-  background-color: #f0af4d; /* Orange */
+  background-color: var(--yluni-orange); /* Orange */
+}
+
+.group-badge[data-group='Inne'] {
+  background-color: var(--inne-darkgreen);
 }
 
 .group-badge[data-group='Joint'] {
-  background-color: #5ce0c4; /* Turquoise */
+  background-color: var(--yl-light-navy); /* Turquoise */
 }
 
 .close-button {
@@ -68,7 +67,7 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #666;
+  color: #e7e7e7;
 }
 
 .modal-body {

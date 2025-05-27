@@ -2,11 +2,9 @@
 
 A calendar application for YoungLife Polska to display and manage upcoming events across different youth groups.
 
-![YoungLife Polska](public/younglife-polska-logo.svg)
-
 ## Features
 
-- View upcoming events categorized by group (YoungLife, WyldLife, YLUni, Joint)
+- View upcoming events categorized by group (YoungLife, WyldLife, YLUni, Inne, Joint)
 - Month and week views for easy event browsing
 - Detailed event information in a clean, modern interface
 - Admin authentication for secure event management
@@ -29,6 +27,7 @@ The application uses the official YoungLife Polska color scheme:
 - YoungLife: Green (`#9BC643`)
 - WyldLife: Blue (`#6cb5f0`)
 - YLUni: Orange (`#f0af4d`)
+- Inne: Dark green (`#5a7428`)
 - Joint events: Navy (`#3d5575`)
 - Primary text: Dark navy (`#2E4057`)
 

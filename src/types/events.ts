@@ -1,4 +1,4 @@
-export type GroupType = 'YoungLife' | 'WyldLife' | 'YLUni' | 'Joint';
+export type GroupType = 'YoungLife' | 'WyldLife' | 'YLUni' | 'Inne' | 'Joint';
 
 export interface Event {
   id: string;
@@ -9,4 +9,5 @@ export interface Event {
   groups?: GroupType[]; // Optional array of groups for joint events
   description: string;
   location: string;
+  url?: string; // Optional URL for external links (e.g., Facebook events)
 } 

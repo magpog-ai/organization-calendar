@@ -55,9 +55,9 @@
 }
 
 .rbc-btn-group button.rbc-active {
-  background-color: #539634;
+  background-color: var(--yl-green);
   color: white;
-  border-color: #539634;
+  border-color: var(--yl-green);
 }
 
 /* Responsive adjustments */

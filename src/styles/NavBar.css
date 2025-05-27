@@ -24,7 +24,10 @@
 
 .navbar-logo img {
   height: 40px;
-  margin-right: 10px;
+  width: auto;
+  margin-right: 15px;
+  object-fit: contain;
+  display: block;
 }
 
 .navbar-actions {
@@ -93,6 +96,18 @@
 }
 
 .close-modal-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: rgb(236, 245, 252);
+  z-index: 1002;
+}
+
+.close-modal-button-login {
   position: absolute;
   top: 10px;
   right: 10px;

@@ -3,7 +3,7 @@ import { Calendar as BigCalendar, dateFnsLocalizer, View, Views } from 'react-bi
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Event } from '../types/events';
+import { Event, GroupType } from '../types/events';
 import CustomToolbar from './CustomToolbar';
 import EventForm from './EventForm';
 import { useAuth } from '../context/AuthContext';
@@ -17,7 +17,7 @@ const locales = {
 const localizer = dateFnsLocalizer({
   format,
   parse,
-  startOfWeek,
+  startOfWeek: (date: Date) => startOfWeek(date, { weekStartsOn: 1 }), // Monday as first day
   getDay,
   locales,
 });
@@ -39,6 +39,7 @@ const Calendar: React.FC<CalendarProps> = ({
   const [view, setView] = useState<View>(Views.MONTH);
   const [showEventForm, setShowEventForm] = useState(false);
   const [editingEvent, setEditingEvent] = useState<Event | undefined>(undefined);
+  const [selectedFilters, setSelectedFilters] = useState<GroupType[]>(['YoungLife', 'WyldLife', 'YLUni', 'Inne']);
   const { isAuthenticated, isAdmin, user } = useAuth();
   
   // Console log admin status for debugging
@@ -99,19 +100,23 @@ const Calendar: React.FC<CalendarProps> = ({
 
   const eventStyleGetter = (event: Event) => {
     let backgroundColor = '#3174ad';
+    let textColor = 'white';
     
     if (event.groups && event.groups.length > 1) {
-      backgroundColor = '#00BCD4'; // Turquoise for joint events
+      backgroundColor = '#3d5575';
     } else {
       switch (event.group) {
         case 'YoungLife':
-          backgroundColor = '#4CAF50'; // Green
+          backgroundColor = '#9BC643';
           break;
         case 'WyldLife':
-          backgroundColor = '#2196F3'; // Blue
+          backgroundColor = '#6cb5f0';
           break;
         case 'YLUni':
-          backgroundColor = '#FF9800'; // Orange
+          backgroundColor = '#f0af4d';
+          break;
+        case 'Inne':
+          backgroundColor = '#5a7428';
           break;
       }
     }
@@ -120,7 +125,7 @@ const Calendar: React.FC<CalendarProps> = ({
       style: {
         backgroundColor,
         borderRadius: '5px',
-        color: 'white',
+        color: textColor,
         border: 'none',
         display: 'block'
       }
@@ -129,11 +134,36 @@ const Calendar: React.FC<CalendarProps> = ({
 
   const formats = {
     eventTimeRangeFormat: () => '',
+    timeGutterFormat: 'HH:mm',
+    dayHeaderFormat: (date: Date) => format(date, 'EEEE d/M', { locale: pl }),
+    agendaTimeFormat: 'HH:mm',
+    agendaTimeRangeFormat: ({ start, end }: { start: Date; end: Date }) => 
+      `${format(start, 'HH:mm', { locale: pl })} - ${format(end, 'HH:mm', { locale: pl })}`,
   };
 
   const handleViewChange = (newView: View) => {
     setView(newView);
   };
+
+  const handleFilterChange = (groupType: GroupType) => {
+    setSelectedFilters(prev => {
+      if (prev.includes(groupType)) {
+        return prev.filter(g => g !== groupType);
+      } else {
+        return [...prev, groupType];
+      }
+    });
+  };
+
+  const filteredEvents = events.filter(event => {
+    if (event.group === 'Joint' && event.groups) {
+      // For joint events, show if any of the individual groups in the joint event are selected
+      return event.groups.some(group => 
+        group !== 'Joint' && selectedFilters.includes(group)
+      );
+    }
+    return selectedFilters.includes(event.group);
+  });
 
   return (
     <div className="calendar-container">
@@ -144,6 +174,44 @@ const Calendar: React.FC<CalendarProps> = ({
           </button>
         </div>
       )}
+
+      <div className="filter-controls">
+        <h3>Filtruj wydarzenia:</h3>
+        <div className="filter-checkboxes">
+          <label className="filter-checkbox">
+            <input
+              type="checkbox"
+              checked={selectedFilters.includes('YoungLife')}
+              onChange={() => handleFilterChange('YoungLife')}
+            />
+            <span className="filter-label younglife-filter">YoungLife (liceum)</span>
+          </label>
+          <label className="filter-checkbox">
+            <input
+              type="checkbox"
+              checked={selectedFilters.includes('WyldLife')}
+              onChange={() => handleFilterChange('WyldLife')}
+            />
+            <span className="filter-label wyldlife-filter">WyldLife (klasy 6-8)</span>
+          </label>
+          <label className="filter-checkbox">
+            <input
+              type="checkbox"
+              checked={selectedFilters.includes('YLUni')}
+              onChange={() => handleFilterChange('YLUni')}
+            />
+            <span className="filter-label yluni-filter">YLUni (studenci)</span>
+          </label>
+          <label className="filter-checkbox">
+            <input
+              type="checkbox"
+              checked={selectedFilters.includes('Inne')}
+              onChange={() => handleFilterChange('Inne')}
+            />
+            <span className="filter-label inne-filter">Inne</span>
+          </label>
+        </div>
+      </div>
 
       <div className="legend">
         <div className="legend-item">
@@ -159,6 +227,10 @@ const Calendar: React.FC<CalendarProps> = ({
           <span>YLUni (studenci)</span>
         </div>
         <div className="legend-item">
+          <div className="legend-color inne-color"></div>
+          <span>Inne</span>
+        </div>
+        <div className="legend-item">
           <div className="legend-color joint-color"></div>
           <span>Wydarzenia wspólne WyLd i YL </span>
         </div>
@@ -166,19 +238,20 @@ const Calendar: React.FC<CalendarProps> = ({
       
       <BigCalendar
         localizer={localizer}
-        events={events}
+        events={filteredEvents}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 600 }}
         onSelectEvent={handleSelectEvent}
         eventPropGetter={eventStyleGetter}
         formats={formats}
-        tooltipAccessor={(event: Event) => `${event.title} (${event.group})`}
+        tooltipAccessor={(event: Event) => `${event.title} (${event.group === 'Joint' && event.groups ? event.groups.join(', ') : event.group})`}
         view={view}
         onView={handleViewChange}
         views={[Views.MONTH, Views.WEEK]}
         popup
         selectable
+        scrollToTime={new Date(1970, 1, 1, 18, 0, 0, 0)}
         components={{
           toolbar: CustomToolbar as any,
         }}
@@ -189,10 +262,12 @@ const Calendar: React.FC<CalendarProps> = ({
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="close-modal-button" onClick={closeModal}>×</button>
             <div className="modal-header">
-              <h2>{selectedEvent.title}</h2>
               <span className="group-badge" data-group={selectedEvent.group}>
-                {selectedEvent.group}
+                {selectedEvent.group === 'Joint' && selectedEvent.groups 
+                  ? selectedEvent.groups.join(', ')
+                  : selectedEvent.group}
               </span>
+              <h2>{selectedEvent.title}</h2>
             </div>
             <div className="modal-body">
               <div className="event-details">
@@ -209,6 +284,11 @@ const Calendar: React.FC<CalendarProps> = ({
                 <div className="detail-item">
                   <strong>Miejsce:</strong> {selectedEvent.location}
                 </div>
+                {selectedEvent.url && (
+                  <div className="detail-item">
+                    <strong>Link:</strong> <a href={selectedEvent.url} target="_blank" rel="noopener noreferrer" className="event-link">{selectedEvent.url}</a>
+                  </div>
+                )}
               </div>
               <div className="event-description">
                 <h3>Opis</h3>

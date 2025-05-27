@@ -1,6 +1,6 @@
 .calendar-container {
   background-color: white;
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -25,6 +25,85 @@
 
 .add-event-button:hover {
   background-color: #8ab438;
+}
+
+/* Filter Controls */
+.filter-controls {
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.filter-controls h3 {
+  margin: 0;
+  color: var(--yl-navy);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.filter-checkboxes {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 15px;
+  flex: 1;
+}
+
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+  border: none;
+  transition: opacity 0.2s ease;
+}
+
+.filter-checkbox:hover {
+  opacity: 0.8;
+}
+
+.filter-checkbox input[type="checkbox"] {
+  margin-right: 6px;
+  transform: scale(1.1);
+}
+
+.filter-label {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.filter-checkbox input[type="checkbox"]:checked + .filter-label {
+  font-weight: 500;
+}
+
+.filter-checkbox input[type="checkbox"]:checked + .younglife-filter {
+  color: var(--yl-green);
+}
+
+.filter-checkbox input[type="checkbox"]:checked + .wyldlife-filter {
+  color: var(--wyldlife-blue);
+}
+
+.filter-checkbox input[type="checkbox"]:checked + .yluni-filter {
+  color: var(--yluni-orange);
+}
+
+.filter-checkbox input[type="checkbox"]:checked + .inne-filter {
+  color: var(--inne-darkgreen);
+}
+
+.filter-checkbox input[type="checkbox"]:checked + .joint-filter {
+  color: var(--yl-light-navy);
 }
 
 /* Legend */
@@ -60,6 +139,10 @@
   background-color: var(--yluni-orange); /* YLUni orange */
 }
 
+.inne-color {
+  background-color: var(--inne-darkgreen);
+}
+
 .joint-color {
   background-color: var(--yl-light-navy); /* Navy */
 }
@@ -82,11 +165,12 @@
   position: relative;
   background-color: white;
   border-radius: 8px;
-  width: 90%;
-  max-width: 550px;
+  width: 75%;
+  max-width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
 }
 
 .close-modal-button {
@@ -94,11 +178,11 @@
   top: 10px;
   right: 10px;
   background: none;
-  border: none;
+  color: white;
   font-size: 24px;
   cursor: pointer;
-  color: var(--yl-navy);
   z-index: 5;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* Admin event controls */
@@ -153,6 +237,7 @@
   margin: 0;
   font-size: 1.5rem;
   flex-grow: 1;
+  margin-left: 12px;
 }
 
 .group-badge {
@@ -160,7 +245,6 @@
   border-radius: 16px;
   font-size: 0.8rem;
   font-weight: bold;
-  margin-left: 12px;
   color: white;
 }
 
@@ -174,6 +258,10 @@
 
 .group-badge[data-group='YLUni'] {
   background-color: var(--yluni-orange); /* Orange */
+}
+
+.group-badge[data-group='Inne'] {
+  background-color: var(--inne-darkgreen); /* Yellow */
 }
 
 .group-badge[data-group='Joint'] {
@@ -192,6 +280,16 @@
   margin-bottom: 8px;
 }
 
+.event-link {
+  color: var(--yl-green);
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.event-link:hover {
+  text-decoration: underline;
+}
+
 .event-description h3 {
   margin-top: 0;
   margin-bottom: 10px;
@@ -202,4 +300,27 @@
 .event-description p {
   line-height: 1.5;
   margin: 0;
+}
+
+/* Responsive filter controls */
+@media (max-width: 768px) {
+  .filter-controls {
+    padding: 12px;
+    margin-bottom: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .filter-controls h3 {
+    font-size: 0.85rem;
+  }
+  
+  .filter-checkboxes {
+    gap: 12px;
+  }
+  
+  .filter-label {
+    font-size: 0.8rem;
+  }
 } 

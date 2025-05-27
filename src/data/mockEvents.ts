@@ -10,7 +10,8 @@ export const mockEvents: Event[] = [
     group: 'YoungLife',
     groups: ['YoungLife'],
     description: 'Weekly club meeting with games, music, and a short talk.',
-    location: 'Main Hall'
+    location: 'Main Hall',
+    url: 'https://facebook.com/events/younglife-club'
   },
   {
     id: '2',
@@ -40,6 +41,17 @@ export const mockEvents: Event[] = [
     group: 'Joint',
     groups: ['YoungLife', 'WyldLife', 'YLUni'],
     description: 'Annual winter camp with all groups. Three days of fun activities, fellowship, and teaching.',
-    location: 'Mountain Retreat Center'
+    location: 'Mountain Retreat Center',
+    url: 'https://facebook.com/events/123456789'
+  },
+  {
+    id: '5',
+    title: 'Spotkanie liderów',
+    start: new Date(2023, 1, 5, 10, 0),  // Feb 5, 2023, 10:00 AM
+    end: new Date(2023, 1, 5, 12, 0),    // Feb 5, 2023, 12:00 PM
+    group: 'Inne',
+    groups: ['Inne'],
+    description: 'Miesięczne spotkanie liderów wszystkich grup.',
+    location: 'Biuro organizacji'
   }
 ]; 

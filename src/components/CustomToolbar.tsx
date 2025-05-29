@@ -3,6 +3,11 @@ import { Views } from 'react-big-calendar';
 import { pl } from 'date-fns/locale';
 import '../styles/CustomToolbar.css';
 
+// Helper function to detect mobile devices
+const isMobileDevice = () => {
+  return window.innerWidth <= 768;
+};
+
 const CustomToolbar: React.FC<any> = (props) => {
   const goToPrevious = () => {
     props.onNavigate('PREV');
@@ -33,6 +38,8 @@ const CustomToolbar: React.FC<any> = (props) => {
         const endMonth = weekEnd.toLocaleString('pl-PL', { month: 'short' });
         
         return `${startMonth} ${weekStart.getDate()} - ${endMonth} ${weekEnd.getDate()}, ${year}`;
+      case Views.AGENDA:
+        return `Lista wydarzeń`;
       default:
         return `${month} ${year}`;
     }
@@ -43,29 +50,61 @@ const CustomToolbar: React.FC<any> = (props) => {
   return (
     <div className="rbc-toolbar custom-toolbar">
       <div className="title-with-navigation">
-        <button type="button" className="nav-button prev-button" onClick={goToPrevious}>
-          Poprzedni
-        </button>
+        {props.view !== Views.AGENDA && (
+          <button type="button" className="nav-button prev-button" onClick={goToPrevious}>
+            {isMobileDevice() ? '‹' : 'Poprzedni'}
+          </button>
+        )}
         <span className="rbc-toolbar-label">{viewTitle}</span>
-        <button type="button" className="nav-button next-button" onClick={goToNext}>
-          Następny
-        </button>
+        {props.view !== Views.AGENDA && (
+          <button type="button" className="nav-button next-button" onClick={goToNext}>
+            {isMobileDevice() ? '›' : 'Następny'}
+          </button>
+        )}
       </div>
       <div className="rbc-btn-group">
-        <button 
-          type="button" 
-          className={props.view === Views.MONTH ? 'rbc-active' : ''} 
-          onClick={() => props.onView(Views.MONTH)}
-        >
-          Miesiąc
-        </button>
-        <button 
-          type="button" 
-          className={props.view === Views.WEEK ? 'rbc-active' : ''} 
-          onClick={() => props.onView(Views.WEEK)}
-        >
-          Tydzień
-        </button>
+        {isMobileDevice() ? (
+          <>
+            <button 
+              type="button" 
+              className={props.view === Views.AGENDA ? 'rbc-active' : ''} 
+              onClick={() => props.onView(Views.AGENDA)}
+            >
+              Lista
+            </button>
+            <button 
+              type="button" 
+              className={props.view === Views.MONTH ? 'rbc-active' : ''} 
+              onClick={() => props.onView(Views.MONTH)}
+            >
+              Miesiąc
+            </button>
+          </>
+        ) : (
+          <>
+            <button 
+              type="button" 
+              className={props.view === Views.MONTH ? 'rbc-active' : ''} 
+              onClick={() => props.onView(Views.MONTH)}
+            >
+              Miesiąc
+            </button>
+            <button 
+              type="button" 
+              className={props.view === Views.WEEK ? 'rbc-active' : ''} 
+              onClick={() => props.onView(Views.WEEK)}
+            >
+              Tydzień
+            </button>
+            <button 
+              type="button" 
+              className={props.view === Views.AGENDA ? 'rbc-active' : ''} 
+              onClick={() => props.onView(Views.AGENDA)}
+            >
+              Lista
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

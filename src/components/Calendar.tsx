@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar as BigCalendar, dateFnsLocalizer, View, Views } from 'react-big-calendar';
-import { format, parse, startOfWeek, getDay } from 'date-fns';
+import { format, parse, startOfWeek, getDay, startOfMonth, endOfMonth, isWithinInterval } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Event, GroupType } from '../types/events';
@@ -29,6 +29,11 @@ interface CalendarProps {
   onEventDelete?: (eventId: string) => void;
 }
 
+// Helper function to detect mobile devices
+const isMobileDevice = () => {
+  return window.innerWidth <= 768;
+};
+
 const Calendar: React.FC<CalendarProps> = ({ 
   events, 
   onEventAdd, 
@@ -36,12 +41,30 @@ const Calendar: React.FC<CalendarProps> = ({
   onEventDelete 
 }) => {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  const [view, setView] = useState<View>(Views.MONTH);
+  const [view, setView] = useState<View>(() => {
+    // Set default view based on screen size
+    return isMobileDevice() ? Views.AGENDA : Views.MONTH;
+  });
+  const [date, setDate] = useState(new Date());
   const [showEventForm, setShowEventForm] = useState(false);
   const [editingEvent, setEditingEvent] = useState<Event | undefined>(undefined);
   const [selectedFilters, setSelectedFilters] = useState<GroupType[]>(['YoungLife', 'WyldLife', 'YLUni', 'Inne']);
   const { isAuthenticated, isAdmin, user } = useAuth();
   
+  // Handle window resize to adjust view for mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (isMobileDevice() && view === Views.MONTH) {
+        setView(Views.AGENDA);
+      } else if (!isMobileDevice() && view === Views.AGENDA) {
+        setView(Views.MONTH);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [view]);
+
   // Console log admin status for debugging
   useEffect(() => {
     console.log("Calendar component admin status:", { 
@@ -99,6 +122,18 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const eventStyleGetter = (event: Event) => {
+    // Don't apply background colors in agenda view - only for month/week views
+    if (view === Views.AGENDA) {
+      return {
+        style: {
+          backgroundColor: 'transparent',
+          color: 'inherit',
+          border: 'none',
+          display: 'block'
+        }
+      };
+    }
+
     let backgroundColor = '#3174ad';
     let textColor = 'white';
     
@@ -132,6 +167,46 @@ const Calendar: React.FC<CalendarProps> = ({
     };
   };
 
+  // Custom Event component for agenda view
+  const AgendaEvent = ({ event }: { event: Event }) => {
+    const getGroupDisplayName = (group: string) => {
+      switch (group) {
+        case 'YoungLife': return 'YL';
+        case 'WyldLife': return 'WyLd';
+        case 'YLUni': return 'Uni';
+        case 'Inne': return 'Inne';
+        case 'Joint': return 'Wspólne';
+        default: return group;
+      }
+    };
+
+    const getGroupClass = (group: string) => {
+      return group.toLowerCase();
+    };
+
+    return (
+      <div 
+        className="rbc-event" 
+        onClick={() => handleSelectEvent(event)}
+      >
+        <div className="event-title">
+          {event.title}
+          <span className={`group-badge ${getGroupClass(event.group)}`}>
+            {event.group === 'Joint' && event.groups 
+              ? event.groups.map(g => getGroupDisplayName(g)).join('+')
+              : getGroupDisplayName(event.group)
+            }
+          </span>
+        </div>
+        {event.location && (
+          <div className="event-location">
+            📍 {event.location}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const formats = {
     eventTimeRangeFormat: () => '',
     timeGutterFormat: 'HH:mm',
@@ -139,10 +214,27 @@ const Calendar: React.FC<CalendarProps> = ({
     agendaTimeFormat: 'HH:mm',
     agendaTimeRangeFormat: ({ start, end }: { start: Date; end: Date }) => 
       `${format(start, 'HH:mm', { locale: pl })} - ${format(end, 'HH:mm', { locale: pl })}`,
+    agendaDateFormat: (date: Date) => {
+      // Shorter format for mobile
+      if (isMobileDevice()) {
+        return format(date, 'EEE, d MMM yyyy', { locale: pl });
+      }
+      return format(date, 'EEEE, d MMMM yyyy', { locale: pl });
+    },
+    agendaHeaderFormat: ({ start, end }: { start: Date; end: Date }) => {
+      // For agenda view, always show the full month
+      const monthStart = startOfMonth(date);
+      const monthEnd = endOfMonth(date);
+      return `${format(monthStart, 'd', { locale: pl })} - ${format(monthEnd, 'd MMMM yyyy', { locale: pl })}`;
+    },
   };
 
   const handleViewChange = (newView: View) => {
     setView(newView);
+  };
+
+  const handleNavigate = (newDate: Date) => {
+    setDate(newDate);
   };
 
   const handleFilterChange = (groupType: GroupType) => {
@@ -156,13 +248,23 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const filteredEvents = events.filter(event => {
+    // First filter by group
+    let groupMatch = false;
     if (event.group === 'Joint' && event.groups) {
       // For joint events, show if any of the individual groups in the joint event are selected
-      return event.groups.some(group => 
+      groupMatch = event.groups.some(group => 
         group !== 'Joint' && selectedFilters.includes(group)
       );
+    } else {
+      groupMatch = selectedFilters.includes(event.group);
     }
-    return selectedFilters.includes(event.group);
+
+    // If group doesn't match, exclude the event
+    if (!groupMatch) return false;
+
+    // Don't filter by month in agenda view - let react-big-calendar handle it
+    // This ensures all events are available for the agenda view to display
+    return true;
   });
 
   return (
@@ -241,19 +343,24 @@ const Calendar: React.FC<CalendarProps> = ({
         events={filteredEvents}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 600 }}
+        style={{ height: isMobileDevice() ? 'calc(100vh - 200px)' : 600 }}
         onSelectEvent={handleSelectEvent}
         eventPropGetter={eventStyleGetter}
         formats={formats}
         tooltipAccessor={(event: Event) => `${event.title} (${event.group === 'Joint' && event.groups ? event.groups.join(', ') : event.group})`}
         view={view}
         onView={handleViewChange}
-        views={[Views.MONTH, Views.WEEK]}
+        date={date}
+        onNavigate={handleNavigate}
+        views={isMobileDevice() ? [Views.AGENDA, Views.MONTH] : [Views.MONTH, Views.WEEK, Views.AGENDA]}
         popup
         selectable
         scrollToTime={new Date(1970, 1, 1, 18, 0, 0, 0)}
         components={{
           toolbar: CustomToolbar as any,
+          agenda: {
+            event: AgendaEvent,
+          },
         }}
       />
 

@@ -64,16 +64,151 @@
 @media (max-width: 768px) {
   .custom-toolbar {
     flex-direction: column;
-    gap: 15px;
+    gap: 6px;
     align-items: flex-start;
+    padding: 4px 0;
+    margin-bottom: 6px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   
   .title-with-navigation {
     width: 100%;
     justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    padding: 0;
+  }
+  
+  .nav-button {
+    padding: 6px 12px;
+    font-size: 16px;
+    min-height: 36px;
+    border-radius: 6px;
+    font-weight: 600;
+    min-width: 44px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+  }
+  
+  .nav-button:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
   }
   
   .rbc-toolbar-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--yl-navy);
+    text-align: center;
+    flex: 1;
+    min-width: 140px;
+    word-wrap: break-word;
+    line-height: 1.2;
+  }
+  
+  .rbc-btn-group {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .rbc-btn-group button {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 13px;
+    min-height: 40px;
+    border-radius: 6px;
+    min-width: 80px;
+    font-weight: 500;
+    box-sizing: border-box;
+  }
+  
+  /* Special adjustments for agenda view */
+  .rbc-toolbar:has(.rbc-btn-group button.rbc-active:contains("Lista")) {
     margin-bottom: 0;
+  }
+  
+  .rbc-toolbar:has(.rbc-btn-group button.rbc-active:contains("Lista")) .title-with-navigation {
+    margin-bottom: 4px;
+  }
+  
+  .rbc-toolbar:has(.rbc-btn-group button.rbc-active:contains("Lista")) .rbc-btn-group {
+    margin-bottom: 2px;
+  }
+}
+
+@media (max-width: 600px) {
+  .custom-toolbar {
+    gap: 5px;
+    padding: 3px 2px;
+    margin-bottom: 5px;
+  }
+  
+  .title-with-navigation {
+    gap: 6px;
+  }
+  
+  .nav-button {
+    padding: 5px 10px;
+    font-size: 15px;
+    min-width: 40px;
+    min-height: 34px;
+  }
+  
+  .rbc-toolbar-label {
+    font-size: 1rem;
+    min-width: 120px;
+  }
+  
+  .rbc-btn-group {
+    gap: 6px;
+  }
+  
+  .rbc-btn-group button {
+    padding: 7px 10px;
+    font-size: 12px;
+    min-height: 36px;
+    min-width: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-toolbar {
+    gap: 4px;
+    padding: 2px 0;
+    margin-bottom: 4px;
+  }
+  
+  .title-with-navigation {
+    gap: 4px;
+  }
+  
+  .nav-button {
+    padding: 4px 8px;
+    font-size: 14px;
+    min-width: 36px;
+    min-height: 32px;
+  }
+  
+  .rbc-toolbar-label {
+    font-size: 0.95rem;
+    min-width: 100px;
+  }
+  
+  .rbc-btn-group {
+    gap: 4px;
+  }
+  
+  .rbc-btn-group button {
+    padding: 6px 8px;
+    font-size: 11px;
+    min-height: 32px;
+    min-width: 60px;
   }
 } 

@@ -1,0 +1,248 @@
+[debug] [2025-05-29T08:08:01.810Z] ----------------------------------------------------------------------
+[debug] [2025-05-29T08:08:01.813Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\magda\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2025-05-29T08:08:01.813Z] CLI Version:   14.4.0
+[debug] [2025-05-29T08:08:01.814Z] Platform:      win32
+[debug] [2025-05-29T08:08:01.814Z] Node Version:  v22.11.0
+[debug] [2025-05-29T08:08:01.814Z] Time:          Thu May 29 2025 10:08:01 GMT+0200 (czas środkowoeuropejski letni)
+[debug] [2025-05-29T08:08:01.815Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-05-29T08:08:02.100Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-29T08:08:02.100Z] > authorizing via signed-in user (mpogodska@younglife.org)
+[debug] [2025-05-29T08:08:02.101Z] [iam] checking project ylcalendar-aa87e for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-05-29T08:08:02.102Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:02.102Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:02.103Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/ylcalendar-aa87e:testIamPermissions [none]
+[debug] [2025-05-29T08:08:02.103Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/ylcalendar-aa87e:testIamPermissions x-goog-quota-user=projects/ylcalendar-aa87e
+[debug] [2025-05-29T08:08:02.103Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/ylcalendar-aa87e:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-05-29T08:08:03.061Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/ylcalendar-aa87e:testIamPermissions 200
+[debug] [2025-05-29T08:08:03.061Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/ylcalendar-aa87e:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-05-29T08:08:03.062Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:03.062Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:03.063Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/ylcalendar-aa87e [none]
+[debug] [2025-05-29T08:08:03.651Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/ylcalendar-aa87e 200
+[debug] [2025-05-29T08:08:03.651Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/ylcalendar-aa87e {"projectId":"ylcalendar-aa87e","projectNumber":"436921391255","displayName":"YLCalendar","name":"projects/ylcalendar-aa87e","resources":{"hostingSite":"ylcalendar-aa87e"},"state":"ACTIVE","etag":"1_6e83f234-5162-4411-a476-8c9b70ecac3a"}
+[info] 
+[info] === Deploying to 'ylcalendar-aa87e'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2025-05-29T08:08:03.664Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:03.664Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:03.664Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions [none]
+[debug] [2025-05-29T08:08:03.664Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2025-05-29T08:08:05.384Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions 200
+[debug] [2025-05-29T08:08:05.384Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions {"name":"projects/436921391255/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[ylcalendar-aa87e]: beginning deploy... 
+[info] i  hosting[ylcalendar-aa87e]: found 14 files in build 
+[debug] [2025-05-29T08:08:24.740Z] [hosting] uploading with 200 concurrency
+[debug] [2025-05-29T08:08:25.283Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:25.284Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:25.285Z] [hosting] hash cache [YnVpbGQ] stored for 14 files
+[debug] [2025-05-29T08:08:25.285Z] [hosting][hash queue][FINAL] {"max":538,"min":3,"avg":54.5,"active":0,"complete":14,"success":14,"errored":0,"retried":0,"total":14,"elapsed":542}
+[debug] [2025-05-29T08:08:25.285Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/436921391255/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1:populateFiles [none]
+[debug] [2025-05-29T08:08:25.286Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/436921391255/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1:populateFiles {"files":{"/younglife-polska-logo.svg":"34219b7c8bee8a2684b373e1c1bc9861229f9d123584976f1b4ae9222b9908fc","/YL_polska_logo.png":"e7642ffed5135613175d7ca5a04860b83ce686c99c1092aafe5945519ec144d8","/manifest.json":"ee04fb47e525c67d8424ffe9b4d8a8a24e434504478afca4e0ca602146836d4c","/favicon.ico":"27edce7be5922cf0bef7d4136f69b5bfbdd5bf8c13c7b026f71187d41a00aa7d","/asset-manifest.json":"34e8ae8dec32afc57614b9e5bd52e30d1a4efdcc6ed63e5b27bdf22963d6f703","/index.html":"8ababbc434f8c7f5c3e3226130fcaf93e572d769bee74f845289b4ff436de0a9","/static/js/main.9be475bd.js.LICENSE.txt":"bc451d2517523f07fdbe3114af52aa349d55ca66d58ea5aa12400e030d0a0189","/static/js/453.6a6db4f6.chunk.js":"afa82f1a8b99179a53f172a112e2a50ec3f0d0e0981f7097bfe3a57c613519db","/static/js/453.6a6db4f6.chunk.js.map":"c81187a9d2a54387daad76aafe3f0684ed4333b68b0ed4e88d2b5c0df71cfaef","/static/css/main.5183c01d.css":"cc10ccd4dc8fb182222e78792191b8ace0a99f3707ff666636e96656f1a46ef4","/static/css/main.5183c01d.css.map":"73879b98a04e82682a4943a3d41f195cd1bd0734c0fafd53de5fbdd32a9fba05","/static/js/main.9be475bd.js":"993a1478d547a9c4431ab8b382ae8bca5599cd2f2f51d09f081b9242c00463a0","/static/media/background.ffcbed02944799205d09.jpg":"cb9f977f4d7eec605b6ce28e55c33ad601c6d0c0203d660bc6729b76483d9a00","/static/js/main.9be475bd.js.map":"e9c78ff00025a78f662df775413bd7cc5d19b2a82f2a9fcd122410b4f482d28b"}}
+[debug] [2025-05-29T08:08:26.598Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/436921391255/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1:populateFiles 200
+[debug] [2025-05-29T08:08:26.599Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/436921391255/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1:populateFiles {"uploadRequiredHashes":["8ababbc434f8c7f5c3e3226130fcaf93e572d769bee74f845289b4ff436de0a9","73879b98a04e82682a4943a3d41f195cd1bd0734c0fafd53de5fbdd32a9fba05","cc10ccd4dc8fb182222e78792191b8ace0a99f3707ff666636e96656f1a46ef4","34e8ae8dec32afc57614b9e5bd52e30d1a4efdcc6ed63e5b27bdf22963d6f703"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files"}
+[debug] [2025-05-29T08:08:26.601Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:26.601Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:26.601Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:26.601Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:26.602Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:26.602Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:26.602Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:26.602Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:26.603Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/8ababbc434f8c7f5c3e3226130fcaf93e572d769bee74f845289b4ff436de0a9 [none]
+[debug] [2025-05-29T08:08:26.603Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/8ababbc434f8c7f5c3e3226130fcaf93e572d769bee74f845289b4ff436de0a9 [stream]
+[debug] [2025-05-29T08:08:26.607Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/73879b98a04e82682a4943a3d41f195cd1bd0734c0fafd53de5fbdd32a9fba05 [none]
+[debug] [2025-05-29T08:08:26.607Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/73879b98a04e82682a4943a3d41f195cd1bd0734c0fafd53de5fbdd32a9fba05 [stream]
+[debug] [2025-05-29T08:08:26.611Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/cc10ccd4dc8fb182222e78792191b8ace0a99f3707ff666636e96656f1a46ef4 [none]
+[debug] [2025-05-29T08:08:26.611Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/cc10ccd4dc8fb182222e78792191b8ace0a99f3707ff666636e96656f1a46ef4 [stream]
+[debug] [2025-05-29T08:08:26.613Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/34e8ae8dec32afc57614b9e5bd52e30d1a4efdcc6ed63e5b27bdf22963d6f703 [none]
+[debug] [2025-05-29T08:08:26.613Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/34e8ae8dec32afc57614b9e5bd52e30d1a4efdcc6ed63e5b27bdf22963d6f703 [stream]
+[debug] [2025-05-29T08:08:26.618Z] [hosting][populate queue][FINAL] {"max":1320,"min":1320,"avg":1320,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":1335}
+[debug] [2025-05-29T08:08:26.618Z] [hosting] uploads queued: 4
+[debug] [2025-05-29T08:08:27.597Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/73879b98a04e82682a4943a3d41f195cd1bd0734c0fafd53de5fbdd32a9fba05 200
+[debug] [2025-05-29T08:08:27.598Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/73879b98a04e82682a4943a3d41f195cd1bd0734c0fafd53de5fbdd32a9fba05 [stream]
+[debug] [2025-05-29T08:08:27.772Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/34e8ae8dec32afc57614b9e5bd52e30d1a4efdcc6ed63e5b27bdf22963d6f703 200
+[debug] [2025-05-29T08:08:27.772Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/34e8ae8dec32afc57614b9e5bd52e30d1a4efdcc6ed63e5b27bdf22963d6f703 [stream]
+[debug] [2025-05-29T08:08:27.889Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/8ababbc434f8c7f5c3e3226130fcaf93e572d769bee74f845289b4ff436de0a9 200
+[debug] [2025-05-29T08:08:27.889Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/8ababbc434f8c7f5c3e3226130fcaf93e572d769bee74f845289b4ff436de0a9 [stream]
+[debug] [2025-05-29T08:08:27.965Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/cc10ccd4dc8fb182222e78792191b8ace0a99f3707ff666636e96656f1a46ef4 200
+[debug] [2025-05-29T08:08:27.965Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1/files/cc10ccd4dc8fb182222e78792191b8ace0a99f3707ff666636e96656f1a46ef4 [stream]
+[debug] [2025-05-29T08:08:27.966Z] [hosting][upload queue][FINAL] {"max":1364,"min":997,"avg":1205.5,"active":0,"complete":4,"success":4,"errored":0,"retried":0,"total":4,"elapsed":1367}
+[info] +  hosting[ylcalendar-aa87e]: file upload complete 
+[debug] [2025-05-29T08:08:27.969Z] [hosting] deploy completed after 3246ms
+[debug] [2025-05-29T08:08:27.970Z] [
+  {
+    "config": {
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "site": "ylcalendar-aa87e"
+    },
+    "version": "projects/436921391255/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1"
+  }
+]
+[info] i  hosting[ylcalendar-aa87e]: finalizing version... 
+[debug] [2025-05-29T08:08:27.975Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:27.975Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:27.976Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1 updateMask=status%2Cconfig
+[debug] [2025-05-29T08:08:27.976Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1 {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}],"cleanUrls":true,"trailingSlashBehavior":"REMOVE"}}
+[debug] [2025-05-29T08:08:28.643Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1 200
+[debug] [2025-05-29T08:08:28.643Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1 {"name":"projects/436921391255/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}],"cleanUrls":true,"trailingSlashBehavior":"REMOVE"},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-05-29T08:08:04.697724Z","createUser":{"email":"mpogodska@younglife.org"},"finalizeTime":"2025-05-29T08:08:28.503829Z","finalizeUser":{"email":"mpogodska@younglife.org"}}
+[debug] [2025-05-29T08:08:28.643Z] [hosting] finalized version for ylcalendar-aa87e:[object Object]
+[info] +  hosting[ylcalendar-aa87e]: version finalized 
+[info] i  hosting[ylcalendar-aa87e]: releasing new version... 
+[debug] [2025-05-29T08:08:28.644Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:28.644Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:08:28.645Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/channels/live/releases versionName=projects%2F436921391255%2Fsites%2Fylcalendar-aa87e%2Fversions%2F9e3b62e5ac4d56d1
+[debug] [2025-05-29T08:08:28.645Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/channels/live/releases {}
+[debug] [2025-05-29T08:08:29.542Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/channels/live/releases 200
+[debug] [2025-05-29T08:08:29.543Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/channels/live/releases {"name":"projects/436921391255/sites/ylcalendar-aa87e/channels/live/releases/1748506108575000","version":{"name":"projects/436921391255/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}],"cleanUrls":true,"trailingSlashBehavior":"REMOVE"},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-05-29T08:08:04.697724Z","createUser":{"email":"mpogodska@younglife.org","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIVAfgj_xhhJvH1thYJd_6H4DK-y56-_IlCn7JHh5PH2WZq1n8"},"finalizeTime":"2025-05-29T08:08:28.503829Z","finalizeUser":{"email":"mpogodska@younglife.org","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIVAfgj_xhhJvH1thYJd_6H4DK-y56-_IlCn7JHh5PH2WZq1n8"}},"type":"DEPLOY","releaseTime":"2025-05-29T08:08:28.575Z","releaseUser":{"email":"mpogodska@younglife.org","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIVAfgj_xhhJvH1thYJd_6H4DK-y56-_IlCn7JHh5PH2WZq1n8"}}
+[debug] [2025-05-29T08:08:29.543Z] [hosting] release: {"name":"projects/436921391255/sites/ylcalendar-aa87e/channels/live/releases/1748506108575000","version":{"name":"projects/436921391255/sites/ylcalendar-aa87e/versions/9e3b62e5ac4d56d1","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}],"cleanUrls":true,"trailingSlashBehavior":"REMOVE"},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-05-29T08:08:04.697724Z","createUser":{"email":"mpogodska@younglife.org","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIVAfgj_xhhJvH1thYJd_6H4DK-y56-_IlCn7JHh5PH2WZq1n8"},"finalizeTime":"2025-05-29T08:08:28.503829Z","finalizeUser":{"email":"mpogodska@younglife.org","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIVAfgj_xhhJvH1thYJd_6H4DK-y56-_IlCn7JHh5PH2WZq1n8"}},"type":"DEPLOY","releaseTime":"2025-05-29T08:08:28.575Z","releaseUser":{"email":"mpogodska@younglife.org","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIVAfgj_xhhJvH1thYJd_6H4DK-y56-_IlCn7JHh5PH2WZq1n8"}}
+[info] +  hosting[ylcalendar-aa87e]: release complete 
+[info] 
+[info] +  Deploy complete! 
+[info] 
+[info] Project Console: https://console.firebase.google.com/project/ylcalendar-aa87e/overview
+[info] Hosting URL: https://ylcalendar-aa87e.web.app
+[debug] [2025-05-29T08:09:00.634Z] Error: Timed out.
+    at Timeout._onTimeout (C:\Users\magda\AppData\Roaming\npm\node_modules\firebase-tools\lib\utils.js:267:49)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2025-05-29T08:13:31.881Z] ----------------------------------------------------------------------
+[debug] [2025-05-29T08:13:31.884Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\magda\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2025-05-29T08:13:31.885Z] CLI Version:   14.4.0
+[debug] [2025-05-29T08:13:31.885Z] Platform:      win32
+[debug] [2025-05-29T08:13:31.885Z] Node Version:  v22.11.0
+[debug] [2025-05-29T08:13:31.886Z] Time:          Thu May 29 2025 10:13:31 GMT+0200 (czas środkowoeuropejski letni)
+[debug] [2025-05-29T08:13:31.886Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-05-29T08:13:32.142Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-29T08:13:32.143Z] > authorizing via signed-in user (mpogodska@younglife.org)
+[debug] [2025-05-29T08:13:32.143Z] [iam] checking project ylcalendar-aa87e for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-05-29T08:13:32.144Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:32.144Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:32.145Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/ylcalendar-aa87e:testIamPermissions [none]
+[debug] [2025-05-29T08:13:32.146Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/ylcalendar-aa87e:testIamPermissions x-goog-quota-user=projects/ylcalendar-aa87e
+[debug] [2025-05-29T08:13:32.146Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/ylcalendar-aa87e:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-05-29T08:13:33.056Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/ylcalendar-aa87e:testIamPermissions 200
+[debug] [2025-05-29T08:13:33.057Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/ylcalendar-aa87e:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-05-29T08:13:33.059Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:33.060Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:33.061Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/ylcalendar-aa87e [none]
+[debug] [2025-05-29T08:13:33.552Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/ylcalendar-aa87e 200
+[debug] [2025-05-29T08:13:33.552Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/ylcalendar-aa87e {"projectId":"ylcalendar-aa87e","projectNumber":"436921391255","displayName":"YLCalendar","name":"projects/ylcalendar-aa87e","resources":{"hostingSite":"ylcalendar-aa87e"},"state":"ACTIVE","etag":"1_6e83f234-5162-4411-a476-8c9b70ecac3a"}
+[info] 
+[info] === Deploying to 'ylcalendar-aa87e'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2025-05-29T08:13:33.560Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:33.561Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:33.561Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions [none]
+[debug] [2025-05-29T08:13:33.561Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2025-05-29T08:13:34.852Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions 200
+[debug] [2025-05-29T08:13:34.852Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions {"name":"projects/436921391255/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[ylcalendar-aa87e]: beginning deploy... 
+[info] i  hosting[ylcalendar-aa87e]: found 14 files in build 
+[debug] [2025-05-29T08:13:54.670Z] [hosting] uploading with 200 concurrency
+[debug] [2025-05-29T08:13:55.226Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:55.227Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:55.228Z] [hosting] hash cache [YnVpbGQ] stored for 14 files
+[debug] [2025-05-29T08:13:55.228Z] [hosting][hash queue][FINAL] {"max":551,"min":4,"avg":54.857142857142854,"active":0,"complete":14,"success":14,"errored":0,"retried":0,"total":14,"elapsed":556}
+[debug] [2025-05-29T08:13:55.228Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/436921391255/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02:populateFiles [none]
+[debug] [2025-05-29T08:13:55.229Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/436921391255/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02:populateFiles {"files":{"/younglife-polska-logo.svg":"34219b7c8bee8a2684b373e1c1bc9861229f9d123584976f1b4ae9222b9908fc","/YL_polska_logo.png":"e7642ffed5135613175d7ca5a04860b83ce686c99c1092aafe5945519ec144d8","/manifest.json":"ee04fb47e525c67d8424ffe9b4d8a8a24e434504478afca4e0ca602146836d4c","/favicon.ico":"27edce7be5922cf0bef7d4136f69b5bfbdd5bf8c13c7b026f71187d41a00aa7d","/index.html":"e7fafc4f02ba57c74706f537ee5be9b6ff7c99b383483ae880104bdcf5a89eca","/asset-manifest.json":"c25c50ded48ae041d3ef94b5bd1db220769a30d1e0163211a435ee7bea339809","/static/js/main.9be475bd.js.LICENSE.txt":"bc451d2517523f07fdbe3114af52aa349d55ca66d58ea5aa12400e030d0a0189","/static/js/453.6a6db4f6.chunk.js":"afa82f1a8b99179a53f172a112e2a50ec3f0d0e0981f7097bfe3a57c613519db","/static/js/453.6a6db4f6.chunk.js.map":"c81187a9d2a54387daad76aafe3f0684ed4333b68b0ed4e88d2b5c0df71cfaef","/static/css/main.dd780b15.css":"312177ece3ccb62cbc20c2c66db903f46cee678332d7f89c8b76141427da770c","/static/css/main.dd780b15.css.map":"d401c054d9d321fbdac91a295fbd55f2965d61057b80088bb721b715ff3e8513","/static/js/main.9be475bd.js":"993a1478d547a9c4431ab8b382ae8bca5599cd2f2f51d09f081b9242c00463a0","/static/media/background.ffcbed02944799205d09.jpg":"cb9f977f4d7eec605b6ce28e55c33ad601c6d0c0203d660bc6729b76483d9a00","/static/js/main.9be475bd.js.map":"e9c78ff00025a78f662df775413bd7cc5d19b2a82f2a9fcd122410b4f482d28b"}}
+[debug] [2025-05-29T08:13:56.441Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/436921391255/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02:populateFiles 200
+[debug] [2025-05-29T08:13:56.441Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/436921391255/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02:populateFiles {"uploadRequiredHashes":["e7fafc4f02ba57c74706f537ee5be9b6ff7c99b383483ae880104bdcf5a89eca","c25c50ded48ae041d3ef94b5bd1db220769a30d1e0163211a435ee7bea339809","312177ece3ccb62cbc20c2c66db903f46cee678332d7f89c8b76141427da770c","d401c054d9d321fbdac91a295fbd55f2965d61057b80088bb721b715ff3e8513"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files"}
+[debug] [2025-05-29T08:13:56.442Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:56.442Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:56.443Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:56.443Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:56.444Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:56.444Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:56.444Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:56.445Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:56.445Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/e7fafc4f02ba57c74706f537ee5be9b6ff7c99b383483ae880104bdcf5a89eca [none]
+[debug] [2025-05-29T08:13:56.445Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/e7fafc4f02ba57c74706f537ee5be9b6ff7c99b383483ae880104bdcf5a89eca [stream]
+[debug] [2025-05-29T08:13:56.449Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/c25c50ded48ae041d3ef94b5bd1db220769a30d1e0163211a435ee7bea339809 [none]
+[debug] [2025-05-29T08:13:56.449Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/c25c50ded48ae041d3ef94b5bd1db220769a30d1e0163211a435ee7bea339809 [stream]
+[debug] [2025-05-29T08:13:56.451Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/312177ece3ccb62cbc20c2c66db903f46cee678332d7f89c8b76141427da770c [none]
+[debug] [2025-05-29T08:13:56.452Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/312177ece3ccb62cbc20c2c66db903f46cee678332d7f89c8b76141427da770c [stream]
+[debug] [2025-05-29T08:13:56.453Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/d401c054d9d321fbdac91a295fbd55f2965d61057b80088bb721b715ff3e8513 [none]
+[debug] [2025-05-29T08:13:56.453Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/d401c054d9d321fbdac91a295fbd55f2965d61057b80088bb721b715ff3e8513 [stream]
+[debug] [2025-05-29T08:13:56.457Z] [hosting][populate queue][FINAL] {"max":1219,"min":1219,"avg":1219,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":1231}
+[debug] [2025-05-29T08:13:56.457Z] [hosting] uploads queued: 4
+[debug] [2025-05-29T08:13:57.462Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/d401c054d9d321fbdac91a295fbd55f2965d61057b80088bb721b715ff3e8513 200
+[debug] [2025-05-29T08:13:57.462Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/d401c054d9d321fbdac91a295fbd55f2965d61057b80088bb721b715ff3e8513 [stream]
+[debug] [2025-05-29T08:13:57.466Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/e7fafc4f02ba57c74706f537ee5be9b6ff7c99b383483ae880104bdcf5a89eca 200
+[debug] [2025-05-29T08:13:57.466Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/e7fafc4f02ba57c74706f537ee5be9b6ff7c99b383483ae880104bdcf5a89eca [stream]
+[debug] [2025-05-29T08:13:57.561Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/312177ece3ccb62cbc20c2c66db903f46cee678332d7f89c8b76141427da770c 200
+[debug] [2025-05-29T08:13:57.561Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/312177ece3ccb62cbc20c2c66db903f46cee678332d7f89c8b76141427da770c [stream]
+[debug] [2025-05-29T08:13:57.812Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/c25c50ded48ae041d3ef94b5bd1db220769a30d1e0163211a435ee7bea339809 200
+[debug] [2025-05-29T08:13:57.812Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02/files/c25c50ded48ae041d3ef94b5bd1db220769a30d1e0163211a435ee7bea339809 [stream]
+[debug] [2025-05-29T08:13:57.813Z] [hosting][upload queue][FINAL] {"max":1371,"min":1018,"avg":1133,"active":0,"complete":4,"success":4,"errored":0,"retried":0,"total":4,"elapsed":1372}
+[info] +  hosting[ylcalendar-aa87e]: file upload complete 
+[debug] [2025-05-29T08:13:57.814Z] [hosting] deploy completed after 3163ms
+[debug] [2025-05-29T08:13:57.815Z] [
+  {
+    "config": {
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "site": "ylcalendar-aa87e"
+    },
+    "version": "projects/436921391255/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02"
+  }
+]
+[info] i  hosting[ylcalendar-aa87e]: finalizing version... 
+[debug] [2025-05-29T08:13:57.817Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:57.817Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:57.817Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02 updateMask=status%2Cconfig
+[debug] [2025-05-29T08:13:57.817Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02 {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}],"cleanUrls":true,"trailingSlashBehavior":"REMOVE"}}
+[debug] [2025-05-29T08:13:58.489Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02 200
+[debug] [2025-05-29T08:13:58.490Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02 {"name":"projects/436921391255/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}],"cleanUrls":true,"trailingSlashBehavior":"REMOVE"},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-05-29T08:13:34.505961Z","createUser":{"email":"mpogodska@younglife.org"},"finalizeTime":"2025-05-29T08:13:58.339771Z","finalizeUser":{"email":"mpogodska@younglife.org"}}
+[debug] [2025-05-29T08:13:58.490Z] [hosting] finalized version for ylcalendar-aa87e:[object Object]
+[info] +  hosting[ylcalendar-aa87e]: version finalized 
+[info] i  hosting[ylcalendar-aa87e]: releasing new version... 
+[debug] [2025-05-29T08:13:58.492Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:58.492Z] Checked if tokens are valid: true, expires at: 1748508176166
+[debug] [2025-05-29T08:13:58.493Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/channels/live/releases versionName=projects%2F436921391255%2Fsites%2Fylcalendar-aa87e%2Fversions%2F1aeca7383bd8df02
+[debug] [2025-05-29T08:13:58.493Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/channels/live/releases {}
+[debug] [2025-05-29T08:13:59.258Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/channels/live/releases 200
+[debug] [2025-05-29T08:13:59.258Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/ylcalendar-aa87e/channels/live/releases {"name":"projects/436921391255/sites/ylcalendar-aa87e/channels/live/releases/1748506438392000","version":{"name":"projects/436921391255/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}],"cleanUrls":true,"trailingSlashBehavior":"REMOVE"},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-05-29T08:13:34.505961Z","createUser":{"email":"mpogodska@younglife.org","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIVAfgj_xhhJvH1thYJd_6H4DK-y56-_IlCn7JHh5PH2WZq1n8"},"finalizeTime":"2025-05-29T08:13:58.339771Z","finalizeUser":{"email":"mpogodska@younglife.org","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIVAfgj_xhhJvH1thYJd_6H4DK-y56-_IlCn7JHh5PH2WZq1n8"}},"type":"DEPLOY","releaseTime":"2025-05-29T08:13:58.392Z","releaseUser":{"email":"mpogodska@younglife.org","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIVAfgj_xhhJvH1thYJd_6H4DK-y56-_IlCn7JHh5PH2WZq1n8"}}
+[debug] [2025-05-29T08:13:59.259Z] [hosting] release: {"name":"projects/436921391255/sites/ylcalendar-aa87e/channels/live/releases/1748506438392000","version":{"name":"projects/436921391255/sites/ylcalendar-aa87e/versions/1aeca7383bd8df02","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}],"cleanUrls":true,"trailingSlashBehavior":"REMOVE"},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-05-29T08:13:34.505961Z","createUser":{"email":"mpogodska@younglife.org","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIVAfgj_xhhJvH1thYJd_6H4DK-y56-_IlCn7JHh5PH2WZq1n8"},"finalizeTime":"2025-05-29T08:13:58.339771Z","finalizeUser":{"email":"mpogodska@younglife.org","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIVAfgj_xhhJvH1thYJd_6H4DK-y56-_IlCn7JHh5PH2WZq1n8"}},"type":"DEPLOY","releaseTime":"2025-05-29T08:13:58.392Z","releaseUser":{"email":"mpogodska@younglife.org","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIVAfgj_xhhJvH1thYJd_6H4DK-y56-_IlCn7JHh5PH2WZq1n8"}}
+[info] +  hosting[ylcalendar-aa87e]: release complete 
+[info] 
+[info] +  Deploy complete! 
+[info] 
+[info] Project Console: https://console.firebase.google.com/project/ylcalendar-aa87e/overview
+[info] Hosting URL: https://ylcalendar-aa87e.web.app
+[debug] [2025-05-29T08:14:30.329Z] Error: Timed out.
+    at Timeout._onTimeout (C:\Users\magda\AppData\Roaming\npm\node_modules\firebase-tools\lib\utils.js:267:49)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+[error] 
+[error] Error: An unexpected error has occurred.

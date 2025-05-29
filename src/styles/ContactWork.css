@@ -1,0 +1,283 @@
+/* Contact Work Calendar - inherits layout styles from Calendar.css */
+
+/* Contact Work Form Styles - now matching EventForm structure */
+.contact-work-form {
+  padding: 30px;
+  background-color: white;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.contact-work-form h3 {
+  color: var(--yl-navy);
+  margin: 0 0 25px 0;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+/* Form row for side-by-side inputs like EventForm */
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: var(--yl-navy);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--yl-green);
+  box-shadow: 0 0 0 2px rgba(155, 198, 67, 0.2);
+}
+
+.form-group input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+.form-group label:has(input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Day info display for recurring events */
+.day-info {
+  padding: 10px 12px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  color: var(--yl-navy);
+}
+
+.day-info strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.day-info-note {
+  font-size: 12px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Recurring Options */
+.recurring-options {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  margin-top: 10px;
+  border-left: 4px solid var(--yl-green);
+}
+
+.recurring-options .form-group {
+  margin-bottom: 15px;
+}
+
+.recurring-options .form-group:last-child {
+  margin-bottom: 0;
+}
+
+/* Form Buttons - now matching EventForm */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 25px;
+}
+
+.submit-button {
+  background-color: var(--yl-green);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-button:hover {
+  background-color: #8ab438;
+}
+
+.cancel-button {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cancel-button:hover {
+  background-color: #5a6268;
+}
+
+/* Modal sizing for Contact Work form */
+.contact-work-modal {
+  max-width: 550px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Delete Confirmation Modal */
+.delete-confirmation-modal {
+  max-width: 450px;
+  padding: 30px;
+  text-align: center;
+}
+
+.delete-confirmation-modal h3 {
+  color: var(--yl-navy);
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+}
+
+.delete-confirmation-modal p {
+  color: #666;
+  margin-bottom: 25px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.delete-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.delete-option-button {
+  padding: 14px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.delete-occurrence {
+  background-color: #ff9800;
+  color: white;
+}
+
+.delete-occurrence:hover {
+  background-color: #f57c00;
+}
+
+.delete-series {
+  background-color: #f44336;
+  color: white;
+}
+
+.delete-series:hover {
+  background-color: #d32f2f;
+}
+
+.cancel-delete {
+  background-color: #6c757d;
+  color: white;
+}
+
+.cancel-delete:hover {
+  background-color: #5a6268;
+}
+
+/* Group badges for agenda view - matching Events calendar */
+.group-badge.yl {
+  background-color: var(--yl-green);
+  color: white;
+}
+
+.group-badge.wyld {
+  background-color: var(--wyldlife-blue);
+  color: white;
+}
+
+.group-badge.uni {
+  background-color: var(--yluni-orange);
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* Stack form rows on mobile */
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .form-row .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .contact-work-form {
+    padding: 20px;
+    max-width: 95%;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .submit-button,
+  .cancel-button {
+    width: 100%;
+    padding: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-work-form {
+    padding: 15px;
+  }
+  
+  .contact-work-form h3 {
+    font-size: 1.3rem;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 12px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .recurring-options {
+    padding: 12px;
+  }
+} 

@@ -3,7 +3,12 @@ import { useAuth } from '../context/AuthContext';
 import Login from './Login';
 import '../styles/NavBar.css';
 
-const NavBar: React.FC = () => {
+interface NavBarProps {
+  activeTab: 'events' | 'contactWork';
+  onTabChange: (tab: 'events' | 'contactWork') => void;
+}
+
+const NavBar: React.FC<NavBarProps> = ({ activeTab, onTabChange }) => {
   const { isAuthenticated, isAdmin, user, logout, authLoading } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
@@ -21,8 +26,26 @@ const NavBar: React.FC = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-logo">
-          <span className="navbar-title">Kalendarz YoungLife Poznań</span>
+          <span className="navbar-title">YoungLife Poznań</span>
         </div>
+        
+        <div className="navbar-center">
+          <div className="calendar-tabs">
+            <button 
+              className={`tab-button ${activeTab === 'events' ? 'active' : ''}`}
+              onClick={() => onTabChange('events')}
+            >
+              Wydarzenia
+            </button>
+            <button 
+              className={`tab-button ${activeTab === 'contactWork' ? 'active' : ''}`}
+              onClick={() => onTabChange('contactWork')}
+            >
+              Gdzie możesz nas znaleźć?
+            </button>
+          </div>
+        </div>
+        
         <div className="navbar-actions">
           {authLoading ? (
             <span className="auth-loading">Ładowanie...</span>

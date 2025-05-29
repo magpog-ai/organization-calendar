@@ -134,6 +134,12 @@
     line-height: 1.2;
   }
   
+  .tab-button {
+    min-width: 100px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
   .navbar-actions {
     gap: 12px;
   }
@@ -172,6 +178,17 @@
     padding: 15px;
   }
   
+  .navbar-center {
+    order: 2;
+    margin: 8px 0;
+  }
+  
+  .tab-button {
+    min-width: 90px;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  
   .navbar-logo {
     font-size: 1.2rem;
   }
@@ -186,6 +203,7 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
+    order: 3;
   }
   
   .user-welcome {
@@ -203,6 +221,17 @@
 @media (max-width: 480px) {
   .navbar-container {
     padding: 12px 10px;
+  }
+  
+  .calendar-tabs {
+    padding: 3px;
+    gap: 1px;
+  }
+  
+  .tab-button {
+    min-width: 80px;
+    padding: 8px 10px;
+    font-size: 11px;
   }
   
   .navbar-logo {
@@ -238,4 +267,40 @@
     min-width: 32px;
     min-height: 32px;
   }
+}
+
+.navbar-center {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.calendar-tabs {
+  display: flex;
+  gap: 2px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.tab-button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.tab-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tab-button.active {
+  background-color: var(--yl-green);
+  color: white;
 } 

@@ -49,21 +49,35 @@ export const getContactWorkEntries = async (): Promise<ContactWorkEntry[]> => {
 // Add a new contact work entry
 export const addContactWorkEntry = async (entry: Omit<ContactWorkEntry, 'id' | 'createdAt' | 'updatedAt'>): Promise<ContactWorkEntry | null> => {
   try {
+    console.log('contactWorkService.addContactWorkEntry called with:', entry);
     const now = new Date();
-    const entryWithTimestamps = convertDateToTimestamp({
+    const fullEntry = {
       ...entry,
       id: '', // Will be set by Firestore
       createdAt: now,
       updatedAt: now
-    } as ContactWorkEntry);
+    };
     
+    // Remove undefined properties
+    Object.keys(fullEntry).forEach(key => {
+      if ((fullEntry as any)[key] === undefined) {
+        delete (fullEntry as any)[key];
+      }
+    });
+    
+    const entryWithTimestamps = convertDateToTimestamp(fullEntry as ContactWorkEntry);
+    
+    console.log('Entry with timestamps:', entryWithTimestamps);
     const docRef = await db.collection('contactWork').add(entryWithTimestamps);
-    return {
+    console.log('Firebase document added with ID:', docRef.id);
+    const resultEntry = {
       ...entry,
       id: docRef.id,
       createdAt: now,
       updatedAt: now
     };
+    console.log('Returning entry:', resultEntry);
+    return resultEntry;
   } catch (error) {
     console.error("Error adding contact work entry: ", error);
     return null;

@@ -66,6 +66,11 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, [currentView]);
 
+  // Debug authentication state
+  useEffect(() => {
+    console.log('ContactWork auth state - isAdmin:', isAdmin, 'isAuthenticated:', isAuthenticated);
+  }, [isAdmin, isAuthenticated]);
+
   // Generate recurring events for the specified duration
   const generateRecurringEvents = (entry: ContactWorkEntry): CalendarEvent[] => {
     const events: CalendarEvent[] = [];
@@ -184,9 +189,12 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   };
 
   const handleFormSubmit = (entryData: Omit<ContactWorkEntry, 'id' | 'createdAt' | 'updatedAt'>) => {
+    console.log('ContactWork handleFormSubmit called with:', entryData);
     if (editingEntry) {
+      console.log('Updating existing entry');
       onEntryUpdate({ ...editingEntry, ...entryData });
     } else {
+      console.log('Adding new entry');
       onEntryAdd(entryData);
     }
     setShowForm(false);
@@ -363,8 +371,10 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
           <button
             className="add-event-button"
             onClick={() => {
+              console.log('ContactWork add button clicked - isAdmin:', isAdmin, 'isAuthenticated:', isAuthenticated);
               setEditingEntry(null);
               setShowForm(true);
+              console.log('showForm set to true');
             }}
           >
             Dodaj contact work

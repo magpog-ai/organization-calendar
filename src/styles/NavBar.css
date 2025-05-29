@@ -173,14 +173,44 @@
 @media (max-width: 600px) {
   .navbar-container {
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
     text-align: center;
-    padding: 15px;
+    padding: 12px 15px;
+  }
+  
+  /* Keep the first row with logo and actions together */
+  .navbar-container > .navbar-logo,
+  .navbar-container > .navbar-actions {
+    order: 1;
+  }
+  
+  /* First row: logo and login button */
+  .navbar-container {
+    position: relative;
+  }
+  
+  .navbar-logo {
+    position: absolute;
+    left: 15px;
+    top: 12px;
+    text-align: left;
+  }
+  
+  .navbar-actions {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+  }
+  
+  /* Add top padding to make room for the fixed positioned elements */
+  .navbar-container {
+    padding-top: 60px;
   }
   
   .navbar-center {
     order: 2;
-    margin: 8px 0;
+    margin: 8px 0 0 0;
+    width: 100%;
   }
   
   .tab-button {
@@ -195,32 +225,27 @@
   
   .navbar-title {
     font-size: 1rem;
-    text-align: center;
-  }
-  
-  .navbar-actions {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    order: 3;
-  }
-  
-  .user-welcome {
-    text-align: center;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .login-nav-button, .logout-button {
-    min-width: 120px;
-    padding: 10px 16px;
+    text-align: left;
   }
 }
 
 @media (max-width: 480px) {
   .navbar-container {
     padding: 12px 10px;
+    padding-top: 60px; /* Maintain the padding for positioned elements */
+  }
+  
+  .navbar-logo {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    font-size: 1.1rem;
+  }
+  
+  .navbar-actions {
+    position: absolute;
+    right: 10px;
+    top: 12px;
   }
   
   .calendar-tabs {
@@ -234,13 +259,10 @@
     font-size: 11px;
   }
   
-  .navbar-logo {
-    font-size: 1.1rem;
-  }
-  
   .navbar-title {
     font-size: 0.95rem;
     line-height: 1.3;
+    text-align: left;
   }
   
   .user-welcome {

@@ -43,12 +43,31 @@ export const getEvents = async (): Promise<Event[]> => {
 // Add a new event
 export const addEvent = async (event: Omit<Event, 'id'>): Promise<Event | null> => {
   try {
-    const eventWithTimestamps = convertDateToTimestamp(event as Event);
+    console.log('eventService.addEvent called with:', event);
+    
+    // Create a clean event object without undefined values
+    const cleanEvent = {
+      ...event,
+      url: event.url || undefined // This will be filtered out below
+    };
+    
+    // Remove undefined properties
+    Object.keys(cleanEvent).forEach(key => {
+      if ((cleanEvent as any)[key] === undefined) {
+        delete (cleanEvent as any)[key];
+      }
+    });
+    
+    const eventWithTimestamps = convertDateToTimestamp(cleanEvent as Event);
+    console.log('Event with timestamps:', eventWithTimestamps);
     const docRef = await db.collection('events').add(eventWithTimestamps);
-    return {
+    console.log('Firebase document added with ID:', docRef.id);
+    const resultEvent = {
       ...event,
       id: docRef.id
     };
+    console.log('Returning event:', resultEvent);
+    return resultEvent;
   } catch (error) {
     console.error("Error adding event: ", error);
     return null;

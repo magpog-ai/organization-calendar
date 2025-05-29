@@ -305,38 +305,46 @@
 /* Responsive filter controls */
 @media (max-width: 768px) {
   .calendar-container {
-    padding: 8px 5px;
+    margin-top: 10px;
+    padding: 15px;
     border-radius: 8px;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    overflow-x: hidden;
     position: relative;
+    overflow: visible; /* Ensure nothing is clipped */
   }
   
   .admin-controls {
-    position: fixed;
-    top: 50px;
-    right: 20px;
-    margin-bottom: 0;
-    width: auto;
+    position: static;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
     box-sizing: border-box;
-    z-index: 100;
+    z-index: auto;
+    visibility: visible; /* Ensure visibility */
+    pointer-events: auto; /* Ensure clickability */
   }
   
   .add-event-button {
     width: auto;
-    padding: 6px 12px;
-    font-size: 12px;
-    min-height: 32px;
+    padding: 10px 20px;
+    font-size: 14px;
+    min-height: 44px;
     box-sizing: border-box;
     border-radius: 6px;
     white-space: nowrap;
-    background-color: rgba(61, 85, 117, 0.9);
+    background-color: var(--yl-green);
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(4px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: 500;
+    cursor: pointer; /* Ensure cursor pointer */
+    position: relative; /* Ensure proper stacking */
+    z-index: 10;
+  }
+  
+  .add-event-button:hover {
+    background-color: #8ab438;
   }
   
   .filter-controls {
@@ -591,14 +599,25 @@
   }
   
   .admin-controls {
-    top: 45px;
-    right: 15px;
+    position: static;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    z-index: auto;
   }
   
   .add-event-button {
-    font-size: 11px;
-    padding: 5px 10px;
-    min-height: 28px;
+    font-size: 13px;
+    padding: 10px 16px;
+    min-height: 40px;
+    background-color: var(--yl-green);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: 500;
   }
   
   .filter-controls {

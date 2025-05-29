@@ -65,14 +65,10 @@ const Calendar: React.FC<CalendarProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, [view]);
 
-  // Console log admin status for debugging
+  // Debug authentication state
   useEffect(() => {
-    console.log("Calendar component admin status:", { 
-      isAuthenticated, 
-      isAdmin, 
-      username: user?.username 
-    });
-  }, [isAuthenticated, isAdmin, user]);
+    console.log('Calendar auth state - isAdmin:', isAdmin, 'isAuthenticated:', isAuthenticated);
+  }, [isAdmin, isAuthenticated]);
 
   const handleSelectEvent = (event: Event) => {
     setSelectedEvent(event);
@@ -83,8 +79,10 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const handleAddEvent = () => {
+    console.log('handleAddEvent called - isAdmin:', isAdmin, 'isAuthenticated:', isAuthenticated);
     setEditingEvent(undefined);
     setShowEventForm(true);
+    console.log('showEventForm set to true');
   };
 
   const handleEditEvent = () => {
@@ -103,15 +101,20 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const handleFormSubmit = (event: Event) => {
+    console.log('Calendar handleFormSubmit called with:', event);
     if (editingEvent) {
       // Update existing event
+      console.log('Updating existing event');
       if (onEventUpdate) {
         onEventUpdate(event);
       }
     } else {
       // Add new event
+      console.log('Adding new event');
       if (onEventAdd) {
         onEventAdd(event);
+      } else {
+        console.error('onEventAdd is not provided');
       }
     }
     setShowEventForm(false);

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar as BigCalendar, dateFnsLocalizer, View, Views } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay, startOfMonth, endOfMonth, isWithinInterval } from 'date-fns';
-import { pl } from 'date-fns/locale';
+import { pl, enUS } from 'date-fns/locale';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { useTranslation } from 'react-i18next';
 import { Event, GroupType } from '../types/events';
 import CustomToolbar from './CustomToolbar';
 import EventForm from './EventForm';
@@ -12,6 +13,7 @@ import '../styles/Calendar.css';
 // Date-fns localizer
 const locales = {
   'pl': pl,
+  'en': enUS,
 };
 
 const localizer = dateFnsLocalizer({
@@ -40,6 +42,7 @@ const Calendar: React.FC<CalendarProps> = ({
   onEventUpdate, 
   onEventDelete 
 }) => {
+  const { t, i18n } = useTranslation();
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [view, setView] = useState<View>(() => {
     // Set default view based on screen size
@@ -51,6 +54,9 @@ const Calendar: React.FC<CalendarProps> = ({
   const [selectedFilters, setSelectedFilters] = useState<GroupType[]>(['YoungLife', 'WyldLife', 'YLUni', 'Inne']);
   const { isAuthenticated, isAdmin, user } = useAuth();
   
+  // Get current locale for date-fns
+  const currentLocale = i18n.language === 'en' ? enUS : pl;
+
   // Handle window resize to adjust view for mobile
   useEffect(() => {
     const handleResize = () => {
@@ -177,8 +183,8 @@ const Calendar: React.FC<CalendarProps> = ({
         case 'YoungLife': return 'YL';
         case 'WyldLife': return 'WyLd';
         case 'YLUni': return 'Uni';
-        case 'Inne': return 'Inne';
-        case 'Joint': return 'Wspólne';
+        case 'Inne': return i18n.language === 'en' ? 'Other' : 'Inne';
+        case 'Joint': return i18n.language === 'en' ? 'Joint' : 'Wspólne';
         default: return group;
       }
     };
@@ -213,22 +219,22 @@ const Calendar: React.FC<CalendarProps> = ({
   const formats = {
     eventTimeRangeFormat: () => '',
     timeGutterFormat: 'HH:mm',
-    dayHeaderFormat: (date: Date) => format(date, 'EEEE d/M', { locale: pl }),
+    dayHeaderFormat: (date: Date) => format(date, 'EEEE d/M', { locale: currentLocale }),
     agendaTimeFormat: 'HH:mm',
     agendaTimeRangeFormat: ({ start, end }: { start: Date; end: Date }) => 
-      `${format(start, 'HH:mm', { locale: pl })} - ${format(end, 'HH:mm', { locale: pl })}`,
+      `${format(start, 'HH:mm', { locale: currentLocale })} - ${format(end, 'HH:mm', { locale: currentLocale })}`,
     agendaDateFormat: (date: Date) => {
       // Shorter format for mobile
       if (isMobileDevice()) {
-        return format(date, 'EEE, d MMM yyyy', { locale: pl });
+        return format(date, 'EEE, d MMM yyyy', { locale: currentLocale });
       }
-      return format(date, 'EEEE, d MMMM yyyy', { locale: pl });
+      return format(date, 'EEEE, d MMMM yyyy', { locale: currentLocale });
     },
     agendaHeaderFormat: ({ start, end }: { start: Date; end: Date }) => {
       // For agenda view, always show the full month
       const monthStart = startOfMonth(date);
       const monthEnd = endOfMonth(date);
-      return `${format(monthStart, 'd', { locale: pl })} - ${format(monthEnd, 'd MMMM yyyy', { locale: pl })}`;
+      return `${format(monthStart, 'd', { locale: currentLocale })} - ${format(monthEnd, 'd MMMM yyyy', { locale: currentLocale })}`;
     },
   };
 
@@ -275,13 +281,13 @@ const Calendar: React.FC<CalendarProps> = ({
       {isAdmin && (
         <div className="admin-controls">
           <button className="add-event-button" onClick={handleAddEvent}>
-            Dodaj nowe wydarzenie
+            {t('events.addNew')}
           </button>
         </div>
       )}
 
       <div className="filter-controls">
-        <h3>Filtruj wydarzenia:</h3>
+        <h3>{t('events.filter')}</h3>
         <div className="filter-checkboxes">
           <label className="filter-checkbox">
             <input
@@ -289,7 +295,7 @@ const Calendar: React.FC<CalendarProps> = ({
               checked={selectedFilters.includes('YoungLife')}
               onChange={() => handleFilterChange('YoungLife')}
             />
-            <span className="filter-label younglife-filter">YoungLife (liceum)</span>
+            <span className="filter-label younglife-filter">{t('groups.YoungLife')}</span>
           </label>
           <label className="filter-checkbox">
             <input
@@ -297,7 +303,7 @@ const Calendar: React.FC<CalendarProps> = ({
               checked={selectedFilters.includes('WyldLife')}
               onChange={() => handleFilterChange('WyldLife')}
             />
-            <span className="filter-label wyldlife-filter">WyldLife (klasy 6-8)</span>
+            <span className="filter-label wyldlife-filter">{t('groups.WyldLife')}</span>
           </label>
           <label className="filter-checkbox">
             <input
@@ -305,7 +311,7 @@ const Calendar: React.FC<CalendarProps> = ({
               checked={selectedFilters.includes('YLUni')}
               onChange={() => handleFilterChange('YLUni')}
             />
-            <span className="filter-label yluni-filter">YLUni (studenci)</span>
+            <span className="filter-label yluni-filter">{t('groups.YLUni')}</span>
           </label>
           <label className="filter-checkbox">
             <input
@@ -313,7 +319,7 @@ const Calendar: React.FC<CalendarProps> = ({
               checked={selectedFilters.includes('Inne')}
               onChange={() => handleFilterChange('Inne')}
             />
-            <span className="filter-label inne-filter">Inne</span>
+            <span className="filter-label inne-filter">{t('groups.Inne')}</span>
           </label>
         </div>
       </div>
@@ -321,23 +327,23 @@ const Calendar: React.FC<CalendarProps> = ({
       <div className="legend">
         <div className="legend-item">
           <div className="legend-color younglife-color"></div>
-          <span>YoungLife (liceum)</span>
+          <span>{t('groups.YoungLife')}</span>
         </div>
         <div className="legend-item">
           <div className="legend-color wyldlife-color"></div>
-          <span>WyldLife (klasy 6-8)</span>
+          <span>{t('groups.WyldLife')}</span>
         </div>
         <div className="legend-item">
           <div className="legend-color yluni-color"></div>
-          <span>YLUni (studenci)</span>
+          <span>{t('groups.YLUni')}</span>
         </div>
         <div className="legend-item">
           <div className="legend-color inne-color"></div>
-          <span>Inne</span>
+          <span>{t('groups.Inne')}</span>
         </div>
         <div className="legend-item">
           <div className="legend-color joint-color"></div>
-          <span>Wydarzenia wspólne WyLd i YL </span>
+          <span>{t('groups.Joint')}</span>
         </div>
       </div>
       
@@ -382,33 +388,33 @@ const Calendar: React.FC<CalendarProps> = ({
             <div className="modal-body">
               <div className="event-details">
                 <div className="detail-item">
-                  <strong>Data:</strong> {
+                  <strong>{t('dateTime.date')}:</strong> {
                     format(selectedEvent.start, 'yyyy-MM-dd') === format(selectedEvent.end, 'yyyy-MM-dd')
-                      ? format(selectedEvent.start, 'd MMMM yyyy', { locale: pl })
-                      : `${format(selectedEvent.start, 'd MMMM yyyy', { locale: pl })} - ${format(selectedEvent.end, 'd MMMM yyyy', { locale: pl })}`
+                      ? format(selectedEvent.start, 'd MMMM yyyy', { locale: currentLocale })
+                      : `${format(selectedEvent.start, 'd MMMM yyyy', { locale: currentLocale })} - ${format(selectedEvent.end, 'd MMMM yyyy', { locale: currentLocale })}`
                   }
                 </div>
                 <div className="detail-item">
-                  <strong>Czas:</strong> {format(selectedEvent.start, 'HH:mm', { locale: pl })} - {format(selectedEvent.end, 'HH:mm', { locale: pl })}
+                  <strong>{t('dateTime.time')}:</strong> {format(selectedEvent.start, 'HH:mm', { locale: currentLocale })} - {format(selectedEvent.end, 'HH:mm', { locale: currentLocale })}
                 </div>
                 <div className="detail-item">
-                  <strong>Miejsce:</strong> {selectedEvent.location}
+                  <strong>{t('events.location')}:</strong> {selectedEvent.location}
                 </div>
                 {selectedEvent.url && (
                   <div className="detail-item">
-                    <strong>Link:</strong> <a href={selectedEvent.url} target="_blank" rel="noopener noreferrer" className="event-link">{selectedEvent.url}</a>
+                    <strong>{t('events.url')}:</strong> <a href={selectedEvent.url} target="_blank" rel="noopener noreferrer" className="event-link">{selectedEvent.url}</a>
                   </div>
                 )}
               </div>
               <div className="event-description">
-                <h3>Opis</h3>
+                <h3>{t('events.description')}</h3>
                 <p>{selectedEvent.description}</p>
               </div>
             </div>
             {isAdmin && (
               <div className="admin-modal-controls">
-                <button onClick={handleEditEvent} className="edit-button">Edytuj</button>
-                <button onClick={handleDeleteEvent} className="delete-button">Usuń</button>
+                <button onClick={handleEditEvent} className="edit-button">{t('common.edit')}</button>
+                <button onClick={handleDeleteEvent} className="delete-button">{t('common.delete')}</button>
               </div>
             )}
           </div>

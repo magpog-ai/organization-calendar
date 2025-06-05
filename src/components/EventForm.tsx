@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Event, GroupType } from '../types/events';
 import '../styles/EventForm.css';
 
@@ -9,6 +10,7 @@ interface EventFormProps {
 }
 
 const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
+  const { t } = useTranslation();
   const [title, setTitle] = useState(event?.title || '');
   const [group, setGroup] = useState<GroupType>(event?.group || 'YoungLife');
   const [isJointEvent, setIsJointEvent] = useState<boolean>(event?.group === 'Joint' || false);
@@ -97,10 +99,10 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
 
   return (
     <div className="event-form-container">
-      <h2>{event ? 'Edytuj wydarzenie' : 'Dodaj nowe wydarzenie'}</h2>
+      <h2>{event ? t('events.edit') : t('events.addNew')}</h2>
       <form className="event-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="title">Nazwa wydarzenia</label>
+          <label htmlFor="title">{t('events.title')}</label>
           <input
             id="title"
             type="text"
@@ -111,24 +113,24 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
         </div>
         
         <div className="form-group">
-          <label htmlFor="group">Grupa</label>
+          <label htmlFor="group">{t('events.group')}</label>
           <select
             id="group"
             value={group}
             onChange={handleGroupChange}
             required
           >
-            <option value="YoungLife">YoungLife (liceum)</option>
-            <option value="WyldLife">WyldLife (klasy 6-8)</option>
-            <option value="YLUni">YLUni (studenci)</option>
-            <option value="Inne">Inne</option>
-            <option value="Joint">Wydarzenie wspólne (wiele grup)</option>
+            <option value="YoungLife">{t('groups.YoungLife')}</option>
+            <option value="WyldLife">{t('groups.WyldLife')}</option>
+            <option value="YLUni">{t('groups.YLUni')}</option>
+            <option value="Inne">{t('groups.Inne')}</option>
+            <option value="Joint">{t('events.jointEvent')}</option>
           </select>
         </div>
         
         {isJointEvent && (
           <div className="form-group">
-            <label>Wybierz grupy dla wspólnego wydarzenia</label>
+            <label>{t('events.selectGroupsForJoint')}</label>
             <div className="checkbox-group">
               <div className="checkbox-item">
                 <input
@@ -137,7 +139,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
                   checked={selectedGroups.includes('YoungLife')}
                   onChange={() => handleGroupCheckboxChange('YoungLife')}
                 />
-                <label htmlFor="joint-younglife">YoungLife (liceum)</label>
+                <label htmlFor="joint-younglife">{t('groups.YoungLife')}</label>
               </div>
               <div className="checkbox-item">
                 <input
@@ -146,7 +148,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
                   checked={selectedGroups.includes('WyldLife')}
                   onChange={() => handleGroupCheckboxChange('WyldLife')}
                 />
-                <label htmlFor="joint-wyldlife">WyldLife (klasy 6-8)</label>
+                <label htmlFor="joint-wyldlife">{t('groups.WyldLife')}</label>
               </div>
               <div className="checkbox-item">
                 <input
@@ -155,7 +157,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
                   checked={selectedGroups.includes('YLUni')}
                   onChange={() => handleGroupCheckboxChange('YLUni')}
                 />
-                <label htmlFor="joint-yluni">YLUni (studenci)</label>
+                <label htmlFor="joint-yluni">{t('groups.YLUni')}</label>
               </div>
               <div className="checkbox-item">
                 <input
@@ -164,18 +166,18 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
                   checked={selectedGroups.includes('Inne')}
                   onChange={() => handleGroupCheckboxChange('Inne')}
                 />
-                <label htmlFor="joint-inne">Inne</label>
+                <label htmlFor="joint-inne">{t('groups.Inne')}</label>
               </div>
             </div>
             {selectedGroups.length === 0 && (
-              <p className="error-message">Wybierz co najmniej jedną grupę</p>
+              <p className="error-message">{t('events.selectAtLeastOneGroup')}</p>
             )}
           </div>
         )}
         
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="startDate">Data rozpoczęcia</label>
+            <label htmlFor="startDate">{t('dateTime.startDate')}</label>
             <input
               id="startDate"
               type="date"
@@ -186,7 +188,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
           </div>
           
           <div className="form-group">
-            <label htmlFor="startTime">Godzina rozpoczęcia</label>
+            <label htmlFor="startTime">{t('dateTime.startTime')}</label>
             <input
               id="startTime"
               type="time"
@@ -199,7 +201,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
         
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="endDate">Data zakończenia</label>
+            <label htmlFor="endDate">{t('dateTime.endDate')}</label>
             <input
               id="endDate"
               type="date"
@@ -210,7 +212,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
           </div>
           
           <div className="form-group">
-            <label htmlFor="endTime">Godzina zakończenia</label>
+            <label htmlFor="endTime">{t('dateTime.endTime')}</label>
             <input
               id="endTime"
               type="time"
@@ -222,7 +224,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
         </div>
         
         <div className="form-group">
-          <label htmlFor="location">Miejsce</label>
+          <label htmlFor="location">{t('events.location')}</label>
           <input
             id="location"
             type="text"
@@ -233,18 +235,18 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
         </div>
         
         <div className="form-group">
-          <label htmlFor="url">Link do wydarzenia (opcjonalny)</label>
+          <label htmlFor="url">{t('events.urlOptional')}</label>
           <input
             id="url"
             type="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://facebook.com/events/..."
+            placeholder={t('events.urlPlaceholder')}
           />
         </div>
         
         <div className="form-group">
-          <label htmlFor="description">Opis</label>
+          <label htmlFor="description">{t('events.description')}</label>
           <textarea
             id="description"
             value={description}
@@ -260,10 +262,10 @@ const EventForm: React.FC<EventFormProps> = ({ event, onSubmit, onClose }) => {
             className="submit-button"
             disabled={isJointEvent && selectedGroups.length === 0}
           >
-            {event ? 'Aktualizuj' : 'Dodaj'}
+            {event ? t('events.update') : t('events.submit')}
           </button>
           <button type="button" className="cancel-button" onClick={onClose}>
-            Anuluj
+            {t('events.cancel')}
           </button>
         </div>
       </form>

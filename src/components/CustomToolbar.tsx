@@ -1,6 +1,6 @@
 import React from 'react';
 import { Views } from 'react-big-calendar';
-import { pl } from 'date-fns/locale';
+import { useTranslation } from 'react-i18next';
 import '../styles/CustomToolbar.css';
 
 // Helper function to detect mobile devices
@@ -9,6 +9,8 @@ const isMobileDevice = () => {
 };
 
 const CustomToolbar: React.FC<any> = (props) => {
+  const { t, i18n } = useTranslation();
+  
   const goToPrevious = () => {
     props.onNavigate('PREV');
   };
@@ -19,7 +21,8 @@ const CustomToolbar: React.FC<any> = (props) => {
 
   const getViewTitle = () => {
     const date = props.date;
-    const month = date.toLocaleString('pl-PL', { month: 'long' });
+    const locale = i18n.language === 'en' ? 'en-US' : 'pl-PL';
+    const month = date.toLocaleString(locale, { month: 'long' });
     const year = date.getFullYear();
     
     switch (props.view) {
@@ -34,12 +37,12 @@ const CustomToolbar: React.FC<any> = (props) => {
         const weekEnd = new Date(weekStart);
         weekEnd.setDate(weekStart.getDate() + 6);
         
-        const startMonth = weekStart.toLocaleString('pl-PL', { month: 'short' });
-        const endMonth = weekEnd.toLocaleString('pl-PL', { month: 'short' });
+        const startMonth = weekStart.toLocaleString(locale, { month: 'short' });
+        const endMonth = weekEnd.toLocaleString(locale, { month: 'short' });
         
         return `${startMonth} ${weekStart.getDate()} - ${endMonth} ${weekEnd.getDate()}, ${year}`;
       case Views.AGENDA:
-        return `Lista wydarzeń`;
+        return t('calendar.eventsList');
       default:
         return `${month} ${year}`;
     }
@@ -52,13 +55,13 @@ const CustomToolbar: React.FC<any> = (props) => {
       <div className="title-with-navigation">
         {props.view !== Views.AGENDA && (
           <button type="button" className="nav-button prev-button" onClick={goToPrevious}>
-            {isMobileDevice() ? '‹' : 'Poprzedni'}
+            {isMobileDevice() ? '‹' : t('calendar.previous')}
           </button>
         )}
         <span className="rbc-toolbar-label">{viewTitle}</span>
         {props.view !== Views.AGENDA && (
           <button type="button" className="nav-button next-button" onClick={goToNext}>
-            {isMobileDevice() ? '›' : 'Następny'}
+            {isMobileDevice() ? '›' : t('calendar.next')}
           </button>
         )}
       </div>
@@ -70,14 +73,14 @@ const CustomToolbar: React.FC<any> = (props) => {
               className={props.view === Views.AGENDA ? 'rbc-active' : ''} 
               onClick={() => props.onView(Views.AGENDA)}
             >
-              Lista
+              {t('calendar.list')}
             </button>
             <button 
               type="button" 
               className={props.view === Views.MONTH ? 'rbc-active' : ''} 
               onClick={() => props.onView(Views.MONTH)}
             >
-              Miesiąc
+              {t('calendar.month')}
             </button>
           </>
         ) : (
@@ -87,21 +90,21 @@ const CustomToolbar: React.FC<any> = (props) => {
               className={props.view === Views.MONTH ? 'rbc-active' : ''} 
               onClick={() => props.onView(Views.MONTH)}
             >
-              Miesiąc
+              {t('calendar.month')}
             </button>
             <button 
               type="button" 
               className={props.view === Views.WEEK ? 'rbc-active' : ''} 
               onClick={() => props.onView(Views.WEEK)}
             >
-              Tydzień
+              {t('calendar.week')}
             </button>
             <button 
               type="button" 
               className={props.view === Views.AGENDA ? 'rbc-active' : ''} 
               onClick={() => props.onView(Views.AGENDA)}
             >
-              Lista
+              {t('calendar.list')}
             </button>
           </>
         )}

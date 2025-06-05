@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ContactWorkEntry, OrganizationType } from '../types/contactWork';
 
 interface ContactWorkFormProps {
@@ -8,6 +9,7 @@ interface ContactWorkFormProps {
 }
 
 const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCancel }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     person: '',
     startDate: '',
@@ -63,7 +65,6 @@ const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCa
     } else {
       // Set default values for new entries
       const now = new Date();
-      const defaultEndTime = new Date(now.getTime() + 120 * 60000); // 2 hours later
       
       setFormData(prev => ({
         ...prev,
@@ -108,26 +109,12 @@ const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCa
     onSubmit(entryData);
   };
 
-  const getDayName = (dayNumber: number) => {
-    const days = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
-    return days[dayNumber];
-  };
-
-  // Get day of week from selected date to show to user
-  const getSelectedDayOfWeek = () => {
-    if (formData.startDate) {
-      const selectedDate = new Date(`${formData.startDate}T00:00:00`);
-      return selectedDate.getDay();
-    }
-    return 0;
-  };
-
   return (
     <div className="event-form-container">
-      <h2>{entry ? 'Edytuj spotkanie' : 'Dodaj nowy contact work'}</h2>
+      <h2>{entry ? t('contactWork.edit') : t('contactWork.add')}</h2>
       <form className="event-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="person">Osoby:</label>
+          <label htmlFor="person">{t('contactWork.persons')}:</label>
           <input
             type="text"
             id="person"
@@ -138,23 +125,23 @@ const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCa
         </div>
 
         <div className="form-group">
-          <label htmlFor="organization">Grupa:</label>
+          <label htmlFor="organization">{t('contactWork.group')}:</label>
           <select
             id="organization"
             value={formData.organization}
             onChange={(e) => setFormData({ ...formData, organization: e.target.value as OrganizationType })}
             required
           >
-            <option value="YL">Young Life</option>
-            <option value="wyld">WyldLife</option>
-            <option value="uni">YL University</option>
+            <option value="YL">{t('groups.YL')}</option>
+            <option value="wyld">{t('groups.wyld')}</option>
+            <option value="uni">{t('groups.uni')}</option>
           </select>
         </div>
 
         {/* Date and Time - matching EventForm structure */}
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="startDate">Data rozpoczęcia:</label>
+            <label htmlFor="startDate">{t('dateTime.startDate')}:</label>
             <input
               type="date"
               id="startDate"
@@ -169,7 +156,7 @@ const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCa
           </div>
           
           <div className="form-group">
-            <label htmlFor="startTime">Godzina rozpoczęcia:</label>
+            <label htmlFor="startTime">{t('dateTime.startTime')}:</label>
             <input
               type="time"
               id="startTime"
@@ -182,7 +169,7 @@ const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCa
 
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="endDate">Data zakończenia:</label>
+            <label htmlFor="endDate">{t('dateTime.endDate')}:</label>
             <input
               type="date"
               id="endDate"
@@ -193,7 +180,7 @@ const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCa
           </div>
           
           <div className="form-group">
-            <label htmlFor="endTime">Godzina zakończenia:</label>
+            <label htmlFor="endTime">{t('dateTime.endTime')}:</label>
             <input
               type="time"
               id="endTime"
@@ -205,7 +192,7 @@ const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCa
         </div>
 
         <div className="form-group">
-          <label htmlFor="location">Miejsce:</label>
+          <label htmlFor="location">{t('contactWork.location')}:</label>
           <input
             type="text"
             id="location"
@@ -222,28 +209,28 @@ const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCa
               checked={formData.isRecurring}
               onChange={(e) => setFormData({ ...formData, isRecurring: e.target.checked })}
             />
-            Spotkanie cykliczne
+            {t('contactWork.recurring')}
           </label>
         </div>
 
         {formData.isRecurring && (
           <div className="recurring-options">
             <div className="form-group">
-              <label htmlFor="recurringFrequency">Częstotliwość:</label>
+              <label htmlFor="recurringFrequency">{t('contactWork.frequency')}:</label>
               <select
                 id="recurringFrequency"
                 value={formData.recurringFrequency}
                 onChange={(e) => setFormData({ ...formData, recurringFrequency: e.target.value as 'weekly' | 'biweekly' | 'monthly' })}
               >
-                <option value="weekly">Tygodniowo</option>
-                <option value="biweekly">Co 2 tygodnie</option>
-                <option value="monthly">Miesięcznie</option>
+                <option value="weekly">{t('contactWork.weekly')}</option>
+                <option value="biweekly">{t('contactWork.biweekly')}</option>
+                <option value="monthly">{t('contactWork.monthly')}</option>
               </select>
             </div>
 
             {formData.recurringFrequency === 'monthly' && (
               <div className="form-group">
-                <label htmlFor="dayOfMonth">Dzień miesiąca:</label>
+                <label htmlFor="dayOfMonth">{t('contactWork.dayOfMonth')}:</label>
                 <select
                   id="dayOfMonth"
                   value={formData.dayOfMonth}
@@ -257,22 +244,22 @@ const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCa
             )}
 
             <div className="form-group">
-              <label htmlFor="recurringDuration">Długość cyklu:</label>
+              <label htmlFor="recurringDuration">{t('contactWork.cycleDuration')}:</label>
               <select
                 id="recurringDuration"
                 value={formData.recurringDuration}
                 onChange={(e) => setFormData({ ...formData, recurringDuration: e.target.value as '3months' | '6months' | '1year' | 'custom' })}
               >
-                <option value="3months">3 miesiące</option>
-                <option value="6months">6 miesięcy</option>
-                <option value="1year">1 rok</option>
-                <option value="custom">Inne</option>
+                <option value="3months">{t('contactWork.3months')}</option>
+                <option value="6months">{t('contactWork.6months')}</option>
+                <option value="1year">{t('contactWork.1year')}</option>
+                <option value="custom">{t('contactWork.other')}</option>
               </select>
             </div>
 
             {formData.recurringDuration === 'custom' && (
               <div className="form-group">
-                <label htmlFor="customDuration">Długość:</label>
+                <label htmlFor="customDuration">{t('contactWork.customLength')}:</label>
                 <input
                   type="number"
                   id="customDuration"
@@ -284,14 +271,14 @@ const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCa
 
             {formData.recurringDuration === 'custom' && (
               <div className="form-group">
-                <label htmlFor="customDurationUnit">Jednostka:</label>
+                <label htmlFor="customDurationUnit">{t('contactWork.unit')}:</label>
                 <select
                   id="customDurationUnit"
                   value={formData.customDurationUnit}
                   onChange={(e) => setFormData({ ...formData, customDurationUnit: e.target.value as 'weeks' | 'months' })}
                 >
-                  <option value="weeks">Tygodnie</option>
-                  <option value="months">Miesiące</option>
+                  <option value="weeks">{t('contactWork.weeks')}</option>
+                  <option value="months">{t('contactWork.months')}</option>
                 </select>
               </div>
             )}
@@ -299,7 +286,7 @@ const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCa
         )}
 
         <div className="form-group">
-          <label htmlFor="description">Opis (opcjonalny):</label>
+          <label htmlFor="description">{t('contactWork.description')}:</label>
           <textarea
             id="description"
             value={formData.description}
@@ -310,10 +297,10 @@ const ContactWorkForm: React.FC<ContactWorkFormProps> = ({ entry, onSubmit, onCa
 
         <div className="form-actions">
           <button type="submit" className="submit-button">
-            {entry ? 'Aktualizuj' : 'Dodaj'} spotkanie
+            {entry ? t('contactWork.update') : t('contactWork.submit')}
           </button>
           <button type="button" onClick={onCancel} className="cancel-button">
-            Anuluj
+            {t('contactWork.cancel')}
           </button>
         </div>
       </form>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import Login from './Login';
+import LanguageSwitcher from './LanguageSwitcher';
 import '../styles/NavBar.css';
 
 interface NavBarProps {
@@ -9,6 +11,7 @@ interface NavBarProps {
 }
 
 const NavBar: React.FC<NavBarProps> = ({ activeTab, onTabChange }) => {
+  const { t } = useTranslation();
   const { isAuthenticated, isAdmin, user, logout, authLoading } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
@@ -35,27 +38,28 @@ const NavBar: React.FC<NavBarProps> = ({ activeTab, onTabChange }) => {
               className={`tab-button ${activeTab === 'events' ? 'active' : ''}`}
               onClick={() => onTabChange('events')}
             >
-              Wydarzenia
+              {t('navigation.events')}
             </button>
             <button 
               className={`tab-button ${activeTab === 'contactWork' ? 'active' : ''}`}
               onClick={() => onTabChange('contactWork')}
             >
-              Gdzie możesz nas znaleźć?
+              {t('navigation.contactWork')}
             </button>
           </div>
         </div>
         
         <div className="navbar-actions">
+          <LanguageSwitcher />
           {authLoading ? (
-            <span className="auth-loading">Ładowanie...</span>
+            <span className="auth-loading">{t('navigation.loading')}</span>
           ) : isAuthenticated ? (
             <>
               <span className="user-welcome">
-                Witaj, {user?.username} {isAdmin && <span className="admin-badge">Admin</span>}
+                {t('navigation.welcome')}, {user?.username} {isAdmin && <span className="admin-badge">{t('navigation.admin')}</span>}
               </span>
               <button className="logout-button" onClick={handleLogout}>
-                Wyloguj
+                {t('navigation.logout')}
               </button>
             </>
           ) : (
@@ -63,7 +67,7 @@ const NavBar: React.FC<NavBarProps> = ({ activeTab, onTabChange }) => {
               className="login-nav-button" 
               onClick={() => setShowLoginModal(true)}
             >
-              Panel administratora
+              {t('navigation.adminPanel')}
             </button>
           )}
         </div>

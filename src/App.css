@@ -433,16 +433,29 @@ main {
 }
 
 /* Custom header labels for Polish */
-.rbc-agenda-view thead th:nth-child(1)::after {
+:lang(pl) .rbc-agenda-view thead th:nth-child(1)::after {
   content: 'Data';
 }
 
-.rbc-agenda-view thead th:nth-child(2)::after {
+:lang(pl) .rbc-agenda-view thead th:nth-child(2)::after {
   content: 'Godzina';
 }
 
-.rbc-agenda-view thead th:nth-child(3)::after {
+:lang(pl) .rbc-agenda-view thead th:nth-child(3)::after {
   content: 'Wydarzenie';
+}
+
+/* Custom header labels for English */
+:lang(en) .rbc-agenda-view thead th:nth-child(1)::after {
+  content: 'Date';
+}
+
+:lang(en) .rbc-agenda-view thead th:nth-child(2)::after {
+  content: 'Time';
+}
+
+:lang(en) .rbc-agenda-view thead th:nth-child(3)::after {
+  content: 'Event';
 }
 
 /* Mobile header labels - merge date and time */
@@ -1302,4 +1315,81 @@ main {
     justify-content: center;
     z-index: 2;
   }
+}
+
+:lang(pl) .rbc-agenda-view::after {
+  content: 'Data';
+  position: absolute;
+  top: -45px;
+  left: 0;
+  width: 25%;
+  height: 45px;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+:lang(en) .rbc-agenda-view::after {
+  content: 'Date';
+  position: absolute;
+  top: -45px;
+  left: 0;
+  width: 25%;
+  height: 45px;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Create second header column with a separate element approach */
+:lang(pl) .rbc-agenda-view table::before {
+  content: 'Wydarzenie';
+  position: absolute;
+  top: -45px;
+  right: 0;
+  width: 75%;
+  height: 45px;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  background: linear-gradient(135deg, var(--yl-navy) 0%, #4a5568 100%);
+}
+
+:lang(en) .rbc-agenda-view table::before {
+  content: 'Event';
+  position: absolute;
+  top: -45px;
+  right: 0;
+  width: 75%;
+  height: 45px;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  background: linear-gradient(135deg, var(--yl-navy) 0%, #4a5568 100%);
 }

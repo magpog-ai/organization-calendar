@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Login.css';
 
@@ -7,6 +8,7 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ onSuccess }) => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -17,7 +19,7 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
     setError('');
     
     if (!email || !password) {
-      setError('Wprowadź email i hasło');
+      setError(t('auth.fillFields'));
       return;
     }
 
@@ -27,17 +29,17 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
         onSuccess();
       }
     } else {
-      setError('Nieprawidłowy email lub hasło');
+      setError(t('auth.invalidCredentials'));
     }
   };
 
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Logowanie administratora</h2>
+        <h2>{t('auth.adminLogin')}</h2>
         {error && <div className="error-message">{error}</div>}
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">{t('auth.email')}</label>
           <input
             type="email"
             id="email"
@@ -46,7 +48,7 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Hasło</label>
+          <label htmlFor="password">{t('auth.password')}</label>
           <input
             type="password"
             id="password"
@@ -54,9 +56,9 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit" className="login-button">Zaloguj</button>
+        <button type="submit" className="login-button">{t('auth.loginButton')}</button>
         <p className="login-hint">
-          <small>Jeśli masz problem z logowaniem, skontaktuj się z administratorem</small>
+          <small>{t('auth.loginHint')}</small>
         </p>
       </form>
     </div>

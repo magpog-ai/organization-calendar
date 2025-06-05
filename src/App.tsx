@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import './i18n'; // Initialize i18n
+import { useTranslation } from 'react-i18next';
 import Calendar from './components/Calendar';
 import ContactWorkCalendar from './components/ContactWorkCalendar';
 import NavBar from './components/NavBar';
@@ -17,11 +19,17 @@ import {
 } from './firebase/contactWorkService';
 
 function App() {
+  const { t, i18n } = useTranslation();
   const [events, setEvents] = useState<Event[]>([]);
   const [contactWorkEntries, setContactWorkEntries] = useState<ContactWorkEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'events' | 'contactWork'>('events');
+
+  // Set HTML lang attribute for CSS :lang selectors
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
 
   // Load events from Firebase
   useEffect(() => {
@@ -177,7 +185,7 @@ function App() {
         <main>
           {error && <div className="error-banner">{error}</div>}
           {loading ? (
-            <div className="loading-spinner">Ładowanie...</div>
+            <div className="loading-spinner">{t('common.loading')}</div>
           ) : (
             <>
               {activeTab === 'events' && (

@@ -2,14 +2,15 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Calendar, momentLocalizer, View, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'moment/locale/pl';
+import 'moment/locale/en-gb'; // Add English locale
+import { useTranslation } from 'react-i18next';
 import { ContactWorkEntry, OrganizationType } from '../types/contactWork';
 import ContactWorkForm from './ContactWorkForm';
 import { useAuth } from '../context/AuthContext';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../styles/ContactWork.css';
 
-// Set moment locale to Polish
-moment.locale('pl');
+// Create localizer - will update locale dynamically
 const localizer = momentLocalizer(moment);
 
 interface ContactWorkCalendarProps {
@@ -40,6 +41,7 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   onEntryDelete,
   onEntryDeleteOccurrence
 }) => {
+  const { t, i18n } = useTranslation();
   const { isAuthenticated, isAdmin } = useAuth();
   const [currentView, setCurrentView] = useState<View>(() => {
     // Set default view based on screen size
@@ -48,6 +50,7 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showForm, setShowForm] = useState(false);
   const [editingEntry, setEditingEntry] = useState<ContactWorkEntry | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [selectedFilters, setSelectedFilters] = useState<OrganizationType[]>(['YL', 'wyld', 'uni']);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<ContactWorkEntry | null>(null);
@@ -70,6 +73,11 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   useEffect(() => {
     console.log('ContactWork auth state - isAdmin:', isAdmin, 'isAuthenticated:', isAuthenticated);
   }, [isAdmin, isAuthenticated]);
+
+  // Update moment locale based on current language
+  useEffect(() => {
+    moment.locale(i18n.language === 'en' ? 'en' : 'pl');
+  }, [i18n.language]);
 
   // Generate recurring events for the specified duration
   const generateRecurringEvents = (entry: ContactWorkEntry): CalendarEvent[] => {
@@ -183,7 +191,11 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   };
 
   const handleSelectEvent = (event: CalendarEvent) => {
-    if (!isAuthenticated || !isAdmin) return;
+    if (!isAuthenticated || !isAdmin) {
+      // For non-admin users, just show the event details
+      setSelectedEvent(event);
+      return;
+    }
     setEditingEntry(event.resource);
     setShowForm(true);
   };
@@ -348,19 +360,31 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   };
 
   const messages = {
-    allDay: 'Cały dzień',
-    previous: 'Poprzedni',
-    next: 'Następny',
-    today: 'Dzisiaj',
-    month: 'Miesiąc',
-    week: 'Tydzień',
-    day: 'Dzień',
-    agenda: 'Agenda',
-    date: 'Data',
-    time: 'Czas',
-    event: 'Kto będzie na ciebie czekał?',
-    noEventsInRange: 'Brak spotkań w tym okresie.',
-    showMore: (total: number) => `+ Zobacz więcej (${total})`
+    allDay: t('calendar.allDay'),
+    previous: t('calendar.previous'),
+    next: t('calendar.next'),
+    today: t('calendar.today'),
+    month: t('calendar.month'),
+    week: t('calendar.week'),
+    day: t('calendar.day'),
+    agenda: t('calendar.agenda'),
+    date: t('calendar.date'),
+    time: t('calendar.time'),
+    event: t('calendar.event'),
+    noEventsInRange: t('calendar.noEventsInRange'),
+    showMore: (total: number) => t('calendar.showMore', { count: total })
+  };
+
+  const closeEventModal = () => {
+    setSelectedEvent(null);
+  };
+
+  const handleEditFromModal = () => {
+    if (selectedEvent && isAdmin) {
+      setEditingEntry(selectedEvent.resource);
+      setShowForm(true);
+      setSelectedEvent(null);
+    }
   };
 
   return (
@@ -377,14 +401,14 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
               console.log('showForm set to true');
             }}
           >
-            Dodaj contact work
+            {t('contactWork.add')}
           </button>
         </div>
       )}
 
       {/* Filter Controls - matching Events calendar style with checkboxes */}
       <div className="filter-controls">
-        <h3>Filtruj grupę:</h3>
+        <h3>{t('contactWork.filter')}</h3>
         <div className="filter-checkboxes">
           <label className="filter-checkbox">
             <input
@@ -392,7 +416,7 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
               checked={selectedFilters.includes('YL')}
               onChange={() => handleFilterChange('YL')}
             />
-            <span className="filter-label younglife-filter">Young Life</span>
+            <span className="filter-label younglife-filter">{t('groups.YL')}</span>
           </label>
           <label className="filter-checkbox">
             <input
@@ -400,7 +424,7 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
               checked={selectedFilters.includes('wyld')}
               onChange={() => handleFilterChange('wyld')}
             />
-            <span className="filter-label wyldlife-filter">WyldLife</span>
+            <span className="filter-label wyldlife-filter">{t('groups.wyld')}</span>
           </label>
           <label className="filter-checkbox">
             <input
@@ -408,7 +432,7 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
               checked={selectedFilters.includes('uni')}
               onChange={() => handleFilterChange('uni')}
             />
-            <span className="filter-label yluni-filter">YL Uni</span>
+            <span className="filter-label yluni-filter">{t('groups.uni')}</span>
           </label>
         </div>
       </div>
@@ -417,15 +441,15 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
       <div className="legend">
         <div className="legend-item">
           <div className="legend-color younglife-color"></div>
-          <span>YoungLife (liceum)</span>
+          <span>{t('groups.YoungLife')}</span>
         </div>
         <div className="legend-item">
           <div className="legend-color wyldlife-color"></div>
-          <span>WyldLife (klasy 6-8)</span>
+          <span>{t('groups.WyldLife')}</span>
         </div>
         <div className="legend-item">
           <div className="legend-color yluni-color"></div>
-          <span>YLUni (studenci)</span>
+          <span>{t('groups.YLUni')}</span>
         </div>
       </div>
 
@@ -480,7 +504,7 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
                   className="delete-button"
                   onClick={handleDeleteEntry}
                 >
-                  Usuń spotkanie
+                  {t('contactWork.delete')}
                 </button>
               </div>
             )}
@@ -492,31 +516,90 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
       {showDeleteModal && deleteTarget && (
         <div className="modal-overlay" onClick={() => handleDeleteConfirmation('cancel')}>
           <div className="modal-content delete-confirmation-modal" onClick={(e) => e.stopPropagation()}>
-            <h3>Usuń cykliczne spotkanie</h3>
-            <p>To jest cykliczne spotkanie. Co chcesz zrobić?</p>
+            <h3>{t('contactWork.deleteRecurring.title')}</h3>
+            <p>{t('contactWork.deleteRecurring.message')}</p>
             
             <div className="delete-options">
               <button
                 className="delete-option-button delete-occurrence"
                 onClick={() => handleDeleteConfirmation('occurrence')}
               >
-                Usuń tylko to wystąpienie
+                {t('contactWork.deleteRecurring.occurrence')}
               </button>
               
               <button
                 className="delete-option-button delete-series"
                 onClick={() => handleDeleteConfirmation('series')}
               >
-                Usuń całą serię spotkań
+                {t('contactWork.deleteRecurring.series')}
               </button>
               
               <button
                 className="delete-option-button cancel-delete"
                 onClick={() => handleDeleteConfirmation('cancel')}
               >
-                Anuluj
+                {t('contactWork.cancel')}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Event Details Modal */}
+      {selectedEvent && (
+        <div className="modal-overlay" onClick={closeEventModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-modal-button" onClick={closeEventModal}>×</button>
+            <div className="modal-header">
+              <span className="group-badge" data-group={selectedEvent.resource.organization.toLowerCase()}>
+                {t(`groups.${selectedEvent.resource.organization}`)}
+              </span>
+              <h2>{t('contactDetails.title', { person: selectedEvent.resource.person })}</h2>
+            </div>
+            <div className="modal-body">
+              <div className="event-details">
+                <div className="detail-item">
+                  <strong>{t('contactDetails.person')}</strong> {selectedEvent.resource.person}
+                </div>
+                <div className="detail-item">
+                  <strong>{t('contactDetails.date')}</strong> {
+                    moment(selectedEvent.start).format('dddd, D MMMM YYYY')
+                  }
+                </div>
+                <div className="detail-item">
+                  <strong>{t('contactDetails.time')}</strong> {moment(selectedEvent.start).format('HH:mm')} - {moment(selectedEvent.end).format('HH:mm')}
+                </div>
+                {selectedEvent.resource.location && (
+                  <div className="detail-item">
+                    <strong>{t('contactDetails.location')}</strong> {selectedEvent.resource.location}
+                  </div>
+                )}
+                <div className="detail-item">
+                  <strong>{t('contactDetails.group')}</strong> {t(`groups.${selectedEvent.resource.organization}`)}
+                </div>
+                {selectedEvent.resource.isRecurring && selectedEvent.resource.recurringPattern && (
+                  <div className="detail-item">
+                    <strong>{t('contactDetails.recurring')}</strong> {
+                      selectedEvent.resource.recurringPattern.frequency === 'weekly' ? t('contactWork.weekly') :
+                      selectedEvent.resource.recurringPattern.frequency === 'biweekly' ? t('contactWork.biweekly') :
+                      selectedEvent.resource.recurringPattern.frequency === 'monthly' ? t('contactWork.monthly') : 
+                      t('contactWork.recurring')
+                    }
+                  </div>
+                )}
+              </div>
+              {selectedEvent.resource.description && (
+                <div className="event-description">
+                  <h3>{t('contactDetails.description')}</h3>
+                  <p>{selectedEvent.resource.description}</p>
+                </div>
+              )}
+            </div>
+            {isAdmin && (
+              <div className="admin-modal-controls">
+                <button onClick={handleEditFromModal} className="edit-button">{t('common.edit')}</button>
+              </div>
+            )}
           </div>
         </div>
       )}

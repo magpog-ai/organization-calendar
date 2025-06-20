@@ -6,6 +6,7 @@ import 'moment/locale/en-gb'; // Add English locale
 import { useTranslation } from 'react-i18next';
 import { ContactWorkEntry, OrganizationType } from '../types/contactWork';
 import ContactWorkForm from './ContactWorkForm';
+import CustomToolbar from './CustomToolbar';
 import { useAuth } from '../context/AuthContext';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../styles/ContactWork.css';
@@ -19,6 +20,7 @@ interface ContactWorkCalendarProps {
   onEntryUpdate: (entry: ContactWorkEntry) => void;
   onEntryDelete: (entryId: string) => void;
   onEntryDeleteOccurrence: (entryId: string, occurrenceTime: Date) => void;
+  isMobile: boolean;
 }
 
 interface CalendarEvent {
@@ -39,13 +41,14 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   onEntryAdd,
   onEntryUpdate,
   onEntryDelete,
-  onEntryDeleteOccurrence
+  onEntryDeleteOccurrence,
+  isMobile
 }) => {
   const { t, i18n } = useTranslation();
   const { isAuthenticated, isAdmin } = useAuth();
   const [currentView, setCurrentView] = useState<View>(() => {
-    // Set default view based on screen size
-    return isMobileDevice() ? Views.AGENDA : Views.MONTH;
+    // Set default view based on isMobile prop
+    return isMobile ? Views.AGENDA : Views.MONTH;
   });
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showForm, setShowForm] = useState(false);
@@ -55,19 +58,14 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<ContactWorkEntry | null>(null);
 
-  // Handle window resize to adjust view for mobile
+  // Handle view changes based on isMobile prop
   useEffect(() => {
-    const handleResize = () => {
-      if (isMobileDevice() && currentView === Views.MONTH) {
-        setCurrentView(Views.AGENDA);
-      } else if (!isMobileDevice() && currentView === Views.AGENDA) {
-        setCurrentView(Views.MONTH);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [currentView]);
+    if (isMobile && currentView === Views.MONTH) {
+      setCurrentView(Views.AGENDA);
+    } else if (!isMobile && currentView === Views.AGENDA) {
+      setCurrentView(Views.MONTH);
+    }
+  }, [isMobile, currentView]);
 
   // Debug authentication state
   useEffect(() => {
@@ -459,25 +457,36 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
         events={calendarEvents}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: isMobileDevice() ? 'calc(100vh - 200px)' : 600 }}
-        onSelectSlot={handleSelectSlot}
-        onSelectEvent={handleSelectEvent}
-        selectable={isAuthenticated && isAdmin}
+        style={{ height: 500 }}
         view={currentView}
         onView={setCurrentView}
         date={selectedDate}
         onNavigate={setSelectedDate}
+        onSelectEvent={handleSelectEvent}
+        onSelectSlot={handleSelectSlot}
+        selectable={isAuthenticated && isAdmin}
         eventPropGetter={getEventStyle}
-        formats={formats}
-        messages={messages}
-        views={isMobileDevice() ? [Views.AGENDA, Views.MONTH] : [Views.MONTH, Views.WEEK, Views.AGENDA]}
-        popup
-        scrollToTime={new Date(1970, 1, 1, 18, 0, 0, 0)}
-        tooltipAccessor={(event: CalendarEvent) => `${event.resource.person} (${event.resource.organization})`}
+        views={[Views.MONTH, Views.WEEK, Views.AGENDA]}
         components={{
+          toolbar: (props) => <CustomToolbar {...props} isMobile={isMobile} />,
+          event: currentView === Views.AGENDA ? AgendaEvent : undefined,
           agenda: {
-            event: AgendaEvent,
-          },
+            event: AgendaEvent
+          }
+        }}
+        messages={{
+          next: t('calendar.next'),
+          previous: t('calendar.previous'),
+          today: t('calendar.today'),
+          month: t('calendar.month'),
+          week: t('calendar.week'),
+          day: t('calendar.day'),
+          agenda: t('calendar.list'),
+          date: t('calendar.date'),
+          time: t('calendar.time'),
+          event: t('calendar.event'),
+          noEventsInRange: t('calendar.noEventsInRange'),
+          showMore: (count) => t('calendar.showMore', { count })
         }}
       />
 

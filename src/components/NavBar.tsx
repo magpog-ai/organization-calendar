@@ -8,21 +8,29 @@ import '../styles/NavBar.css';
 interface NavBarProps {
   activeTab: 'events' | 'contactWork';
   onTabChange: (tab: 'events' | 'contactWork') => void;
+  isMobile: boolean;
 }
 
-const NavBar: React.FC<NavBarProps> = ({ activeTab, onTabChange }) => {
+const NavBar: React.FC<NavBarProps> = ({ activeTab, onTabChange, isMobile }) => {
   const { t } = useTranslation();
   const { isAuthenticated, isAdmin, user, logout, authLoading } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   // Close login modal when auth state changes
   useEffect(() => {
     setShowLoginModal(false);
   }, [isAuthenticated]);
 
+  // Close mobile menu when switching tabs
+  useEffect(() => {
+    setShowMobileMenu(false);
+  }, [activeTab]);
+
   const handleLogout = () => {
     logout();
     setShowLoginModal(false);
+    setShowMobileMenu(false);
   };
 
   return (
@@ -32,46 +40,104 @@ const NavBar: React.FC<NavBarProps> = ({ activeTab, onTabChange }) => {
           <span className="navbar-title">YoungLife Poznań</span>
         </div>
         
-        <div className="navbar-center">
-          <div className="calendar-tabs">
-            <button 
-              className={`tab-button ${activeTab === 'events' ? 'active' : ''}`}
-              onClick={() => onTabChange('events')}
-            >
-              {t('navigation.events')}
-            </button>
-            <button 
-              className={`tab-button ${activeTab === 'contactWork' ? 'active' : ''}`}
-              onClick={() => onTabChange('contactWork')}
-            >
-              {t('navigation.contactWork')}
-            </button>
+        {isMobile ? (
+          <button 
+            className="mobile-menu-button"
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+            aria-label="Toggle menu"
+          >
+            <span className="menu-icon"></span>
+          </button>
+        ) : (
+          <>
+            <div className="navbar-center">
+              <div className="calendar-tabs">
+                <button 
+                  className={`tab-button ${activeTab === 'events' ? 'active' : ''}`}
+                  onClick={() => onTabChange('events')}
+                >
+                  {t('navigation.events')}
+                </button>
+                <button 
+                  className={`tab-button ${activeTab === 'contactWork' ? 'active' : ''}`}
+                  onClick={() => onTabChange('contactWork')}
+                >
+                  {t('navigation.contactWork')}
+                </button>
+              </div>
+            </div>
+            
+            <div className="navbar-actions">
+              <LanguageSwitcher />
+              {authLoading ? (
+                <span className="auth-loading">{t('navigation.loading')}</span>
+              ) : isAuthenticated ? (
+                <>
+                  <span className="user-welcome">
+                    {t('navigation.welcome')}, {user?.username} {isAdmin && <span className="admin-badge">{t('navigation.admin')}</span>}
+                  </span>
+                  <button className="logout-button" onClick={handleLogout}>
+                    {t('navigation.logout')}
+                  </button>
+                </>
+              ) : (
+                <button 
+                  className="login-nav-button" 
+                  onClick={() => setShowLoginModal(true)}
+                >
+                  {t('navigation.adminPanel')}
+                </button>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Mobile menu */}
+      {isMobile && showMobileMenu && (
+        <div className="mobile-menu">
+          <div className="mobile-menu-content">
+            <div className="mobile-tabs">
+              <button 
+                className={`mobile-tab-button ${activeTab === 'events' ? 'active' : ''}`}
+                onClick={() => onTabChange('events')}
+              >
+                {t('navigation.events')}
+              </button>
+              <button 
+                className={`mobile-tab-button ${activeTab === 'contactWork' ? 'active' : ''}`}
+                onClick={() => onTabChange('contactWork')}
+              >
+                {t('navigation.contactWork')}
+              </button>
+            </div>
+            
+            <div className="mobile-actions">
+              <LanguageSwitcher />
+              {authLoading ? (
+                <span className="auth-loading">{t('navigation.loading')}</span>
+              ) : isAuthenticated ? (
+                <>
+                  <span className="user-welcome">
+                    {t('navigation.welcome')}, {user?.username} {isAdmin && <span className="admin-badge">{t('navigation.admin')}</span>}
+                  </span>
+                  <button className="logout-button" onClick={handleLogout}>
+                    {t('navigation.logout')}
+                  </button>
+                </>
+              ) : (
+                <button 
+                  className="login-nav-button" 
+                  onClick={() => setShowLoginModal(true)}
+                >
+                  {t('navigation.adminPanel')}
+                </button>
+              )}
+            </div>
           </div>
         </div>
-        
-        <div className="navbar-actions">
-          <LanguageSwitcher />
-          {authLoading ? (
-            <span className="auth-loading">{t('navigation.loading')}</span>
-          ) : isAuthenticated ? (
-            <>
-              <span className="user-welcome">
-                {t('navigation.welcome')}, {user?.username} {isAdmin && <span className="admin-badge">{t('navigation.admin')}</span>}
-              </span>
-              <button className="logout-button" onClick={handleLogout}>
-                {t('navigation.logout')}
-              </button>
-            </>
-          ) : (
-            <button 
-              className="login-nav-button" 
-              onClick={() => setShowLoginModal(true)}
-            >
-              {t('navigation.adminPanel')}
-            </button>
-          )}
-        </div>
-      </div>
+      )}
+
       {showLoginModal && !isAuthenticated && (
         <div className="modal-backdrop" onClick={() => setShowLoginModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>

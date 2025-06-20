@@ -29,6 +29,7 @@ interface CalendarProps {
   onEventAdd?: (event: Event) => void;
   onEventUpdate?: (event: Event) => void;
   onEventDelete?: (eventId: string) => void;
+  isMobile: boolean;
 }
 
 // Helper function to detect mobile devices
@@ -40,13 +41,14 @@ const Calendar: React.FC<CalendarProps> = ({
   events, 
   onEventAdd, 
   onEventUpdate, 
-  onEventDelete 
+  onEventDelete,
+  isMobile 
 }) => {
   const { t, i18n } = useTranslation();
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [view, setView] = useState<View>(() => {
-    // Set default view based on screen size
-    return isMobileDevice() ? Views.AGENDA : Views.MONTH;
+    // Set default view based on isMobile prop
+    return isMobile ? Views.AGENDA : Views.MONTH;
   });
   const [date, setDate] = useState(new Date());
   const [showEventForm, setShowEventForm] = useState(false);
@@ -57,24 +59,14 @@ const Calendar: React.FC<CalendarProps> = ({
   // Get current locale for date-fns
   const currentLocale = i18n.language === 'en' ? enUS : pl;
 
-  // Handle window resize to adjust view for mobile
-  useEffect(() => {
-    const handleResize = () => {
-      if (isMobileDevice() && view === Views.MONTH) {
-        setView(Views.AGENDA);
-      } else if (!isMobileDevice() && view === Views.AGENDA) {
-        setView(Views.MONTH);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [view]);
-
   // Debug authentication state
   useEffect(() => {
     console.log('Calendar auth state - isAdmin:', isAdmin, 'isAuthenticated:', isAuthenticated);
   }, [isAdmin, isAuthenticated]);
+
+  const handleViewChange = (newView: View) => {
+    setView(newView);
+  };
 
   const handleSelectEvent = (event: Event) => {
     setSelectedEvent(event);
@@ -238,22 +230,22 @@ const Calendar: React.FC<CalendarProps> = ({
     },
   };
 
-  const handleViewChange = (newView: View) => {
-    setView(newView);
-  };
-
   const handleNavigate = (newDate: Date) => {
     setDate(newDate);
   };
 
+  const handleSelectSlot = (slotInfo: { start: Date; end: Date }) => {
+    if (!isAuthenticated || !isAdmin) return;
+    setEditingEvent(undefined);
+    setShowEventForm(true);
+  };
+
   const handleFilterChange = (groupType: GroupType) => {
-    setSelectedFilters(prev => {
-      if (prev.includes(groupType)) {
-        return prev.filter(g => g !== groupType);
-      } else {
-        return [...prev, groupType];
-      }
-    });
+    setSelectedFilters(prev => 
+      prev.includes(groupType)
+        ? prev.filter(g => g !== groupType)
+        : [...prev, groupType]
+    );
   };
 
   const filteredEvents = events.filter(event => {
@@ -278,160 +270,133 @@ const Calendar: React.FC<CalendarProps> = ({
 
   return (
     <div className="calendar-container">
-      {isAdmin && (
+      {isAuthenticated && isAdmin && (
         <div className="admin-controls">
           <button className="add-event-button" onClick={handleAddEvent}>
-            {t('events.addNew')}
+            {t('calendar.addEvent')}
           </button>
         </div>
       )}
 
       <div className="filter-controls">
-        <h3>{t('events.filter')}</h3>
+        <h3>{t('Wybierz grupę')}</h3>
         <div className="filter-checkboxes">
-          <label className="filter-checkbox">
-            <input
-              type="checkbox"
-              checked={selectedFilters.includes('YoungLife')}
-              onChange={() => handleFilterChange('YoungLife')}
-            />
-            <span className="filter-label younglife-filter">{t('groups.YoungLife')}</span>
-          </label>
-          <label className="filter-checkbox">
-            <input
-              type="checkbox"
-              checked={selectedFilters.includes('WyldLife')}
-              onChange={() => handleFilterChange('WyldLife')}
-            />
-            <span className="filter-label wyldlife-filter">{t('groups.WyldLife')}</span>
-          </label>
-          <label className="filter-checkbox">
-            <input
-              type="checkbox"
-              checked={selectedFilters.includes('YLUni')}
-              onChange={() => handleFilterChange('YLUni')}
-            />
-            <span className="filter-label yluni-filter">{t('groups.YLUni')}</span>
-          </label>
-          <label className="filter-checkbox">
-            <input
-              type="checkbox"
-              checked={selectedFilters.includes('Inne')}
-              onChange={() => handleFilterChange('Inne')}
-            />
-            <span className="filter-label inne-filter">{t('groups.Inne')}</span>
-          </label>
+          {['YoungLife', 'WyldLife', 'YLUni', 'Inne'].map((group) => (
+            <label key={group} className="filter-checkbox">
+              <input
+                type="checkbox"
+                checked={selectedFilters.includes(group as GroupType)}
+                onChange={() => handleFilterChange(group as GroupType)}
+              />
+              <span className={`filter-label ${group.toLowerCase()}-filter`}>
+                {group === 'Inne' ? (i18n.language === 'en' ? 'Other' : 'Inne') : group}
+              </span>
+            </label>
+          ))}
         </div>
       </div>
 
-      <div className="legend">
-        <div className="legend-item">
-          <div className="legend-color younglife-color"></div>
-          <span>{t('groups.YoungLife')}</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color wyldlife-color"></div>
-          <span>{t('groups.WyldLife')}</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color yluni-color"></div>
-          <span>{t('groups.YLUni')}</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color inne-color"></div>
-          <span>{t('groups.Inne')}</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color joint-color"></div>
-          <span>{t('groups.Joint')}</span>
-        </div>
-      </div>
-      
       <BigCalendar
         localizer={localizer}
-        events={filteredEvents}
+        events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: isMobileDevice() ? 'calc(100vh - 200px)' : 600 }}
-        onSelectEvent={handleSelectEvent}
-        eventPropGetter={eventStyleGetter}
-        formats={formats}
-        tooltipAccessor={(event: Event) => `${event.title} (${event.group === 'Joint' && event.groups ? event.groups.join(', ') : event.group})`}
+        style={{ height: 650 }}
         view={view}
         onView={handleViewChange}
         date={date}
-        onNavigate={handleNavigate}
-        views={isMobileDevice() ? [Views.AGENDA, Views.MONTH] : [Views.MONTH, Views.WEEK, Views.AGENDA]}
-        popup
-        selectable
-        scrollToTime={new Date(1970, 1, 1, 18, 0, 0, 0)}
+        onNavigate={setDate}
+        onSelectEvent={handleSelectEvent}
+        onSelectSlot={handleSelectSlot}
+        selectable={isAuthenticated && isAdmin}
+        eventPropGetter={eventStyleGetter}
+        views={{
+          month: true,
+          week: true,
+          agenda: true
+        }}
+        defaultView={isMobile ? Views.AGENDA : Views.MONTH}
         components={{
-          toolbar: CustomToolbar as any,
+          toolbar: (props) => <CustomToolbar {...props} isMobile={isMobile} />,
           agenda: {
-            event: AgendaEvent,
-          },
+            event: AgendaEvent
+          }
+        }}
+        messages={{
+          next: t('calendar.next'),
+          previous: t('calendar.previous'),
+          today: t('calendar.today'),
+          month: t('calendar.month'),
+          week: t('calendar.week'),
+          day: t('calendar.day'),
+          agenda: t('calendar.list'),
+          date: t('calendar.date'),
+          time: t('calendar.time'),
+          event: t('calendar.event'),
+          noEventsInRange: t('calendar.noEventsInRange'),
+          showMore: (count) => t('calendar.showMore', { count })
         }}
       />
 
       {selectedEvent && (
         <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
             <button className="close-modal-button" onClick={closeModal}>×</button>
             <div className="modal-header">
-              <span className="group-badge" data-group={selectedEvent.group}>
-                {selectedEvent.group === 'Joint' && selectedEvent.groups 
-                  ? selectedEvent.groups.join(', ')
-                  : selectedEvent.group}
-              </span>
               <h2>{selectedEvent.title}</h2>
+              <span className={`group-badge ${selectedEvent.group.toLowerCase()}`}>
+                {selectedEvent.group === 'Inne' ? (i18n.language === 'en' ? 'Other' : 'Inne') : selectedEvent.group}
+              </span>
             </div>
             <div className="modal-body">
               <div className="event-details">
                 <div className="detail-item">
-                  <strong>{t('dateTime.date')}:</strong> {
-                    format(selectedEvent.start, 'yyyy-MM-dd') === format(selectedEvent.end, 'yyyy-MM-dd')
-                      ? format(selectedEvent.start, 'd MMMM yyyy', { locale: currentLocale })
-                      : `${format(selectedEvent.start, 'd MMMM yyyy', { locale: currentLocale })} - ${format(selectedEvent.end, 'd MMMM yyyy', { locale: currentLocale })}`
-                  }
+                  <strong>Data:</strong> {format(new Date(selectedEvent.start), 'PPP', { locale: currentLocale })}
                 </div>
                 <div className="detail-item">
-                  <strong>{t('dateTime.time')}:</strong> {format(selectedEvent.start, 'HH:mm', { locale: currentLocale })} - {format(selectedEvent.end, 'HH:mm', { locale: currentLocale })}
+                  <strong>Czas:</strong> {format(new Date(selectedEvent.start), 'p', { locale: currentLocale })} - {format(new Date(selectedEvent.end), 'p', { locale: currentLocale })}
                 </div>
-                <div className="detail-item">
-                  <strong>{t('events.location')}:</strong> {selectedEvent.location}
-                </div>
+                {selectedEvent.location && (
+                  <div className="detail-item">
+                    <strong>Miejsce:</strong> {selectedEvent.location}
+                  </div>
+                )}
                 {selectedEvent.url && (
                   <div className="detail-item">
-                    <strong>{t('events.url')}:</strong> <a href={selectedEvent.url} target="_blank" rel="noopener noreferrer" className="event-link">{selectedEvent.url}</a>
+                    <strong>Link:</strong>{' '}
+                    <a href={selectedEvent.url} target="_blank" rel="noopener noreferrer" className="event-link">
+                      {selectedEvent.url}
+                    </a>
                   </div>
                 )}
               </div>
-              <div className="event-description">
-                <h3>{t('events.description')}</h3>
-                <p>{selectedEvent.description}</p>
-              </div>
+              {selectedEvent.description && (
+                <div className="event-description">
+                  <h3>Opis</h3>
+                  <p>{selectedEvent.description}</p>
+                </div>
+              )}
+              {isAuthenticated && isAdmin && (
+                <div className="admin-modal-controls">
+                  <button className="edit-button" onClick={handleEditEvent}>
+                    Edytuj
+                  </button>
+                  <button className="delete-button" onClick={handleDeleteEvent}>
+                    Usuń
+                  </button>
+                </div>
+              )}
             </div>
-            {isAdmin && (
-              <div className="admin-modal-controls">
-                <button onClick={handleEditEvent} className="edit-button">{t('common.edit')}</button>
-                <button onClick={handleDeleteEvent} className="delete-button">{t('common.delete')}</button>
-              </div>
-            )}
           </div>
         </div>
       )}
 
       {showEventForm && (
-        <div className="modal-overlay" onClick={handleFormClose}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal-button" onClick={handleFormClose}>×</button>
-            <EventForm
-              event={editingEvent}
-              onSubmit={handleFormSubmit}
-              onClose={handleFormClose}
-            />
-          </div>
-        </div>
+        <EventForm
+          event={editingEvent}
+          onSubmit={handleFormSubmit}
+          onClose={handleFormClose}
+        />
       )}
     </div>
   );

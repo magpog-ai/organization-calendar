@@ -25,6 +25,17 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'events' | 'contactWork'>('events');
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Set HTML lang attribute for CSS :lang selectors
   useEffect(() => {
@@ -180,7 +191,8 @@ function App() {
       <div className="App">
         <NavBar 
           activeTab={activeTab} 
-          onTabChange={setActiveTab} 
+          onTabChange={setActiveTab}
+          isMobile={isMobile}
         />
         <main>
           {error && <div className="error-banner">{error}</div>}
@@ -194,6 +206,7 @@ function App() {
                   onEventAdd={handleAddEvent}
                   onEventUpdate={handleUpdateEvent}
                   onEventDelete={handleDeleteEvent}
+                  isMobile={isMobile}
                 />
               )}
               {activeTab === 'contactWork' && (
@@ -203,6 +216,7 @@ function App() {
                   onEntryUpdate={handleUpdateContactWorkEntry}
                   onEntryDelete={handleDeleteContactWorkEntry}
                   onEntryDeleteOccurrence={handleDeleteContactWorkOccurrence}
+                  isMobile={isMobile}
                 />
               )}
             </>

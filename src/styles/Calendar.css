@@ -164,34 +164,93 @@
 .modal-content {
   position: relative;
   background-color: white;
-  border-radius: 8px;
-  width: 75%;
-  max-width: 90%;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 1200px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   z-index: 1001;
+}
+
+.modal-header {
+  background-color: var(--yl-navy);
+  color: white;
+  padding: 20px 30px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  position: relative;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.modal-body {
+  padding: 30px;
+}
+
+.event-details {
+  margin-bottom: 30px;
+}
+
+.detail-item {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.detail-item strong {
+  color: var(--yl-navy);
+  margin-right: 10px;
+}
+
+.event-description h3 {
+  color: var(--yl-navy);
+  margin: 0 0 15px 0;
+  font-size: 1.3rem;
+}
+
+.event-description p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .close-modal-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   background: none;
+  border: none;
   color: white;
-  font-size: 24px;
+  font-size: 28px;
   cursor: pointer;
-  z-index: 5;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  outline: none;
+  z-index: 10;
+}
+
+.close-modal-button:hover {
+  opacity: 1;
+}
+
+.close-modal-button:focus {
+  outline: none;
 }
 
 /* Admin event controls */
 .admin-modal-controls {
   display: flex;
   justify-content: flex-end;
-  padding: 15px;
+  padding: 20px 30px;
   border-top: 1px solid #eee;
-  gap: 10px;
+  gap: 15px;
 }
 
 .edit-button, .delete-button {
@@ -222,24 +281,6 @@
   background-color: #d32f2f;
 }
 
-.modal-header {
-  padding: 16px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  position: relative;
-  background-color: var(--yl-navy);
-  color: white;
-  border-radius: 8px 8px 0 0;
-}
-
-.modal-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  flex-grow: 1;
-  margin-left: 12px;
-}
-
 .group-badge {
   padding: 4px 10px;
   border-radius: 16px;
@@ -268,18 +309,6 @@
   background-color: var(--yl-light-navy); /* Navy */
 }
 
-.modal-body {
-  padding: 16px;
-}
-
-.event-details {
-  margin-bottom: 20px;
-}
-
-.detail-item {
-  margin-bottom: 8px;
-}
-
 .event-link {
   color: var(--yl-green);
   text-decoration: none;
@@ -288,18 +317,6 @@
 
 .event-link:hover {
   text-decoration: underline;
-}
-
-.event-description h3 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-  color: var(--yl-navy);
-}
-
-.event-description p {
-  line-height: 1.5;
-  margin: 0;
 }
 
 /* Responsive filter controls */
@@ -456,65 +473,35 @@
   /* Modal improvements for mobile */
   .modal-content {
     width: 95%;
-    max-width: 95%;
-    margin: 10px;
-    max-height: 90vh;
+    max-height: 95vh;
   }
   
   .modal-header {
-    padding: 12px 15px;
-    flex-wrap: wrap;
+    padding: 15px 20px;
   }
   
   .modal-header h2 {
     font-size: 1.3rem;
-    margin-left: 8px;
-  }
-  
-  .group-badge {
-    font-size: 0.75rem;
-    padding: 3px 8px;
   }
   
   .modal-body {
-    padding: 15px;
+    padding: 20px;
   }
   
   .admin-modal-controls {
-    padding: 12px 15px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  
-  .edit-button, .delete-button {
-    flex: 1;
-    min-width: 120px;
-    padding: 10px 16px;
-    font-size: 13px;
-    min-height: 44px;
-  }
-  
-  .close-modal-button {
-    font-size: 20px;
-    top: 8px;
-    right: 8px;
-    padding: 4px;
-    min-width: 32px;
-    min-height: 32px;
-  }
-  
-  .event-details {
-    margin-bottom: 15px;
+    padding: 15px 20px;
   }
   
   .detail-item {
-    margin-bottom: 10px;
-    line-height: 1.4;
+    font-size: 1rem;
   }
   
-  .event-link {
-    word-break: break-word;
-    font-size: 14px;
+  .event-description h3 {
+    font-size: 1.2rem;
+  }
+  
+  .event-description p {
+    font-size: 1rem;
   }
 }
 
@@ -677,5 +664,74 @@
   .edit-button, .delete-button {
     font-size: 12px;
     padding: 8px 12px;
+  }
+}
+
+/* Agenda View Styles */
+.rbc-agenda-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  border: 1px solid #ddd;
+  min-height: 580px;
+}
+
+.rbc-agenda-table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.rbc-agenda-table thead {
+  background-color: var(--yl-navy);
+  color: white;
+}
+
+.rbc-agenda-table th,
+.rbc-agenda-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.rbc-agenda-table th {
+  font-weight: 500;
+}
+
+.rbc-agenda-date-cell,
+.rbc-agenda-time-cell {
+  white-space: nowrap;
+  width: 100px;
+}
+
+.rbc-agenda-event-cell {
+  width: auto;
+}
+
+.rbc-agenda-empty-cell {
+  text-align: center;
+  padding: 50px 0;
+  color: #999;
+}
+
+/* Mobile styles for agenda view */
+@media (max-width: 768px) {
+  .rbc-agenda-view {
+    min-height: 480px;
+  }
+
+  .rbc-agenda-table th,
+  .rbc-agenda-table td {
+    padding: 8px;
+  }
+
+  .rbc-agenda-date-cell,
+  .rbc-agenda-time-cell {
+    width: 80px;
+    font-size: 0.9rem;
+  }
+
+  .rbc-agenda-event-cell {
+    font-size: 0.9rem;
   }
 } 

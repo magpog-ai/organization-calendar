@@ -1,31 +1,33 @@
 import React from 'react';
-import { Views } from 'react-big-calendar';
+import { Views, View } from 'react-big-calendar';
 import { useTranslation } from 'react-i18next';
 import '../styles/CustomToolbar.css';
 
-// Helper function to detect mobile devices
-const isMobileDevice = () => {
-  return window.innerWidth <= 768;
-};
+interface CustomToolbarProps {
+  date: Date;
+  view: View;
+  onNavigate: (action: 'PREV' | 'NEXT') => void;
+  onView: (view: View) => void;
+  isMobile: boolean;
+}
 
-const CustomToolbar: React.FC<any> = (props) => {
+const CustomToolbar: React.FC<CustomToolbarProps> = ({ date, view, onNavigate, onView, isMobile }) => {
   const { t, i18n } = useTranslation();
   
   const goToPrevious = () => {
-    props.onNavigate('PREV');
+    onNavigate('PREV');
   };
 
   const goToNext = () => {
-    props.onNavigate('NEXT');
+    onNavigate('NEXT');
   };
 
   const getViewTitle = () => {
-    const date = props.date;
     const locale = i18n.language === 'en' ? 'en-US' : 'pl-PL';
     const month = date.toLocaleString(locale, { month: 'long' });
     const year = date.getFullYear();
     
-    switch (props.view) {
+    switch (view) {
       case Views.MONTH:
         return `${month} ${year}`;
       case Views.WEEK:
@@ -53,58 +55,58 @@ const CustomToolbar: React.FC<any> = (props) => {
   return (
     <div className="rbc-toolbar custom-toolbar">
       <div className="title-with-navigation">
-        {props.view !== Views.AGENDA && (
+        {view !== Views.AGENDA && (
           <button type="button" className="nav-button prev-button" onClick={goToPrevious}>
-            {isMobileDevice() ? '‹' : t('calendar.previous')}
+            {isMobile ? '‹' : 'Poprzedni'}
           </button>
         )}
         <span className="rbc-toolbar-label">{viewTitle}</span>
-        {props.view !== Views.AGENDA && (
+        {view !== Views.AGENDA && (
           <button type="button" className="nav-button next-button" onClick={goToNext}>
-            {isMobileDevice() ? '›' : t('calendar.next')}
+            {isMobile ? '›' : 'Następny'}
           </button>
         )}
       </div>
       <div className="rbc-btn-group">
-        {isMobileDevice() ? (
+        {isMobile ? (
           <>
             <button 
               type="button" 
-              className={props.view === Views.AGENDA ? 'rbc-active' : ''} 
-              onClick={() => props.onView(Views.AGENDA)}
+              className={view === Views.AGENDA ? 'rbc-active' : ''} 
+              onClick={() => onView(Views.AGENDA)}
             >
-              {t('calendar.list')}
+              Lista
             </button>
             <button 
               type="button" 
-              className={props.view === Views.MONTH ? 'rbc-active' : ''} 
-              onClick={() => props.onView(Views.MONTH)}
+              className={view === Views.MONTH ? 'rbc-active' : ''} 
+              onClick={() => onView(Views.MONTH)}
             >
-              {t('calendar.month')}
+              Miesiąc
             </button>
           </>
         ) : (
           <>
             <button 
               type="button" 
-              className={props.view === Views.MONTH ? 'rbc-active' : ''} 
-              onClick={() => props.onView(Views.MONTH)}
+              className={view === Views.MONTH ? 'rbc-active' : ''} 
+              onClick={() => onView(Views.MONTH)}
             >
-              {t('calendar.month')}
+              Miesiąc
             </button>
             <button 
               type="button" 
-              className={props.view === Views.WEEK ? 'rbc-active' : ''} 
-              onClick={() => props.onView(Views.WEEK)}
+              className={view === Views.WEEK ? 'rbc-active' : ''} 
+              onClick={() => onView(Views.WEEK)}
             >
-              {t('calendar.week')}
+              Tydzień
             </button>
             <button 
               type="button" 
-              className={props.view === Views.AGENDA ? 'rbc-active' : ''} 
-              onClick={() => props.onView(Views.AGENDA)}
+              className={view === Views.AGENDA ? 'rbc-active' : ''} 
+              onClick={() => onView(Views.AGENDA)}
             >
-              {t('calendar.list')}
+              Lista
             </button>
           </>
         )}

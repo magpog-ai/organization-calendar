@@ -1,6 +1,19 @@
+/* Base styles */
+:root {
+  --yl-green: #9acd32;
+  --yl-navy: #3d5575;
+  --wyldlife-blue: #4a90e2;
+  --yluni-orange: #f5a623;
+  --inne-darkgreen: #2c5530;
+  --yl-light-navy: #4a6b8a;
+  --mobile-header-height: 60px;
+  --desktop-header-height: 80px;
+}
+
 body {
   margin: 0;
   padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .App {
@@ -8,11 +21,218 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: url('./background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+}
+
+/* Desktop styles */
+@media (min-width: 769px) {
+  .App {
+    background-image: url('./background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  main {
+    flex: 1;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    width: 100%;
+  }
+
+  .calendar-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .App {
+    background: #ffffff;
+  }
+
+  main {
+    flex: 1;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: calc(100vh - var(--mobile-header-height));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .calendar-container {
+    background-color: #ffffff;
+    border-radius: 0;
+    padding: 10px;
+    box-shadow: none;
+    height: 100%;
+  }
+
+  /* Mobile-optimized calendar */
+  .rbc-calendar {
+    height: calc(100vh - var(--mobile-header-height) - 20px) !important;
+  }
+
+  .rbc-toolbar {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .rbc-toolbar button {
+    padding: 8px 12px;
+    font-size: 14px;
+    width: 100%;
+    margin: 2px 0;
+  }
+
+  .rbc-toolbar-label {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+
+  /* Mobile-optimized agenda view */
+  .rbc-agenda-view {
+    margin-top: 0;
+    border-radius: 0;
+  }
+
+  .rbc-agenda-view table {
+    font-size: 14px;
+  }
+
+  .rbc-agenda-view tbody tr {
+    height: auto !important;
+    min-height: 50px !important;
+  }
+
+  .rbc-agenda-view .rbc-agenda-date-cell,
+  .rbc-agenda-view .rbc-agenda-time-cell,
+  .rbc-agenda-view .rbc-agenda-event-cell {
+    padding: 12px 8px;
+    height: auto !important;
+    min-height: 50px !important;
+  }
+
+  .rbc-agenda-view .rbc-agenda-date-cell {
+    width: 100px !important;
+    min-width: 100px;
+    max-width: 100px;
+  }
+
+  .rbc-agenda-view .rbc-agenda-time-cell {
+    width: 80px !important;
+    min-width: 80px;
+    max-width: 80px;
+  }
+
+  .rbc-agenda-view .rbc-agenda-event-cell {
+    min-width: 0;
+  }
+
+  /* Mobile-optimized legend */
+  .legend {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .legend-item {
+    font-size: 14px;
+    margin: 2px 4px;
+  }
+
+  .legend-color {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* Common styles */
+.App-header {
+  background-color: var(--yl-navy);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+@media (min-width: 769px) {
+  .App-header {
+    height: var(--desktop-header-height);
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .App-header {
+    height: var(--mobile-header-height);
+    padding: 0 10px;
+  }
+}
+
+.App-header h1 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Event styles */
+.rbc-event {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.rbc-event-content {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Loading and error states */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 1.2em;
+  color: var(--yl-navy);
+}
+
+.error-banner {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Touch-friendly interactions */
+@media (max-width: 768px) {
+  .rbc-event {
+    padding: 8px;
+    margin: 2px 0;
+  }
+
+  .rbc-toolbar button {
+    touch-action: manipulation;
+  }
+
+  .rbc-agenda-view tbody tr {
+    touch-action: manipulation;
+  }
 }
 
 .App-logo {
@@ -24,37 +244,6 @@ body {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.App-header {
-  background-color: rgba(61, 85, 117, 0.95);
-  backdrop-filter: blur(2px);
-  padding: 15px;
-  color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.App-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
-}
-
-main {
-  flex: 1;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.calendar-container {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Group color legend */
@@ -154,14 +343,6 @@ main {
 }
 
 /* Improve event display */
-.rbc-event {
-  padding: 2px 5px;
-  border-radius: 5px;
-  font-size: 0.85em;
-  text-overflow: ellipsis;
-}
-
-/* Agenda View Styling - Enhanced and Coherent */
 .rbc-agenda-view {
   border: none;
   border-radius: 12px;
@@ -384,27 +565,17 @@ main {
 }
 
 .rbc-agenda-view thead th {
-  padding: 24px 20px;
+  padding: 20px;
   font-weight: 600;
   text-align: center;
   border: none;
-  font-size: 0; /* Hide original text */
-  height: 70px;
+  font-size: 14px !important; /* Force proper font size */
+  height: 60px;
   box-sizing: border-box;
   position: relative;
-}
-
-.rbc-agenda-view thead th::after {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  color: white;
   text-transform: uppercase;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  text-align: center;
+  letter-spacing: 0.5px;
 }
 
 .rbc-agenda-view thead th:nth-child(1) {
@@ -430,32 +601,6 @@ main {
 
 .rbc-agenda-view thead th:last-child {
   border-radius: 0 8px 0 0;
-}
-
-/* Custom header labels for Polish */
-:lang(pl) .rbc-agenda-view thead th:nth-child(1)::after {
-  content: 'Data';
-}
-
-:lang(pl) .rbc-agenda-view thead th:nth-child(2)::after {
-  content: 'Godzina';
-}
-
-:lang(pl) .rbc-agenda-view thead th:nth-child(3)::after {
-  content: 'Wydarzenie';
-}
-
-/* Custom header labels for English */
-:lang(en) .rbc-agenda-view thead th:nth-child(1)::after {
-  content: 'Date';
-}
-
-:lang(en) .rbc-agenda-view thead th:nth-child(2)::after {
-  content: 'Time';
-}
-
-:lang(en) .rbc-agenda-view thead th:nth-child(3)::after {
-  content: 'Event';
 }
 
 /* Mobile header labels - merge date and time */
@@ -589,10 +734,8 @@ main {
     display: none;
   }
   
-  /* Mobile agenda view optimizations - Complete redesign for mobile */
+  /* Mobile agenda view - simplified */
   .rbc-agenda-view {
-    position: relative;
-    margin-top: 45px; /* Space for custom header */
     border-radius: 12px;
     overflow: hidden;
     background: white;
@@ -601,207 +744,11 @@ main {
     box-sizing: border-box;
   }
   
-  .rbc-agenda-view::before {
-    content: '';
-    position: absolute;
-    top: -45px;
-    left: 0;
-    right: 0;
-    height: 45px;
-    background: linear-gradient(135deg, var(--yl-navy) 0%, #4a5568 100%);
-    border-radius: 12px 12px 0 0;
-    z-index: 1;
-  }
-  
-  .rbc-agenda-view::after {
-    content: 'Data';
-    position: absolute;
-    top: -45px;
-    left: 0;
-    width: 25%;
-    height: 45px;
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    font-size: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-  }
-  
-  /* Create second header column with a separate element approach */
-  .rbc-agenda-view table::before {
-    content: 'Wydarzenie';
-    position: absolute;
-    top: -45px;
-    right: 0;
-    width: 75%;
-    height: 45px;
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    font-size: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-  }
-  
-  .rbc-agenda-view tbody tr {
-    height: auto !important;
-    min-height: 70px !important;
-    max-height: none !important;
-    border-bottom: 1px solid #e9ecef;
-    transition: background-color 0.2s ease;
-    display: flex !important;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .rbc-agenda-view tbody tr:hover {
-    background-color: #f8f9fa;
-  }
-  
-  /* Date column - first column */
-  .rbc-agenda-view .rbc-agenda-date-cell {
-    width: 25% !important;
-    min-width: 20%;
-    max-width: 30%;
-    padding: 8px 6px;
-    font-size: 10px;
-    font-weight: 600;
-    min-height: 65px;
-    overflow: hidden;
-    text-align: left;
-    line-height: 1.2;
-    background-color: #f8f9fa;
-    color: var(--yl-navy);
-    border-right: 1px solid #dee2e6;
-    vertical-align: middle;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    order: 1;
-    word-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
-    box-sizing: border-box;
-  }
-  
-  /* Time column - hide on mobile */
-  .rbc-agenda-view .rbc-agenda-time-cell {
-    display: none !important;
-  }
-  
-  /* Event column - second column */
-  .rbc-agenda-view .rbc-agenda-event-cell {
-    width: 75% !important;
-    min-width: 75%;
-    max-width: 75%;
-    padding: 8px 6px;
-    min-height: 65px;
-    overflow: hidden;
-    vertical-align: middle;
-    order: 2;
-    word-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
-    box-sizing: border-box;
-  }
-  
-  /* Force the correct order for mobile */
-  .rbc-agenda-view tbody td:nth-child(1) {
-    order: 1;
-  }
-  
-  .rbc-agenda-view tbody td:nth-child(2) {
-    display: none !important;
-  }
-  
-  .rbc-agenda-view tbody td:nth-child(3) {
-    order: 2;
-  }
-  
-  /* Override the date display format on mobile to be shorter */
-  .rbc-agenda-view .rbc-agenda-date-cell > * {
-    font-size: 10px !important;
-    font-weight: 600;
-    line-height: 1.3;
-    margin: 0;
-    word-wrap: break-word;
-    word-break: break-word;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    max-width: 100%;
-  }
-  
-  .rbc-agenda-view .rbc-event {
-    font-size: 13px;
-    overflow: hidden;
-    line-height: 1.3;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    min-height: 70px;
-    word-wrap: break-word;
-    word-break: break-word;
-    max-width: 100%;
-  }
-  
-  .rbc-agenda-view .rbc-event .event-title {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 4px;
-    line-height: 1.3;
-    color: var(--yl-navy);
-    word-wrap: break-word;
-    word-break: break-word;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    max-width: 100%;
-    hyphens: auto;
-  }
-  
-  .rbc-agenda-view .rbc-event .event-location {
-    font-size: 10px;
-    margin-top: 2px;
-    color: #6c757d;
-    word-wrap: break-word;
-    word-break: break-word;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    max-width: 100%;
-    line-height: 1.2;
-  }
-  
-  .rbc-agenda-view .rbc-event .group-badge {
-    font-size: 9px;
-    padding: 2px 4px;
-    margin-top: 4px;
-    border-radius: 6px;
-    display: inline-block;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    max-width: fit-content;
-    word-break: keep-all;
-    white-space: nowrap;
-  }
-  
-  /* Update header to show only 2 columns on mobile */
   .rbc-agenda-view thead th {
-    padding: 8px 6px;
+    padding: 12px 8px;
+    font-size: 12px !important;
     height: 45px;
-    background: linear-gradient(135deg, var(--yl-navy) 0%, #4a5568 100%);
+    background: var(--yl-navy);
     color: white;
     font-weight: 600;
     text-transform: uppercase;
@@ -809,52 +756,12 @@ main {
     border: none;
     text-align: center;
     box-sizing: border-box;
-    word-wrap: break-word;
-    font-size: 0 !important; /* Hide original text */
-    position: relative;
   }
   
-  .rbc-agenda-view thead tr {
-    display: flex !important;
-    width: 100%;
-  }
-  
-  .rbc-agenda-view thead th:nth-child(1) {
-    width: 25% !important;
-    order: 1;
-  }
-  
-  .rbc-agenda-view thead th:nth-child(2) {
-    display: none !important; /* Hide time header on mobile */
-  }
-  
-  .rbc-agenda-view thead th:nth-child(3) {
-    width: 75% !important;
-    order: 2;
-  }
-  
-  .rbc-agenda-view thead th::after {
-    content: '';
-    font-size: 11px !important;
-    font-weight: 600;
-    line-height: 1.2;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    text-align: center;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-  }
-  
-  .rbc-agenda-view thead th:nth-child(1)::after {
-    content: 'Data';
-  }
-  
-  .rbc-agenda-view thead th:nth-child(3)::after {
-    content: 'Wydarzenie';
+  /* Hide time column on mobile */
+  .rbc-agenda-view thead th:nth-child(2),
+  .rbc-agenda-view tbody td:nth-child(2) {
+    display: none !important;
   }
 }
 
@@ -939,210 +846,6 @@ main {
     height: 12px;
     margin-right: 5px;
   }
-  
-  /* Extra small agenda view optimizations */
-  .rbc-agenda-view tbody tr {
-    height: auto !important;
-    min-height: 65px !important;
-    max-height: none !important;
-    border-bottom: 1px solid #e9ecef;
-    transition: background-color 0.2s ease;
-    display: flex !important;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .rbc-agenda-view tbody tr:hover {
-    background-color: #f8f9fa;
-  }
-  
-  .rbc-agenda-view .rbc-agenda-date-cell {
-    width: 25% !important;
-    min-width: 20%;
-    max-width: 30%;
-    padding: 8px 6px;
-    font-size: 10px;
-    font-weight: 600;
-    min-height: 65px;
-    overflow: hidden;
-    text-align: left;
-    line-height: 1.2;
-    background-color: #f8f9fa;
-    color: var(--yl-navy);
-    border-right: 1px solid #dee2e6;
-    vertical-align: middle;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    order: 1;
-    word-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
-    box-sizing: border-box;
-  }
-  
-  .rbc-agenda-view .rbc-agenda-time-cell {
-    display: none !important;
-  }
-  
-  .rbc-agenda-view .rbc-agenda-event-cell {
-    width: 75% !important;
-    min-width: 75%;
-    max-width: 75%;
-    padding: 8px 6px;
-    min-height: 65px;
-    overflow: hidden;
-    vertical-align: middle;
-    order: 2;
-    word-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
-    box-sizing: border-box;
-  }
-  
-  /* Force the correct order for mobile */
-  .rbc-agenda-view tbody td:nth-child(1) {
-    order: 1;
-  }
-  
-  .rbc-agenda-view tbody td:nth-child(2) {
-    display: none !important;
-  }
-  
-  .rbc-agenda-view tbody td:nth-child(3) {
-    order: 2;
-  }
-  
-  /* Override the date display format on mobile to be shorter */
-  .rbc-agenda-view .rbc-agenda-date-cell > * {
-    font-size: 10px !important;
-    font-weight: 600;
-    line-height: 1.3;
-    margin: 0;
-    word-wrap: break-word;
-    word-break: break-word;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    max-width: 100%;
-  }
-  
-  .rbc-agenda-view .rbc-event {
-    font-size: 12px;
-    overflow: hidden;
-    line-height: 1.3;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    min-height: 65px;
-    word-wrap: break-word;
-    word-break: break-word;
-    max-width: 100%;
-  }
-  
-  .rbc-agenda-view .rbc-event .event-title {
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 3px;
-    line-height: 1.3;
-    color: var(--yl-navy);
-    word-wrap: break-word;
-    word-break: break-word;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    max-width: 100%;
-    hyphens: auto;
-  }
-  
-  .rbc-agenda-view .rbc-event .event-location {
-    font-size: 9px;
-    margin-top: 2px;
-    color: #6c757d;
-    word-wrap: break-word;
-    word-break: break-word;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    max-width: 100%;
-    line-height: 1.2;
-  }
-  
-  .rbc-agenda-view .rbc-event .group-badge {
-    font-size: 8px;
-    padding: 2px 4px;
-    margin-top: 3px;
-    border-radius: 6px;
-    display: inline-block;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    max-width: fit-content;
-    word-break: keep-all;
-    white-space: nowrap;
-  }
-  
-  /* Update header to show only 2 columns on mobile */
-  .rbc-agenda-view thead th {
-    padding: 8px 6px;
-    height: 35px;
-    background: linear-gradient(135deg, var(--yl-navy) 0%, #4a5568 100%);
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    border: none;
-    text-align: center;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    font-size: 0 !important; /* Hide original text */
-    position: relative;
-  }
-  
-  .rbc-agenda-view thead tr {
-    display: flex !important;
-    width: 100%;
-  }
-  
-  .rbc-agenda-view thead th:nth-child(1) {
-    width: 25% !important;
-    order: 1;
-  }
-  
-  .rbc-agenda-view thead th:nth-child(2) {
-    display: none !important; /* Hide time header on mobile */
-  }
-  
-  .rbc-agenda-view thead th:nth-child(3) {
-    width: 75% !important;
-    order: 2;
-  }
-  
-  .rbc-agenda-view thead th::after {
-    content: '';
-    font-size: 10px !important;
-    font-weight: 600;
-    line-height: 1.2;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    text-align: center;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-  }
-  
-  .rbc-agenda-view thead th:nth-child(1)::after {
-    content: 'Data';
-  }
-  
-  .rbc-agenda-view thead th:nth-child(3)::after {
-    content: 'Wydarzenie';
-  }
 }
 
 /* Landscape mobile orientation */
@@ -1210,9 +913,6 @@ main {
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* Extra small agenda view optimizations */
-/* Enhanced mobile agenda styles are defined at the end of the file for proper override */
-
 /* No events message */
 .rbc-agenda-view .rbc-agenda-empty {
   padding: 40px 20px;
@@ -1245,151 +945,4 @@ main {
 
 .rbc-agenda-view tbody tr:hover .rbc-agenda-event-cell {
   background-color: rgba(155, 198, 67, 0.02) !important;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  /* Hide default agenda header on mobile and create custom one */
-  .rbc-agenda-view thead {
-    display: none !important; /* Hide default header completely */
-  }
-  
-  /* Custom mobile header using positioned elements */
-  .rbc-agenda-view {
-    position: relative;
-    margin-top: 35px; /* Space for custom header */
-    border-radius: 12px;
-    overflow: hidden;
-    background: white;
-    width: 100%;
-    max-width: 100vw;
-    box-sizing: border-box;
-  }
-  
-  .rbc-agenda-view::before {
-    content: '';
-    position: absolute;
-    top: -35px;
-    left: 0;
-    right: 0;
-    height: 35px;
-    background: linear-gradient(135deg, var(--yl-navy) 0%, #4a5568 100%);
-    border-radius: 12px 12px 0 0;
-    z-index: 1;
-  }
-  
-  .rbc-agenda-view::after {
-    content: 'Data';
-    position: absolute;
-    top: -35px;
-    left: 0;
-    width: 25%;
-    height: 35px;
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    font-size: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-  }
-  
-  /* Create second header column with a separate element approach */
-  .rbc-agenda-view table::before {
-    content: 'Wydarzenie';
-    position: absolute;
-    top: -35px;
-    right: 0;
-    width: 75%;
-    height: 35px;
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    font-size: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-  }
-}
-
-:lang(pl) .rbc-agenda-view::after {
-  content: 'Data';
-  position: absolute;
-  top: -45px;
-  left: 0;
-  width: 25%;
-  height: 45px;
-  color: white;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-:lang(en) .rbc-agenda-view::after {
-  content: 'Date';
-  position: absolute;
-  top: -45px;
-  left: 0;
-  width: 25%;
-  height: 45px;
-  color: white;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* Create second header column with a separate element approach */
-:lang(pl) .rbc-agenda-view table::before {
-  content: 'Wydarzenie';
-  position: absolute;
-  top: -45px;
-  right: 0;
-  width: 75%;
-  height: 45px;
-  color: white;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  background: linear-gradient(135deg, var(--yl-navy) 0%, #4a5568 100%);
-}
-
-:lang(en) .rbc-agenda-view table::before {
-  content: 'Event';
-  position: absolute;
-  top: -45px;
-  right: 0;
-  width: 75%;
-  height: 45px;
-  color: white;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  background: linear-gradient(135deg, var(--yl-navy) 0%, #4a5568 100%);
 }

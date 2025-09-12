@@ -89,7 +89,11 @@ To deploy the application to Firebase Hosting:
    ```
    npm run build
    ```
-2. Deploy to Firebase:
+2. Local server for testing
+   ```
+   npx serve -s build
+   ```
+3. Deploy to Firebase:
    ```
    firebase deploy --only hosting
    ```

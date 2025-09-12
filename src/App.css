@@ -450,92 +450,7 @@ body {
   margin: 0 !important;
 }
 
-/* Enhanced event styling */
-.rbc-agenda-view .rbc-event {
-  background: none !important;
-  border: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  font-size: 16px;
-  color: var(--yl-navy);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-  display: block;
-  line-height: 1.5;
-  height: 100%;
-  max-height: 65px;
-  overflow: hidden;
-}
-
-.rbc-agenda-view .rbc-event:hover {
-  color: var(--yl-green);
-  transform: translateX(2px);
-}
-
-.rbc-agenda-view .rbc-event .event-title {
-  font-weight: 600;
-  margin-bottom: 8px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 16px;
-  line-height: 1.4;
-}
-
-.rbc-agenda-view .rbc-event .event-location {
-  font-size: 13px;
-  color: #6b7280;
-  margin-top: 6px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* Enhanced group badges */
-.rbc-agenda-view .rbc-event .group-badge {
-  display: right;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight:620;
-  color: white;
-  flex-shrink: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s ease;
-}
-
-.rbc-agenda-view .rbc-event .group-badge:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.rbc-agenda-view .rbc-event .group-badge.younglife {
-  background-color: var(--yl-green);
-}
-
-.rbc-agenda-view .rbc-event .group-badge.wyldlife {
-  background-color: var(--wyldlife-blue);
-}
-
-.rbc-agenda-view .rbc-event .group-badge.yluni {
-  background-color: var(--yluni-orange);
-}
-
-.rbc-agenda-view .rbc-event .group-badge.inne {
-  background-color: var(--inne-darkgreen);
-}
-
-.rbc-agenda-view .rbc-event .group-badge.joint {
-  background-color: var(--yl-light-navy);
-}
+/* Enhanced event styling - agenda removed */
 
 /* Group colors - only for badges, no indicators */
 .group-badge.younglife {
@@ -558,50 +473,7 @@ body {
   background-color: var(--yl-light-navy);
 }
 
-/* Agenda view headers - Enhanced styling */
-.rbc-agenda-view thead {
-  background: var(--yl-navy);
-  color: white;
-}
-
-.rbc-agenda-view thead th {
-  padding: 20px;
-  font-weight: 600;
-  text-align: center;
-  border: none;
-  font-size: 14px !important; /* Force proper font size */
-  height: 60px;
-  box-sizing: border-box;
-  position: relative;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.rbc-agenda-view thead th:nth-child(1) {
-  width: 250px !important;
-  min-width: 250px;
-  max-width: 250px;
-}
-
-.rbc-agenda-view thead th:nth-child(2) {
-  width: 200px !important;
-  min-width: 200px;
-  max-width: 200px;
-}
-
-.rbc-agenda-view thead th:nth-child(3) {
-  width: auto !important;
-  min-width: 700px;
-}
-
-.rbc-agenda-view thead th:first-child {
-  border-radius: 8px 0 0 0;
-}
-
-.rbc-agenda-view thead th:last-child {
-  border-radius: 0 8px 0 0;
-}
+/* Agenda view headers - removed */
 
 /* Mobile header labels - merge date and time */
 @media (max-width: 768px) {

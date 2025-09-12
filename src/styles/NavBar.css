@@ -106,32 +106,74 @@
     font-size: 1.2rem;
   }
 
+  .mobile-center-label {
+    text-align: center;
+    color: white;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-size: 1.1rem;
+    margin-top: -15px;
+    margin-bottom: 2px;
+    cursor: pointer;
+  }
+
+  .mobile-header-tabs {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .mobile-header-tab {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 10px;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .mobile-header-tab.active {
+    background: var(--yl-green);
+    border-color: var(--yl-green);
+    color: white;
+  }
+
   .mobile-menu-button {
     background: transparent;
     border: none;
-    padding: 8px;
+    padding: 6px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
+  .menu-label {
+    color: white;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-size: 0.95rem;
+  }
+
   .menu-icon {
     position: relative;
-    width: 24px;
-    height: 2px;
+    width: 28px;
+    height: 3px;
     background: white;
-    transition: all 0.3s ease;
+    border-radius: 2px;
   }
 
   .menu-icon::before,
   .menu-icon::after {
     content: '';
     position: absolute;
-    width: 24px;
-    height: 2px;
+    left: 0;
+    width: 28px;
+    height: 3px;
     background: white;
-    transition: all 0.3s ease;
+    border-radius: 2px;
   }
 
   .menu-icon::before {
@@ -150,8 +192,6 @@
     bottom: 0;
     background: var(--yl-navy);
     z-index: 999;
-    transform: translateX(0);
-    transition: transform 0.3s ease;
   }
 
   .mobile-menu-content {
@@ -160,6 +200,32 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+  }
+
+  .mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobile-menu-title {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .mobile-menu-close {
+    background: transparent;
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .mobile-tabs {

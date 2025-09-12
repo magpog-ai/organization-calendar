@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar as BigCalendar, dateFnsLocalizer, View, Views } from 'react-big-calendar';
-import { format, parse, startOfWeek, getDay, startOfMonth, endOfMonth, isWithinInterval } from 'date-fns';
+import { format, parse, startOfWeek, getDay } from 'date-fns';
 import { pl, enUS } from 'date-fns/locale';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useTranslation } from 'react-i18next';
@@ -32,11 +32,6 @@ interface CalendarProps {
   isMobile: boolean;
 }
 
-// Helper function to detect mobile devices
-const isMobileDevice = () => {
-  return window.innerWidth <= 768;
-};
-
 const Calendar: React.FC<CalendarProps> = ({ 
   events, 
   onEventAdd, 
@@ -46,19 +41,13 @@ const Calendar: React.FC<CalendarProps> = ({
 }) => {
   const { t, i18n } = useTranslation();
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  const [view, setView] = useState<View>(() => {
-    // Set default view based on isMobile prop
-    return isMobile ? Views.AGENDA : Views.MONTH;
-  });
+  const [view, setView] = useState<View>(() => Views.MONTH);
   const [date, setDate] = useState(new Date());
   const [showEventForm, setShowEventForm] = useState(false);
   const [editingEvent, setEditingEvent] = useState<Event | undefined>(undefined);
   const [selectedFilters, setSelectedFilters] = useState<GroupType[]>(['YoungLife', 'WyldLife', 'YLUni', 'Inne']);
-  const { isAuthenticated, isAdmin, user } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
   
-  // Get current locale for date-fns
-  const currentLocale = i18n.language === 'en' ? enUS : pl;
-
   // Debug authentication state
   useEffect(() => {
     console.log('Calendar auth state - isAdmin:', isAdmin, 'isAuthenticated:', isAuthenticated);
@@ -101,13 +90,11 @@ const Calendar: React.FC<CalendarProps> = ({
   const handleFormSubmit = (event: Event) => {
     console.log('Calendar handleFormSubmit called with:', event);
     if (editingEvent) {
-      // Update existing event
       console.log('Updating existing event');
       if (onEventUpdate) {
         onEventUpdate(event);
       }
     } else {
-      // Add new event
       console.log('Adding new event');
       if (onEventAdd) {
         onEventAdd(event);
@@ -123,18 +110,6 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const eventStyleGetter = (event: Event) => {
-    // Don't apply background colors in agenda view - only for month/week views
-    if (view === Views.AGENDA) {
-      return {
-        style: {
-          backgroundColor: 'transparent',
-          color: 'inherit',
-          border: 'none',
-          display: 'block'
-        }
-      };
-    }
-
     let backgroundColor = '#3174ad';
     let textColor = 'white';
     
@@ -168,71 +143,17 @@ const Calendar: React.FC<CalendarProps> = ({
     };
   };
 
-  // Custom Event component for agenda view
-  const AgendaEvent = ({ event }: { event: Event }) => {
-    const getGroupDisplayName = (group: string) => {
-      switch (group) {
-        case 'YoungLife': return 'YL';
-        case 'WyldLife': return 'WyLd';
-        case 'YLUni': return 'Uni';
-        case 'Inne': return i18n.language === 'en' ? 'Other' : 'Inne';
-        case 'Joint': return i18n.language === 'en' ? 'Joint' : 'Wspólne';
-        default: return group;
-      }
-    };
-
-    const getGroupClass = (group: string) => {
-      return group.toLowerCase();
-    };
-
-    return (
-      <div 
-        className="rbc-event" 
-        onClick={() => handleSelectEvent(event)}
-      >
-        <div className="event-title">
-          {event.title}
-          <span className={`group-badge ${getGroupClass(event.group)}`}>
-            {event.group === 'Joint' && event.groups 
-              ? event.groups.map(g => getGroupDisplayName(g)).join('+')
-              : getGroupDisplayName(event.group)
-            }
-          </span>
-        </div>
-        {event.location && (
-          <div className="event-location">
-            📍 {event.location}
-          </div>
-        )}
-      </div>
-    );
-  };
-
+  const localeObj = i18n.language === 'en' ? enUS : pl;
   const formats = {
     eventTimeRangeFormat: () => '',
     timeGutterFormat: 'HH:mm',
-    dayHeaderFormat: (date: Date) => format(date, 'EEEE d/M', { locale: currentLocale }),
-    agendaTimeFormat: 'HH:mm',
-    agendaTimeRangeFormat: ({ start, end }: { start: Date; end: Date }) => 
-      `${format(start, 'HH:mm', { locale: currentLocale })} - ${format(end, 'HH:mm', { locale: currentLocale })}`,
-    agendaDateFormat: (date: Date) => {
-      // Shorter format for mobile
-      if (isMobileDevice()) {
-        return format(date, 'EEE, d MMM yyyy', { locale: currentLocale });
-      }
-      return format(date, 'EEEE, d MMMM yyyy', { locale: currentLocale });
-    },
-    agendaHeaderFormat: ({ start, end }: { start: Date; end: Date }) => {
-      // For agenda view, always show the full month
-      const monthStart = startOfMonth(date);
-      const monthEnd = endOfMonth(date);
-      return `${format(monthStart, 'd', { locale: currentLocale })} - ${format(monthEnd, 'd MMMM yyyy', { locale: currentLocale })}`;
-    },
-  };
-
-  const handleNavigate = (newDate: Date) => {
-    setDate(newDate);
-  };
+    // Week view column headers: Monday 9 Sep
+    dayFormat: (d: Date) => format(d, 'EEEE d MMM', { locale: localeObj }),
+    // Month view weekday headers: Monday, Tuesday, ...
+    weekdayFormat: (d: Date) => format(d, 'EEEE', { locale: localeObj }),
+    // Day header (used in some contexts)
+    dayHeaderFormat: (d: Date) => format(d, 'EEEE d MMM', { locale: localeObj }),
+  } as const;
 
   const handleSelectSlot = (slotInfo: { start: Date; end: Date }) => {
     if (!isAuthenticated || !isAdmin) return;
@@ -249,10 +170,8 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const filteredEvents = events.filter(event => {
-    // First filter by group
     let groupMatch = false;
     if (event.group === 'Joint' && event.groups) {
-      // For joint events, show if any of the individual groups in the joint event are selected
       groupMatch = event.groups.some(group => 
         group !== 'Joint' && selectedFilters.includes(group)
       );
@@ -260,11 +179,7 @@ const Calendar: React.FC<CalendarProps> = ({
       groupMatch = selectedFilters.includes(event.group);
     }
 
-    // If group doesn't match, exclude the event
     if (!groupMatch) return false;
-
-    // Don't filter by month in agenda view - let react-big-calendar handle it
-    // This ensures all events are available for the agenda view to display
     return true;
   });
 
@@ -279,7 +194,7 @@ const Calendar: React.FC<CalendarProps> = ({
       )}
 
       <div className="filter-controls">
-        <h3>{t('Wybierz grupę')}</h3>
+        <h3>{t('events.filter')}</h3>
         <div className="filter-checkboxes">
           {['YoungLife', 'WyldLife', 'YLUni', 'Inne'].map((group) => (
             <label key={group} className="filter-checkbox">
@@ -289,7 +204,7 @@ const Calendar: React.FC<CalendarProps> = ({
                 onChange={() => handleFilterChange(group as GroupType)}
               />
               <span className={`filter-label ${group.toLowerCase()}-filter`}>
-                {group === 'Inne' ? (i18n.language === 'en' ? 'Other' : 'Inne') : group}
+                {group === 'Inne' ? (i18n.language === 'en' ? t('groups.Inne') : 'Inne') : t(`groups.${group}`)}
               </span>
             </label>
           ))}
@@ -298,7 +213,7 @@ const Calendar: React.FC<CalendarProps> = ({
 
       <BigCalendar
         localizer={localizer}
-        events={events}
+        events={filteredEvents}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 650 }}
@@ -313,14 +228,10 @@ const Calendar: React.FC<CalendarProps> = ({
         views={{
           month: true,
           week: true,
-          agenda: true
         }}
-        defaultView={isMobile ? Views.AGENDA : Views.MONTH}
+        defaultView={Views.MONTH}
         components={{
           toolbar: (props) => <CustomToolbar {...props} isMobile={isMobile} />,
-          agenda: {
-            event: AgendaEvent
-          }
         }}
         messages={{
           next: t('calendar.next'),
@@ -329,13 +240,8 @@ const Calendar: React.FC<CalendarProps> = ({
           month: t('calendar.month'),
           week: t('calendar.week'),
           day: t('calendar.day'),
-          agenda: t('calendar.list'),
-          date: t('calendar.date'),
-          time: t('calendar.time'),
-          event: t('calendar.event'),
-          noEventsInRange: t('calendar.noEventsInRange'),
-          showMore: (count) => t('calendar.showMore', { count })
         }}
+        formats={formats}
       />
 
       {selectedEvent && (
@@ -345,25 +251,25 @@ const Calendar: React.FC<CalendarProps> = ({
             <div className="modal-header">
               <h2>{selectedEvent.title}</h2>
               <span className={`group-badge ${selectedEvent.group.toLowerCase()}`}>
-                {selectedEvent.group === 'Inne' ? (i18n.language === 'en' ? 'Other' : 'Inne') : selectedEvent.group}
+                {selectedEvent.group === 'Inne' ? t('groups.Inne') : t(`groups.${selectedEvent.group}`)}
               </span>
             </div>
             <div className="modal-body">
               <div className="event-details">
                 <div className="detail-item">
-                  <strong>Data:</strong> {format(new Date(selectedEvent.start), 'PPP', { locale: currentLocale })}
+                  <strong>{t('dateTime.date')}</strong> {format(new Date(selectedEvent.start), 'PPP', { locale: localeObj })}
                 </div>
                 <div className="detail-item">
-                  <strong>Czas:</strong> {format(new Date(selectedEvent.start), 'p', { locale: currentLocale })} - {format(new Date(selectedEvent.end), 'p', { locale: currentLocale })}
+                  <strong>{t('dateTime.time')}</strong> {format(new Date(selectedEvent.start), 'p', { locale: localeObj })} - {format(new Date(selectedEvent.end), 'p', { locale: localeObj })}
                 </div>
                 {selectedEvent.location && (
                   <div className="detail-item">
-                    <strong>Miejsce:</strong> {selectedEvent.location}
+                    <strong>{t('events.location')}</strong> {selectedEvent.location}
                   </div>
                 )}
                 {selectedEvent.url && (
                   <div className="detail-item">
-                    <strong>Link:</strong>{' '}
+                    <strong>{t('events.url')}</strong>{' '}
                     <a href={selectedEvent.url} target="_blank" rel="noopener noreferrer" className="event-link">
                       {selectedEvent.url}
                     </a>
@@ -372,17 +278,17 @@ const Calendar: React.FC<CalendarProps> = ({
               </div>
               {selectedEvent.description && (
                 <div className="event-description">
-                  <h3>Opis</h3>
+                  <h3>{t('events.description')}</h3>
                   <p>{selectedEvent.description}</p>
                 </div>
               )}
               {isAuthenticated && isAdmin && (
                 <div className="admin-modal-controls">
                   <button className="edit-button" onClick={handleEditEvent}>
-                    Edytuj
+                    {t('common.edit')}
                   </button>
                   <button className="delete-button" onClick={handleDeleteEvent}>
-                    Usuń
+                    {t('common.delete')}
                   </button>
                 </div>
               )}
@@ -392,11 +298,16 @@ const Calendar: React.FC<CalendarProps> = ({
       )}
 
       {showEventForm && (
-        <EventForm
-          event={editingEvent}
-          onSubmit={handleFormSubmit}
-          onClose={handleFormClose}
-        />
+        <div className="modal-overlay" onClick={handleFormClose}>
+          <div className="modal-content event-form-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="close-modal-button" onClick={handleFormClose}>×</button>
+            <EventForm
+              event={editingEvent}
+              onSubmit={handleFormSubmit}
+              onClose={handleFormClose}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

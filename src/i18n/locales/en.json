@@ -24,7 +24,8 @@
     "event": "Who will be waiting for you?",
     "noEventsInRange": "No meetings in this period.",
     "showMore": "+ Show more ({{count}})",
-    "eventsList": "Event List"
+    "eventsList": "Event List",
+    "addEvent": "Add event"
   },
   "events": {
     "addNew": "Add new event",

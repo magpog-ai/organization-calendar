@@ -31,11 +31,6 @@ interface CalendarEvent {
   resource: ContactWorkEntry;
 }
 
-// Helper function to detect mobile devices
-const isMobileDevice = () => {
-  return window.innerWidth <= 768;
-};
-
 const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   entries,
   onEntryAdd,
@@ -46,10 +41,7 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
 }) => {
   const { t, i18n } = useTranslation();
   const { isAuthenticated, isAdmin } = useAuth();
-  const [currentView, setCurrentView] = useState<View>(() => {
-    // Set default view based on isMobile prop
-    return isMobile ? Views.AGENDA : Views.MONTH;
-  });
+  const [currentView, setCurrentView] = useState<View>(() => Views.MONTH);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showForm, setShowForm] = useState(false);
   const [editingEntry, setEditingEntry] = useState<ContactWorkEntry | null>(null);
@@ -57,15 +49,6 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   const [selectedFilters, setSelectedFilters] = useState<OrganizationType[]>(['YL', 'wyld', 'uni']);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<ContactWorkEntry | null>(null);
-
-  // Handle view changes based on isMobile prop
-  useEffect(() => {
-    if (isMobile && currentView === Views.MONTH) {
-      setCurrentView(Views.AGENDA);
-    } else if (!isMobile && currentView === Views.AGENDA) {
-      setCurrentView(Views.MONTH);
-    }
-  }, [isMobile, currentView]);
 
   // Debug authentication state
   useEffect(() => {
@@ -92,7 +75,6 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
       return [baseEvent];
     }
 
-    const now = new Date();
     const startDate = new Date(entry.startTime);
     
     // Calculate end date based on duration setting
@@ -137,8 +119,8 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
       const eventEnd = new Date(currentDate);
       
       // Calculate duration from original event
-      const duration = entry.endTime.getTime() - entry.startTime.getTime();
-      eventEnd.setTime(eventStart.getTime() + duration);
+      const originalDuration = entry.endTime.getTime() - entry.startTime.getTime();
+      eventEnd.setTime(eventStart.getTime() + originalDuration);
 
       // Check if this occurrence is deleted
       const eventDateOnly = new Date(eventStart.getFullYear(), eventStart.getMonth(), eventStart.getDate());
@@ -153,7 +135,7 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
           title: entry.person,
           start: eventStart,
           end: eventEnd,
-          resource: { ...entry, startTime: eventStart, endTime: eventEnd } // Include specific occurrence times
+          resource: { ...entry, startTime: eventStart, endTime: eventEnd }
         });
       }
 
@@ -161,7 +143,7 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
       if (entry.recurringPattern.frequency === 'weekly') {
         currentDate.setDate(currentDate.getDate() + 7);
       } else if (entry.recurringPattern.frequency === 'biweekly') {
-        currentDate.setDate(currentDate.getDate() + 14); // Add 14 days for bi-weekly
+        currentDate.setDate(currentDate.getDate() + 14);
       } else if (entry.recurringPattern.frequency === 'monthly') {
         currentDate.setMonth(currentDate.getMonth() + 1);
       }
@@ -190,7 +172,6 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
 
   const handleSelectEvent = (event: CalendarEvent) => {
     if (!isAuthenticated || !isAdmin) {
-      // For non-admin users, just show the event details
       setSelectedEvent(event);
       return;
     }
@@ -219,14 +200,11 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   const handleDeleteEntry = () => {
     if (!editingEntry) return;
     
-    // Check if this is a recurring event
     if (editingEntry.isRecurring) {
-      // Show custom delete modal for recurring events
       setDeleteTarget(editingEntry);
       setShowDeleteModal(true);
     } else {
-      // Single event - normal delete with simple confirmation
-      if (window.confirm('Czy na pewno chcesz usunąć to spotkanie?')) {
+      if (window.confirm(t('common.confirm'))) {
         onEntryDelete(editingEntry.id);
         setShowForm(false);
         setEditingEntry(null);
@@ -245,11 +223,9 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
         onEntryDelete(deleteTarget.id);
         break;
       case 'cancel':
-        // Do nothing - just close modal
         break;
     }
     
-    // Close modals and reset state
     setShowDeleteModal(false);
     setDeleteTarget(null);
     setShowForm(false);
@@ -267,30 +243,18 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   };
 
   const getEventStyle = (event: CalendarEvent) => {
-    // Don't apply background colors in agenda view - only for month/week views
-    if (currentView === Views.AGENDA) {
-      return {
-        style: {
-          backgroundColor: 'transparent',
-          color: 'inherit',
-          border: 'none',
-          display: 'block'
-        }
-      };
-    }
-
     const org = event.resource.organization;
     let backgroundColor = '#3174ad';
     
     switch (org) {
       case 'YL':
-        backgroundColor = '#9BC643'; // Match YoungLife green from Events calendar
+        backgroundColor = '#9BC643';
         break;
       case 'wyld':
-        backgroundColor = '#6cb5f0'; // Match WyldLife blue from Events calendar
+        backgroundColor = '#6cb5f0';
         break;
       case 'uni':
-        backgroundColor = '#f0af4d'; // Match YL Uni orange from Events calendar
+        backgroundColor = '#f0af4d';
         break;
     }
 
@@ -305,57 +269,14 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
     };
   };
 
-  // Custom Event component for agenda view
-  const AgendaEvent = ({ event }: { event: CalendarEvent }) => {
-    const getOrgDisplayName = (org: string) => {
-      switch (org) {
-        case 'YL': return 'YL';
-        case 'wyld': return 'WyLd';
-        case 'uni': return 'Uni';
-        default: return org;
-      }
-    };
-
-    const getOrgClass = (org: string) => {
-      return org.toLowerCase();
-    };
-
-    return (
-      <div 
-        className="rbc-event" 
-        onClick={() => handleSelectEvent(event)}
-      >
-        <div className="event-title">
-          {event.resource.person}
-          <span className={`group-badge ${getOrgClass(event.resource.organization)}`}>
-            {getOrgDisplayName(event.resource.organization)}
-          </span>
-        </div>
-        {event.resource.location && (
-          <div className="event-location">
-            📍 {event.resource.location}
-          </div>
-        )}
-      </div>
-    );
-  };
-
+  // Friendly header formats
   const formats = {
     eventTimeRangeFormat: () => '',
     timeGutterFormat: 'HH:mm',
-    dayHeaderFormat: (date: Date) => moment(date).format('dddd D/M'),
-    agendaTimeFormat: 'HH:mm',
-    agendaTimeRangeFormat: ({ start, end }: { start: Date; end: Date }) => 
-      `${moment(start).format('HH:mm')} - ${moment(end).format('HH:mm')}`,
-    agendaDateFormat: (date: Date) => {
-      // Shorter format for mobile
-      if (isMobileDevice()) {
-        return moment(date).format('ddd, D MMM YYYY');
-      }
-      return moment(date).format('dddd, D MMMM YYYY');
-    },
-    agendaHeaderFormat: () => '',
-  };
+    dayFormat: (d: Date) => moment(d).format('dddd D MMM'),
+    weekdayFormat: (d: Date) => moment(d).format('dddd'),
+    dayHeaderFormat: (d: Date) => moment(d).format('dddd D MMM'),
+  } as const;
 
   const messages = {
     allDay: t('calendar.allDay'),
@@ -365,24 +286,6 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
     month: t('calendar.month'),
     week: t('calendar.week'),
     day: t('calendar.day'),
-    agenda: t('calendar.agenda'),
-    date: t('calendar.date'),
-    time: t('calendar.time'),
-    event: t('calendar.event'),
-    noEventsInRange: t('calendar.noEventsInRange'),
-    showMore: (total: number) => t('calendar.showMore', { count: total })
-  };
-
-  const closeEventModal = () => {
-    setSelectedEvent(null);
-  };
-
-  const handleEditFromModal = () => {
-    if (selectedEvent && isAdmin) {
-      setEditingEntry(selectedEvent.resource);
-      setShowForm(true);
-      setSelectedEvent(null);
-    }
   };
 
   return (
@@ -466,28 +369,12 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
         onSelectSlot={handleSelectSlot}
         selectable={isAuthenticated && isAdmin}
         eventPropGetter={getEventStyle}
-        views={[Views.MONTH, Views.WEEK, Views.AGENDA]}
+        views={[Views.MONTH, Views.WEEK]}
         components={{
           toolbar: (props) => <CustomToolbar {...props} isMobile={isMobile} />,
-          event: currentView === Views.AGENDA ? AgendaEvent : undefined,
-          agenda: {
-            event: AgendaEvent
-          }
         }}
-        messages={{
-          next: t('calendar.next'),
-          previous: t('calendar.previous'),
-          today: t('calendar.today'),
-          month: t('calendar.month'),
-          week: t('calendar.week'),
-          day: t('calendar.day'),
-          agenda: t('calendar.list'),
-          date: t('calendar.date'),
-          time: t('calendar.time'),
-          event: t('calendar.event'),
-          noEventsInRange: t('calendar.noEventsInRange'),
-          showMore: (count) => t('calendar.showMore', { count })
-        }}
+        messages={messages}
+        formats={formats}
       />
 
       {/* Modal Form - matching Events calendar modal structure */}
@@ -556,9 +443,9 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
 
       {/* Event Details Modal */}
       {selectedEvent && (
-        <div className="modal-overlay" onClick={closeEventModal}>
+        <div className="modal-overlay" onClick={() => setSelectedEvent(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal-button" onClick={closeEventModal}>×</button>
+            <button className="close-modal-button" onClick={() => setSelectedEvent(null)}>×</button>
             <div className="modal-header">
               <span className="group-badge" data-group={selectedEvent.resource.organization.toLowerCase()}>
                 {t(`groups.${selectedEvent.resource.organization}`)}
@@ -606,7 +493,13 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
             </div>
             {isAdmin && (
               <div className="admin-modal-controls">
-                <button onClick={handleEditFromModal} className="edit-button">{t('common.edit')}</button>
+                <button onClick={() => {
+                  if (selectedEvent) {
+                    setEditingEntry(selectedEvent.resource);
+                    setShowForm(true);
+                    setSelectedEvent(null);
+                  }
+                }} className="edit-button">{t('common.edit')}</button>
               </div>
             )}
           </div>

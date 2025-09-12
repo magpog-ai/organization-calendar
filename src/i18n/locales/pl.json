@@ -24,7 +24,8 @@
     "event": "Kto będzie na ciebie czekał?",
     "noEventsInRange": "Brak spotkań w tym okresie.",
     "showMore": "+ Zobacz więcej ({{count}})",
-    "eventsList": "Lista wydarzeń"
+    "eventsList": "Lista wydarzeń",
+    "addEvent": "Dodaj wydarzenie"
   },
   "events": {
     "addNew": "Dodaj nowe wydarzenie",

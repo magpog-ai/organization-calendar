@@ -17,12 +17,10 @@ const NavBar: React.FC<NavBarProps> = ({ activeTab, onTabChange, isMobile }) => 
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
-  // Close login modal when auth state changes
   useEffect(() => {
     setShowLoginModal(false);
   }, [isAuthenticated]);
 
-  // Close mobile menu when switching tabs
   useEffect(() => {
     setShowMobileMenu(false);
   }, [activeTab]);
@@ -46,7 +44,6 @@ const NavBar: React.FC<NavBarProps> = ({ activeTab, onTabChange, isMobile }) => 
             onClick={() => setShowMobileMenu(!showMobileMenu)}
             aria-label="Toggle menu"
           >
-            <span className="menu-icon"></span>
           </button>
         ) : (
           <>
@@ -93,10 +90,24 @@ const NavBar: React.FC<NavBarProps> = ({ activeTab, onTabChange, isMobile }) => 
         )}
       </div>
 
+      {isMobile && (
+        <div className="mobile-center-label" onClick={() => setShowMobileMenu(!showMobileMenu)}>MENU</div>
+      )}
+
       {/* Mobile menu */}
       {isMobile && showMobileMenu && (
         <div className="mobile-menu">
           <div className="mobile-menu-content">
+            <div className="mobile-menu-header">
+              <span className="mobile-menu-title">Menu</span>
+              <button
+                className="mobile-menu-close"
+                onClick={() => setShowMobileMenu(false)}
+                aria-label="Close menu"
+              >
+                ×
+              </button>
+            </div>
             <div className="mobile-tabs">
               <button 
                 className={`mobile-tab-button ${activeTab === 'events' ? 'active' : ''}`}

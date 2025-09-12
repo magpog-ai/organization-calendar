@@ -244,6 +244,11 @@
   outline: none;
 }
 
+/* Specific override for the event form modal to ensure it's wide */
+.modal-content.event-form-modal {
+  max-width: 1200px !important;
+}
+
 /* Admin event controls */
 .admin-modal-controls {
   display: flex;
@@ -667,71 +672,4 @@
   }
 }
 
-/* Agenda View Styles */
-.rbc-agenda-view {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  width: 100%;
-  border: 1px solid #ddd;
-  min-height: 580px;
-}
-
-.rbc-agenda-table {
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-}
-
-.rbc-agenda-table thead {
-  background-color: var(--yl-navy);
-  color: white;
-}
-
-.rbc-agenda-table th,
-.rbc-agenda-table td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.rbc-agenda-table th {
-  font-weight: 500;
-}
-
-.rbc-agenda-date-cell,
-.rbc-agenda-time-cell {
-  white-space: nowrap;
-  width: 100px;
-}
-
-.rbc-agenda-event-cell {
-  width: auto;
-}
-
-.rbc-agenda-empty-cell {
-  text-align: center;
-  padding: 50px 0;
-  color: #999;
-}
-
-/* Mobile styles for agenda view */
-@media (max-width: 768px) {
-  .rbc-agenda-view {
-    min-height: 480px;
-  }
-
-  .rbc-agenda-table th,
-  .rbc-agenda-table td {
-    padding: 8px;
-  }
-
-  .rbc-agenda-date-cell,
-  .rbc-agenda-time-cell {
-    width: 80px;
-    font-size: 0.9rem;
-  }
-
-  .rbc-agenda-event-cell {
-    font-size: 0.9rem;
-  }
-} 
+/* Agenda view removed */ 

@@ -54,7 +54,6 @@ function App() {
         } else {
           // If no events in the database, use mock events
           setEvents(mockEvents);
-          console.log("No events found in Firebase, using mock data");
         }
         setError(null);
       } catch (err) {
@@ -87,14 +86,9 @@ function App() {
   // Event CRUD operations with Firebase
   const handleAddEvent = async (newEvent: Event) => {
     try {
-      console.log('handleAddEvent called with:', newEvent);
       const addedEvent = await addEvent(newEvent);
-      console.log('Firebase addEvent result:', addedEvent);
       if (addedEvent) {
-        setEvents([...events, addedEvent]);
-        console.log('Event added to state, new events count:', events.length + 1);
-      } else {
-        console.error('addEvent returned null');
+        setEvents(prev => [...prev, addedEvent]);
       }
     } catch (err) {
       console.error("Failed to add event:", err);
@@ -106,8 +100,8 @@ function App() {
     try {
       const success = await updateEvent(updatedEvent);
       if (success) {
-        setEvents(events.map(event => 
-          event.id === updatedEvent.id ? updatedEvent : event
+        setEvents(prev => prev.map(event => 
+          event.id === updatedEvent.id ? { ...updatedEvent } : event
         ));
       }
     } catch (err) {
@@ -120,7 +114,7 @@ function App() {
     try {
       const success = await deleteEvent(eventId);
       if (success) {
-        setEvents(events.filter(event => event.id !== eventId));
+        setEvents(prev => prev.filter(event => event.id !== eventId));
       }
     } catch (err) {
       console.error("Failed to delete event:", err);
@@ -131,14 +125,9 @@ function App() {
   // Contact Work CRUD operations with Firebase
   const handleAddContactWorkEntry = async (newEntry: Omit<ContactWorkEntry, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
-      console.log('handleAddContactWorkEntry called with:', newEntry);
       const addedEntry = await addContactWorkEntry(newEntry);
-      console.log('Firebase addContactWorkEntry result:', addedEntry);
       if (addedEntry) {
-        setContactWorkEntries([...contactWorkEntries, addedEntry]);
-        console.log('ContactWork entry added to state, new entries count:', contactWorkEntries.length + 1);
-      } else {
-        console.error('addContactWorkEntry returned null');
+        setContactWorkEntries(prev => [...prev, addedEntry]);
       }
     } catch (err) {
       console.error("Failed to add contact work entry:", err);
@@ -150,7 +139,7 @@ function App() {
     try {
       const success = await updateContactWorkEntry(updatedEntry);
       if (success) {
-        setContactWorkEntries(contactWorkEntries.map(entry => 
+        setContactWorkEntries(prev => prev.map(entry => 
           entry.id === updatedEntry.id ? updatedEntry : entry
         ));
       }
@@ -164,7 +153,7 @@ function App() {
     try {
       const success = await deleteContactWorkEntry(entryId);
       if (success) {
-        setContactWorkEntries(contactWorkEntries.filter(entry => entry.id !== entryId));
+        setContactWorkEntries(prev => prev.filter(entry => entry.id !== entryId));
       }
     } catch (err) {
       console.error("Failed to delete contact work entry:", err);

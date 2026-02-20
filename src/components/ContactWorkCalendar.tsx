@@ -50,11 +50,6 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<ContactWorkEntry | null>(null);
 
-  // Debug authentication state
-  useEffect(() => {
-    console.log('ContactWork auth state - isAdmin:', isAdmin, 'isAuthenticated:', isAuthenticated);
-  }, [isAdmin, isAuthenticated]);
-
   // Update moment locale based on current language
   useEffect(() => {
     moment.locale(i18n.language === 'en' ? 'en' : 'pl');
@@ -180,12 +175,9 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
   };
 
   const handleFormSubmit = (entryData: Omit<ContactWorkEntry, 'id' | 'createdAt' | 'updatedAt'>) => {
-    console.log('ContactWork handleFormSubmit called with:', entryData);
     if (editingEntry) {
-      console.log('Updating existing entry');
       onEntryUpdate({ ...editingEntry, ...entryData });
     } else {
-      console.log('Adding new entry');
       onEntryAdd(entryData);
     }
     setShowForm(false);
@@ -296,10 +288,8 @@ const ContactWorkCalendar: React.FC<ContactWorkCalendarProps> = ({
           <button
             className="add-event-button"
             onClick={() => {
-              console.log('ContactWork add button clicked - isAdmin:', isAdmin, 'isAuthenticated:', isAuthenticated);
               setEditingEntry(null);
               setShowForm(true);
-              console.log('showForm set to true');
             }}
           >
             {t('contactWork.add')}

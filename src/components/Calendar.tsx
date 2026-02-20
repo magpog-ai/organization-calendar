@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Calendar as BigCalendar, dateFnsLocalizer, View, Views } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import { pl, enUS } from 'date-fns/locale';
@@ -47,11 +47,6 @@ const Calendar: React.FC<CalendarProps> = ({
   const [editingEvent, setEditingEvent] = useState<Event | undefined>(undefined);
   const [selectedFilters, setSelectedFilters] = useState<GroupType[]>(['YoungLife', 'WyldLife', 'YLUni', 'Inne']);
   const { isAuthenticated, isAdmin } = useAuth();
-  
-  // Debug authentication state
-  useEffect(() => {
-    console.log('Calendar auth state - isAdmin:', isAdmin, 'isAuthenticated:', isAuthenticated);
-  }, [isAdmin, isAuthenticated]);
 
   const handleViewChange = (newView: View) => {
     setView(newView);
@@ -66,10 +61,8 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const handleAddEvent = () => {
-    console.log('handleAddEvent called - isAdmin:', isAdmin, 'isAuthenticated:', isAuthenticated);
     setEditingEvent(undefined);
     setShowEventForm(true);
-    console.log('showEventForm set to true');
   };
 
   const handleEditEvent = () => {
@@ -88,25 +81,22 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const handleFormSubmit = (event: Event) => {
-    console.log('Calendar handleFormSubmit called with:', event);
     if (editingEvent) {
-      console.log('Updating existing event');
       if (onEventUpdate) {
         onEventUpdate(event);
       }
     } else {
-      console.log('Adding new event');
       if (onEventAdd) {
         onEventAdd(event);
-      } else {
-        console.error('onEventAdd is not provided');
       }
     }
     setShowEventForm(false);
+    setEditingEvent(undefined);
   };
 
   const handleFormClose = () => {
     setShowEventForm(false);
+    setEditingEvent(undefined);
   };
 
   const eventStyleGetter = (event: Event) => {
